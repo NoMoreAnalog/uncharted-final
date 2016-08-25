@@ -89,9 +89,22 @@ body {
 .side-bar li {
     font-size: 1em;
     list-style: none;
-    padding: 3px;
+    padding: 4px;
     display: flex;
     align-items: center;
+    margin: 0 15px 0 15px;
+}
+
+.side-bar .indicators li{
+    margin-top: 12px;
+}
+
+.side-bar .active-indicators li{
+    margin-top: 12px;
+}
+
+.side-bar li:first-child {
+    margin-top: 0px;
 }
 
 .side-bar a {
@@ -99,7 +112,12 @@ body {
     color: #727272;
     display: inline-block;
     width: 100%;
-    margin: 0 15px 0 15px;
+}
+
+.side-bar .indicators a {
+    background: #ebebeb;
+    padding: 10px;
+    border-radius: 8px;
 }
 
 .side-bar .countries svg {
@@ -109,11 +127,12 @@ body {
     padding-right: 20px;
 }
 
-.side-bar .indicators a {
-    background: #ebebeb;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
+.side-bar .indicators svg {
+    display: none;
+}
+
+.side-bar .active-indicators svg {
+    display: none;
 }
 
 .side-bar circle {
@@ -121,14 +140,6 @@ body {
     cx: 50%;
     cy: 50%;
     fill: #727272;
-}
-
-.side-bar .indicators svg {
-    display: none;
-}
-
-.side-bar .active-indicators svg {
-    display: none;
 }
 
 /* Let's get this party started */
