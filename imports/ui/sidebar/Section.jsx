@@ -7,7 +7,7 @@ const Section = (props) => (
         <div className="title">{props.title}</div>
         <div className="subtitle">{props.subtitle}</div>
 
-        <input type="text"/>
+        <input type="text" placeholder="Search"/>
 
         <div className="list">
             <ul>
