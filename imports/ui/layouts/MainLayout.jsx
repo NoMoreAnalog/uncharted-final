@@ -10,6 +10,11 @@ const MainLayout = (props) => (
         <TopBar/>
         <div className="container">
             <Charts/>
+            <input
+                className="side-bar-trigger"
+                type="checkbox"
+                id="trigger"
+            /><label htmlFor="trigger"></label>
             <Sidebar/>
         </div>
     </div>

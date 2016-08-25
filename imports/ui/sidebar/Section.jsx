@@ -7,6 +7,8 @@ const Section = (props) => (
         <div className="title">{props.title}</div>
         <div className="subtitle">{props.subtitle}</div>
 
+        <input type="text"/>
+
         <div className="list">
             <ul>
                 {props.list.map(item =>

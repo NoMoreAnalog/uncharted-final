@@ -8,6 +8,7 @@ import {Indicators} from '../../api/indicators.js';
 
 // Sidebar component - bar on right side of screen with filters
 const Sidebar = (props) => (
+
     <div className="side-bar">
 
         <Section

@@ -1,8 +1,40 @@
+.side-bar-trigger
+  display:none
+
+.side-bar-trigger ~ label
+  background-image url("ic_navigate_before_white_24dp_2x.png")
+  z-index 1000
+  position absolute
+  right 0
+  top 75px
+  background-size 100%
+  background-color #00adc6
+  height 50px
+  width 50px
+  transition all 0.15s linear
+  transform translateX(calc(-300px))
+  border-radius 8px 0 0 8px
+
+.side-bar-trigger:checked ~ label
+  background-image url("ic_navigate_next_white_24dp_2x.png")
+  transform translateX(calc(-750px))
+
 .side-bar
   flex 0 0 300px
   color #636363
   display flex
   flex-direction column
+  transition all 0.15s linear
+
+input:checked ~ .side-bar
+  flex 0 0 750px
+
+.side-bar .section input
+  display none
+
+input:checked ~ .side-bar .section input
+  margin 5px 10px 5px 10px
+  display block
 
 .side-bar .section
   border solid #ebebeb medium
