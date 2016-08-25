@@ -14,28 +14,44 @@ body
 
 .container
   flex 1 0
-  display flex
+  display flex // for sidebar and topbar
 
 .charts
   flex 1 0
 
 /* Let's get this party started */
 ::-webkit-scrollbar
-  width 8px
+  width 10px
 
 /* Track */
 ::-webkit-scrollbar-track
-  -webkit-box-shadow inset 0 0 0px rgba(0, 0, 0, 0)
-  -webkit-border-radius 10px
-  border-radius: 10px
-  background #d4d4d4
+  border-radius 10px
+  border-radius 10px
+  background #dadada
 
 /* Handle */
 ::-webkit-scrollbar-thumb
-  -webkit-border-radius: 10px
-  border-radius: 10px
-  background: #7b7b7b
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5)
+  background #727272
+  border 2px solid transparent
+
+  -webkit-border-radius 10px
+  -webkit-background-clip content-box
+
+  -moz-border-radius 10px
+  -moz-background-clip content-box
+
+  border-radius 10px
+  background-clip content-box
 
 ::-webkit-scrollbar-thumb:window-inactive
-  background: #a4a4a4
+  background #a4a4a4
+  border 2px solid transparent
+
+  -webkit-border-radius 10px
+  -webkit-background-clip content-box
+
+  -moz-border-radius 10px
+  -moz-background-clip content-box
+
+  border-radius 10px
+  background-clip content-box
