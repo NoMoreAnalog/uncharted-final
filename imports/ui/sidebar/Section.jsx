@@ -11,12 +11,7 @@ const Section = (props) => (
             <ul>
                 {props.list.map(item =>
                     <li key={item._id}>
-                        <a href="#">
-                            <svg>
-                                <circle/>
-                            </svg>
-                            {item.name}
-                        </a>
+                        <a href="#">{item.name}</a>
                     </li>
                 )}
             </ul>
