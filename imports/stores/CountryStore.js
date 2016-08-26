@@ -10,8 +10,6 @@ class CountryStore {
 
     constructor() {
 
-        this.id = Math.random()
-
         extendObservable(this, {
             countries: [],
             active: [],

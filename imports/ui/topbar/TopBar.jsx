@@ -3,7 +3,8 @@ import React from 'react';
 // TopBar component - bar on top of page with chart options
 const TopBar = (props) => (
     <div className="top-bar">
-        <div>
+        <div className="fake-navigation"></div>
+        <div className="chart-types">
             <ul>
                 <li>Types of Graphs:</li>
                 <li>Bar Graph</li>
