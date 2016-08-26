@@ -5,17 +5,18 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "classnames": "^2.2.3",
     "meteor-node-stubs": "~0.2.0",
     "mobx": "^2.4.4",
     "mobx-react": "^3.5.5",
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "babel-preset-es2015": "^6.14.0"
+    "react-dom": "^15.1.0"
   },
   "devDependencies": {
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "mobx-react-devtools": "^4.2.5"
   }
 }
