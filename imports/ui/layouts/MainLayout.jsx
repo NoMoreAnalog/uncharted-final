@@ -1,13 +1,19 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
+import DevTools from 'mobx-react-devtools';
+import {observer} from 'mobx-react';
 
 import Sidebar from '../sidebar/SideBar.jsx';
 import TopBar from '../topbar/TopBar.jsx';
 import Charts from '../charts/Charts.jsx';
 
-// App component - represents the whole app
-const MainLayout = (props) => (
+// MainLayout component - represents the whole app
+const MainLayout = observer((props) =>
+
     <div className="main-layout">
+
         <TopBar/>
+        <DevTools />
+
         <div className="container">
             <Charts/>
             <input
@@ -15,12 +21,21 @@ const MainLayout = (props) => (
                 type="checkbox"
                 id="trigger"
             /><label htmlFor="trigger"></label>
-            <Sidebar/>
+            <Sidebar
+                countries={props.countryStore.countries}
+                indicators={props.indicatorStore.indicators}
+            />
         </div>
+
     </div>
+
 )
 
 export default MainLayout;
 
-MainLayout.propTypes = {};
+MainLayout.propTypes = {
+    countryStore: PropTypes.any,
+    indicatorStore: PropTypes.any
+};
+
 MainLayout.defaultProps = {};

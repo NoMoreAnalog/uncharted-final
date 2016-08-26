@@ -1,13 +1,10 @@
 import React, {PropTypes} from 'react';
-import {createContainer} from 'meteor/react-meteor-data';
+import {observer} from 'mobx-react';
 
 import Section from './Section.jsx'
 
-import {Countries} from '../../api/countries.js';
-import {Indicators} from '../../api/indicators.js';
-
 // Sidebar component - bar on right side of screen with filters
-const Sidebar = (props) => (
+const Sidebar = observer((props) =>
 
     <div className="side-bar">
 
@@ -33,6 +30,7 @@ const Sidebar = (props) => (
         />
 
     </div>
+
 )
 
 Sidebar.propTypes = {
@@ -45,14 +43,4 @@ Sidebar.defaultProps = {
     indicators: []
 };
 
-export default createContainer(() => {
-
-    Meteor.subscribe('countries');
-    Meteor.subscribe('indicators');
-
-    return {
-        countries: Countries.find({}, {sort: {createdAt: -1}}).fetch(),
-        indicators: Indicators.find({}, {sort: {createdAt: -1}}).fetch(),
-    };
-
-}, Sidebar);
+export default Sidebar;

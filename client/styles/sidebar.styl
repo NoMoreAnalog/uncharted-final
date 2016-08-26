@@ -28,10 +28,10 @@
   flex-direction column
   transition all 0.15s linear
 
-input:checked ~ .side-bar
+.side-bar-trigger:checked ~ .side-bar
   flex 0 0 750px
 
-.side-bar .section input
+.side-bar .filter
   border 2px solid #ebebeb
   height 30px
   margin 10px 30px 0 20px
@@ -44,17 +44,15 @@ input:checked ~ .side-bar
   outline none
   display none
 
-input:checked ~ .side-bar .section input
+.side-bar-trigger:checked ~ .side-bar .filter
   display block
 
-/* individual: webkit */
-.side-bar .section input::-webkit-input-placeholder
+.filter::-webkit-input-placeholder
   font-style italic
   font-size 1.1em
   color #dddddd
 
-/* individual: mozilla */
-.side-bar .section input::-moz-placeholder
+.filter::-moz-placeholder
   font-style italic
   font-size 1.1em
   color #dddddd

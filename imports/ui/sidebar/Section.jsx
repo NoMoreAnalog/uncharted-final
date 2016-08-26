@@ -1,13 +1,15 @@
 import React, {PropTypes} from "react";
+import {observer} from 'mobx-react';
 
 // Sidebar component - bar on right side of screen with filters
-const Section = (props) => (
+const Section = observer((props) =>
+
     <div className={'section ' + props.classed}>
 
         <div className="title">{props.title}</div>
         <div className="subtitle">{props.subtitle}</div>
 
-        <input type="text" placeholder="Search"/>
+        <input className="filter" type="text" placeholder="Search"/>
 
         <div className="list">
             <ul>
@@ -20,6 +22,7 @@ const Section = (props) => (
         </div>
 
     </div>
+
 )
 
 export default Section;
