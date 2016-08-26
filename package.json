@@ -12,10 +12,10 @@
     "mobx-react": "^3.5.5",
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",
-    "react-dom": "^15.1.0"
+    "react-dom": "^15.1.0",
+    "mobx-react-devtools": "^4.2.5"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.14.0",
-    "mobx-react-devtools": "^4.2.5"
+    "babel-preset-es2015": "^6.14.0"
   }
 }
