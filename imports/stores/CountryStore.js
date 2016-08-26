@@ -1,16 +1,23 @@
-import {observable} from 'mobx';
+import {extendObservable} from 'mobx';
 
 import {Countries} from '../api/countries.js';
 
 class CountryStore {
 
-    @observable countries = [];
-    @observable active = [];
-    @observable filter = '';
-
-    handle;
+    // @observable indicators = [];
+    // @observable active = [];
+    // @observable filter = '';
 
     constructor() {
+
+        this.id = Math.random()
+
+        extendObservable(this, {
+            countries: [],
+            active: [],
+            filter: ''
+        });
+
         this.handle = Meteor.subscribe('countries');
         Tracker.autorun(() => {
             if (this.handle.ready()) this.setCountries(Countries.find({}, {sort: {name: 1}}).fetch());
