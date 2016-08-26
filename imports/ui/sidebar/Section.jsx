@@ -22,7 +22,6 @@ const Section = observer((props) =>
         </div>
 
     </div>
-
 )
 
 export default Section;

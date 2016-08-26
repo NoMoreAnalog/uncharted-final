@@ -22,11 +22,11 @@ class CountryStore {
         });
     }
 
-    setCountries(values) {
-        this.countries = values;
+    setCountries = values => {
+        this.countries.replace(values);
     }
 
-    setActive(value) {
+    setActive = value => {
         this.active.push(value);
     }
 

@@ -66,13 +66,18 @@
   padding-right 15px
 
 .side-bar .countries
-  flex 1
+  flex 0 1 40%
 
 .side-bar .indicators
-  flex 0 0 48%
+  flex 0 1 60%
 
-.side-bar .active-indicators
-  flex 1
+.side-bar .active-indicators-open
+  flex 1 0 calc(100% - 50px)
+  transition all 0.15s linear
+
+.side-bar .active-indicators-closed
+  flex 0 0 0
+  transition all 0.15s linear
 
 .side-bar .title
   font-size 1.5em
@@ -100,10 +105,10 @@
   margin 0 15px 0 15px
 
 .side-bar .countries li
-  margin-left 50px
+  margin-left 70px
   display list-item
   line-height 25px
-  font-size 30px
+  font-size 25px
 
 .side-bar .indicators li,
 .side-bar .active-indicators li
@@ -120,13 +125,13 @@
 
 .side-bar .countries a
   vertical-align top
-  font-size .57em
+  font-size 15px
 
 .side-bar .indicators a,
 .side-bar .active-indicators a
+  font-size 15px
   background #ebebeb
   padding 10px
   -webkit-border-radius 8px
   -moz-border-radius 8px
-  border-radius 8px
   border-radius 8px

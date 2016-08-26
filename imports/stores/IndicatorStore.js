@@ -6,13 +6,15 @@ class IndicatorStore {
 
     // @observable indicators = [];
     // @observable active = [];
-    // @observable filter = '';
+    // @observable filter = ''
+
+    handle;
 
     constructor() {
 
         extendObservable(this, {
             indicators: [],
-            active: [],
+            activeIndicators: [],
             filter: ''
         });
 
@@ -23,12 +25,12 @@ class IndicatorStore {
 
     }
 
-    setIndicators(values) {
-        this.indicators = values;
+    setIndicators = (values) => {
+        this.indicators.replace(values);
     }
 
-    setActive(value) {
-        this.active.push(value);
+    setActive = value => {
+        this.activeIndicators.push(value);
     }
 
 }

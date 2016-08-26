@@ -22,8 +22,9 @@ const MainLayout = observer((props) =>
                 id="trigger"
             /><label htmlFor="trigger"></label>
             <Sidebar
-                countries={props.countryStore.countries}
-                indicators={props.indicatorStore.indicators}
+                countryStore={props.countryStore}
+                indicatorStore={props.indicatorStore}
+                uiStore={props.uiStore}
             />
         </div>
 
@@ -35,7 +36,8 @@ export default MainLayout;
 
 MainLayout.propTypes = {
     countryStore: PropTypes.any,
-    indicatorStore: PropTypes.any
+    indicatorStore: PropTypes.any,
+    uiStore: PropTypes.any
 };
 
 MainLayout.defaultProps = {};
