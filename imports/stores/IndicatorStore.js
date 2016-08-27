@@ -21,7 +21,16 @@ class IndicatorStore {
         extendObservable(this, {
             indicators: [],
             activeIndicatorsOpen: false,
-            filter: ''
+            filter: '',
+            activeFilter: '',
+            filteredIndicators: () => {
+                var matchesFilter = new RegExp(this.filter, 'i');
+                return this.indicators.filter(indicator => !this.filter || matchesFilter.test(indicator.name));
+            },
+            filteredActiveIndicators: () => {
+                var matchesFilter = new RegExp(this.activeFilter, 'i');
+                return this.indicators.filter(indicator => indicator.active === true && (!this.activeFilter || matchesFilter.test(indicator.name)));
+            }
         });
 
         this.handle = Meteor.subscribe('indicators');
@@ -42,6 +51,10 @@ class IndicatorStore {
 
     toggleActiveIndicators = () => {
         this.activeIndicatorsOpen = !this.activeIndicatorsOpen;
+
+        this.activeIndicatorsOpen ?
+            document.getElementById('active-filter').focus() :
+            document.getElementById('filter').focus();
     }
 
 }

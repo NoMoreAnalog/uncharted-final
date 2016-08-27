@@ -1,4 +1,4 @@
-import {extendObservable} from 'mobx';
+import {computed, extendObservable} from 'mobx';
 
 import {Countries} from '../api/countries.js';
 
@@ -20,7 +20,11 @@ class CountryStore {
 
         extendObservable(this, {
             countries: [],
-            filter: ''
+            filter: '',
+            filteredCountries: () => {
+                var matchesFilter = new RegExp(this.filter, 'i');
+                return this.countries.filter(country => !this.filter || matchesFilter.test(country.name));
+            }
         });
 
         this.handle = Meteor.subscribe('countries');
@@ -38,7 +42,8 @@ class CountryStore {
     setActive = (value) => {
         value.active = !value.active;
     }
-
 }
+
+
 
 export default CountryStore;
