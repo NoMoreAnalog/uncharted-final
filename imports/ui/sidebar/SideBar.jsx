@@ -10,21 +10,21 @@ const Sidebar = observer((props) =>
 
         <Section
             title={'Countries'}
-            subtitle={'Click to select/deselect'}
             list={props.countryStore.countries}
             classed="countries"
+            store={props.countryStore}
         />
 
         <Section
             title={'Indicators'}
-            subtitle={'Click to select/deselect'}
             list={props.indicatorStore.indicators}
             classed="indicators"
+            store={props.indicatorStore}
         />
 
         <div className="view-active-trigger">
-            <a href="#" onClick={props.uiStore.toggleActiveIndicators}>
-                {props.uiStore.open ?
+            <a href="#" onClick={props.indicatorStore.toggleActiveIndicators}>
+                {props.indicatorStore.activeIndicatorsOpen ?
                     <div><img src="ic_expand_more_white_24dp_2x.png"/>View Countries and Indicators</div> :
                     <div><img src="ic_expand_less_white_24dp_2x.png"/>View Active Indicators</div>}
             </a>
@@ -33,8 +33,10 @@ const Sidebar = observer((props) =>
         <Section
             title={'Active Indicators'}
             subtitle={'Click to deselect'}
-            list={props.indicatorStore.active}
-            classed={props.uiStore.open ? 'active-indicators-open' : 'active-indicators-closed'}
+            list={props.indicatorStore.indicators.filter(indicator => indicator.active === true)}
+            classed={props.indicatorStore.activeIndicatorsOpen ? 'active-indicators active-indicators-open' : 'active-indicators active-indicators-closed'}
+            store={props.indicatorStore}
+            showCloseButton={true}
         />
 
     </div>
@@ -42,8 +44,7 @@ const Sidebar = observer((props) =>
 
 Sidebar.propTypes = {
     countryStore: PropTypes.any,
-    indicatorStore: PropTypes.any,
-    uiStore: PropTypes.any
+    indicatorStore: PropTypes.any
 };
 
 Sidebar.defaultProps = {};

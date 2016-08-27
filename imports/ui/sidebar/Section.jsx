@@ -15,7 +15,15 @@ const Section = observer((props) =>
             <ul>
                 {props.list.map(item =>
                     <li key={item._id}>
-                        <a href="#">{item.name}</a>
+                        <a
+                            href="#"
+                            onClick={props.store.setActive.bind(this, item)}
+                            className={item.active ? 'active' : ''}>
+                            <div>
+                                {props.showCloseButton ? <i className="material-icons close">close</i> : ''}
+                                {item.name}
+                            </div>
+                        </a>
                     </li>
                 )}
             </ul>
@@ -28,14 +36,16 @@ export default Section;
 
 Section.propTypes = {
     title: PropTypes.string.isRequired,
-    subtitle: PropTypes.string.isRequired,
+    subtitle: PropTypes.string,
     list: PropTypes.array.isRequired,
-    classed: PropTypes.string.isRequired
+    classed: PropTypes.string.isRequired,
+    showCloseButton: PropTypes.bool
 };
 
 Section.defaultProps = {
     title: 'Title',
-    subtitle: 'Title',
+    subtitle: 'Click to select/deselect',
     list: [],
-    classed: ''
+    classed: '',
+    showCloseButton: false
 };

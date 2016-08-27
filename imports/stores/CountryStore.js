@@ -4,15 +4,10 @@ import {Countries} from '../api/countries.js';
 
 class CountryStore {
 
-    // @observable indicators = [];
-    // @observable active = [];
-    // @observable filter = '';
-
     constructor() {
 
         extendObservable(this, {
             countries: [],
-            active: [],
             filter: ''
         });
 
@@ -20,6 +15,7 @@ class CountryStore {
         Tracker.autorun(() => {
             if (this.handle.ready()) this.setCountries(Countries.find({}, {sort: {name: 1}}).fetch());
         });
+
     }
 
     setCountries = values => {
@@ -27,7 +23,11 @@ class CountryStore {
     }
 
     setActive = value => {
-        this.active.push(value);
+        if (value.active == undefined) {
+            value.active = true;
+        } else {
+            value.active = !value.active;
+        }
     }
 
 }

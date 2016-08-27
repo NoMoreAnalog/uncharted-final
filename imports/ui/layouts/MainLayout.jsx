@@ -24,7 +24,6 @@ const MainLayout = observer((props) =>
             <Sidebar
                 countryStore={props.countryStore}
                 indicatorStore={props.indicatorStore}
-                uiStore={props.uiStore}
             />
         </div>
 
@@ -36,8 +35,7 @@ export default MainLayout;
 
 MainLayout.propTypes = {
     countryStore: PropTypes.any,
-    indicatorStore: PropTypes.any,
-    uiStore: PropTypes.any
+    indicatorStore: PropTypes.any
 };
 
 MainLayout.defaultProps = {};
