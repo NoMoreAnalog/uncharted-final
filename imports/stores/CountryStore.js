@@ -8,7 +8,8 @@ class Country {
         extendObservable(this, {
             _id: _id,
             name: name,
-            active: false
+            active: false,
+            type: 'country'
         });
     }
 

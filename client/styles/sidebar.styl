@@ -69,6 +69,7 @@
 .side-bar .section
   border solid #ebebeb medium
   border-top 0
+  border-bottom  0
   overflow hidden
   display flex
   flex-direction column
@@ -98,8 +99,16 @@
   overflow-y scroll
   padding 0
   list-style none
+  font-size 16px
 
-.side-bar .item:hover
+.side-bar button
+  background none
+  border none
+  outline none
+  font inherit
+  color inherit
+
+.side-bar button:hover
   cursor pointer
 
 /*
@@ -110,12 +119,13 @@
 
 .side-bar .countries
   flex 0 1 40%
+  border-bottom solid #ebebeb medium
 
 .side-bar .countries .item
   margin 0 0 10px 40px
   padding 0 10px 0 0
 
-.side-bar .countries .active
+.side-bar .countries .item.active .clickable
   color #00adc6
 
 /*
@@ -128,15 +138,20 @@
   flex 0 1 60%
 
 .side-bar .indicators .item
-  border-radius 8px
-  color #727272
-  background-color #e3e3e3
   margin 0 10px 25px 10px
+  border-radius 8px
+
+.side-bar .indicators .item .clickable
+  border-radius 8px
+  background-color #e3e3e3
   padding 10px
 
-.side-bar .indicators .active
-  color white
+.side-bar .indicators .item.active .clickable
   background-color #00adc6
+  color white
+
+.side-bar .indicators .close
+  display none
 
 /*
 /
@@ -145,6 +160,9 @@
 */
 
 .side-bar .active-indicators .item
+  margin 0 10px 25px -15px
+
+.side-bar .active-indicators .clickable
   display flex
   margin 0 10px 25px 10px
   padding 10px
@@ -156,11 +174,19 @@
 */
 
 .side-bar .view-active-trigger
-  justify-content center
+  flex 0 0 44px
+  line-height 44px
   color white
+  background-color #00adc6
 
-.side-bar .view-active-trigger:hover
-  cursor pointer
+.side-bar .view-active-trigger button
+  width 100%
+  display flex
+  justify-content center
+
+.side-bar .view-active-trigger div
+  display flex
+  align-items center
 
 /*
 /
@@ -177,5 +203,5 @@
   background-color red
   display table
   border-radius 12px
-  margin 0 10px 0 0
+  margin 0 5px 0 0
   font-size 15px

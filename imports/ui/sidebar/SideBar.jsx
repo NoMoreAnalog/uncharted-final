@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {observer} from 'mobx-react';
 
 import Section from './Section.jsx'
+import ViewActiveTrigger from './ViewActiveTrigger.jsx';
 
 // Sidebar component - bar on right side of screen with filters
 const Sidebar = observer((props) =>
@@ -22,14 +23,10 @@ const Sidebar = observer((props) =>
             store={props.indicatorStore}
         />
 
-        <div
-            className="view-active-trigger"
-            onClick={props.indicatorStore.toggleActiveIndicators}
-        >
-            {props.indicatorStore.activeIndicatorsOpen ?
-                <div><i className="material-icons">expand_more</i>View Countries and Indicators</div> :
-                <div><i className="material-icons">expand_less</i>View Active Indicators</div>}
-        </div>
+        <ViewActiveTrigger
+            open={props.indicatorStore.activeIndicatorsOpen}
+            function={props.indicatorStore.toggleActiveIndicators}
+        />
 
         <Section
             title={'Active Indicators'}

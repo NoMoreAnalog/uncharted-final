@@ -4,7 +4,6 @@ import {observer} from 'mobx-react';
 // Filter component - used to filter countries and indicator sections
 const Filter = observer((props) =>
     <input
-        id={props.useActiveFilter ? 'active-filter' : 'filter'}
         className="filter"
         placeholder="Search"
         onChange={(e) => {

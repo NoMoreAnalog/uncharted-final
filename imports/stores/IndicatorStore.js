@@ -8,7 +8,8 @@ class Indicator {
         extendObservable(this, {
             _id: _id,
             name: name,
-            active: false
+            active: false,
+            type: 'indicator'
         });
     }
 
@@ -51,10 +52,6 @@ class IndicatorStore {
 
     toggleActiveIndicators = () => {
         this.activeIndicatorsOpen = !this.activeIndicatorsOpen;
-
-        this.activeIndicatorsOpen ?
-            document.getElementById('active-filter').focus() :
-            document.getElementById('filter').focus();
     }
 
 }

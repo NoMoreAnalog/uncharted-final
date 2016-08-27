@@ -5,10 +5,16 @@ body,
   height 100%
 
 body
-  //font-family 'Lato', sans-serif
   font-family 'Open Sans', sans-serif
+  //font-family 'Lato', sans-serif
   //font-family 'Roboto', sans-serif
   margin 0
+
+/*
+/
+/ Layout
+/
+*/
 
 .main-layout
   display flex // for top-bar and container
@@ -21,36 +27,25 @@ body
 .charts
   flex 1
 
-.view-active-trigger
-  background-color #00adc6
-  flex 0 0 40px
-  line-height 40px
-  display flex
+/*
+/
+/ Text Highlighting
+/
+*/
 
-.view-active-trigger a
-  text-align center
-  color white
-
-.view-active-trigger div
-  display flex
-  align-items center
-  justify-content center
-
-.view-active-trigger img
-  height 30px
-
-/* Let's get this party started */
-
-/* WebKit/Blink Browsers */
 ::selection
   background #00adc6
   color: white
 
-/* Gecko Browsers */
 ::-moz-selection
   background #00adc6
   color: white
 
+/*
+/
+/ Scrollbar
+/
+*/
 
 ::-webkit-scrollbar
   width 10px
