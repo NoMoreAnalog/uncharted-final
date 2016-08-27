@@ -11,23 +11,18 @@ const Section = observer((props) =>
 
         <input className="filter" type="text" placeholder="Search"/>
 
-        <div className="list">
-            <ul>
-                {props.list.map(item =>
-                    <li key={item._id}>
-                        <a
-                            href="#"
-                            onClick={props.store.setActive.bind(this, item)}
-                            className={item.active ? 'active' : ''}>
-                            <div>
-                                {props.showCloseButton ? <i className="material-icons close">close</i> : ''}
-                                {item.name}
-                            </div>
-                        </a>
-                    </li>
-                )}
-            </ul>
-        </div>
+        <ul className="list">
+            {props.list.map(item =>
+                <li key={item._id}
+                    onClick={props.store.setActive.bind(this, item)}
+                    className={item.active ? 'active item' : 'item'}
+                >
+                    {props.title === 'Countries' ? <i className="material-icons dot">lens</i> : ''}
+                    {props.title === 'Active Indicators' ? <i className="material-icons close">close</i> : ''}
+                    {item.name}
+                </li>
+            )}
+        </ul>
 
     </div>
 )
@@ -38,14 +33,12 @@ Section.propTypes = {
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,
     list: PropTypes.array.isRequired,
-    classed: PropTypes.string.isRequired,
-    showCloseButton: PropTypes.bool
+    classed: PropTypes.string.isRequired
 };
 
 Section.defaultProps = {
     title: 'Title',
     subtitle: 'Click to select/deselect',
     list: [],
-    classed: '',
-    showCloseButton: false
+    classed: ''
 };

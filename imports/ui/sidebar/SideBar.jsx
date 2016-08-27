@@ -22,12 +22,13 @@ const Sidebar = observer((props) =>
             store={props.indicatorStore}
         />
 
-        <div className="view-active-trigger">
-            <a href="#" onClick={props.indicatorStore.toggleActiveIndicators}>
-                {props.indicatorStore.activeIndicatorsOpen ?
-                    <div><img src="ic_expand_more_white_24dp_2x.png"/>View Countries and Indicators</div> :
-                    <div><img src="ic_expand_less_white_24dp_2x.png"/>View Active Indicators</div>}
-            </a>
+        <div
+            className="view-active-trigger"
+            onClick={props.indicatorStore.toggleActiveIndicators}
+        >
+            {props.indicatorStore.activeIndicatorsOpen ?
+                <div><i className="material-icons">expand_more</i>View Countries and Indicators</div> :
+                <div><i className="material-icons">expand_less</i>View Active Indicators</div>}
         </div>
 
         <Section
@@ -36,7 +37,6 @@ const Sidebar = observer((props) =>
             list={props.indicatorStore.indicators.filter(indicator => indicator.active === true)}
             classed={props.indicatorStore.activeIndicatorsOpen ? 'active-indicators active-indicators-open' : 'active-indicators active-indicators-closed'}
             store={props.indicatorStore}
-            showCloseButton={true}
         />
 
     </div>
