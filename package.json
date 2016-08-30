@@ -4,7 +4,8 @@
   "scripts": {
     "start": "meteor run"
   },
-  "dependencies": {
+  "dependencies": {,
+    "babel-plugin-transform-decorators": "^6.13.0",
     "babel-plugin-transform-class-properties": "^6.11.5",
     "meteor-node-stubs": "~0.2.0",
     "mobx": "^2.4.4",
@@ -14,7 +15,6 @@
     "react-dom": "^15.1.0"
   },
   "devDependencies": {
-    "mobx-react-devtools": "^4.2.5",
-    "babel-plugin-transform-decorators": "^6.13.0"
+    "mobx-react-devtools": "^4.2.5"
   }
 }
