@@ -40,11 +40,9 @@ class CountryStore {
         this.countries.replace(countries);
     }
 
-    setActive = (value) => {
+    setActive = value => {
         value.active = !value.active;
     }
 }
-
-
 
 export default CountryStore;

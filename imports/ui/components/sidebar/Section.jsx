@@ -14,6 +14,7 @@ const Section = observer((props) =>
 
         <Filter
             store={props.store}
+            uiStore={props.uiStore}
             useActiveFilter={props.title === 'Active Indicators'}
         />
 
@@ -37,7 +38,8 @@ Section.propTypes = {
     subtitle: PropTypes.string,
     list: PropTypes.array.isRequired,
     classed: PropTypes.string.isRequired,
-    store: PropTypes.any.isRequired
+    store: PropTypes.any.isRequired,
+    uiStore: PropTypes.any
 };
 
 Section.defaultProps = {

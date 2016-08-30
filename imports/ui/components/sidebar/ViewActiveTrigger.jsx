@@ -6,8 +6,8 @@ const ViewActiveTrigger = observer((props) =>
 
     <div className="view-active-trigger">
 
-        <button onClick={props.function}>
-            {props.open ?
+        <button onClick={props.store.toggleActiveIndicators}>
+            {props.store.activeIndicatorsOpen ?
                 <div><i className="material-icons">expand_more</i>View Countries and Indicators</div> :
                 <div><i className="material-icons">expand_less</i>View Active Indicators</div>}
         </button>
@@ -18,10 +18,7 @@ const ViewActiveTrigger = observer((props) =>
 export default ViewActiveTrigger;
 
 ViewActiveTrigger.propTypes = {
-    open: PropTypes.bool,
-    function: PropTypes.func.isRequired
+    store: PropTypes.any.isRequired
 };
 
-ViewActiveTrigger.defaultProps = {
-    open: false
-};
+ViewActiveTrigger.defaultProps = {};

@@ -3,17 +3,23 @@ import {observer} from 'mobx-react';
 
 import Section from './Section.jsx'
 import ViewActiveTrigger from './ViewActiveTrigger.jsx';
+import SideBarTrigger from './SideBarTrigger.jsx';
 
 // Sidebar component - bar on right side of screen with filters
 const Sidebar = observer((props) =>
 
-    <div className="side-bar">
+    <div className={props.uiStore.sideBarExpanded ?
+        'side-bar expanded' :
+        'side-bar'}>
+
+        <SideBarTrigger store={props.uiStore}/>
 
         <Section
             title={'Countries'}
             list={props.countryStore.filteredCountries}
             classed="countries"
             store={props.countryStore}
+            uiStore={props.uiStore}
         />
 
         <Section
@@ -21,12 +27,10 @@ const Sidebar = observer((props) =>
             list={props.indicatorStore.filteredIndicators}
             classed="indicators"
             store={props.indicatorStore}
+            uiStore={props.uiStore}
         />
 
-        <ViewActiveTrigger
-            open={props.indicatorStore.activeIndicatorsOpen}
-            function={props.indicatorStore.toggleActiveIndicators}
-        />
+        <ViewActiveTrigger store={props.indicatorStore}/>
 
         <Section
             title={'Active Indicators'}
@@ -34,6 +38,7 @@ const Sidebar = observer((props) =>
             list={props.indicatorStore.filteredActiveIndicators}
             classed={props.indicatorStore.activeIndicatorsOpen ? 'active-indicators active-indicators-open' : 'active-indicators active-indicators-closed'}
             store={props.indicatorStore}
+            uiStore={props.uiStore}
         />
 
     </div>
@@ -41,7 +46,8 @@ const Sidebar = observer((props) =>
 
 Sidebar.propTypes = {
     countryStore: PropTypes.any,
-    indicatorStore: PropTypes.any
+    indicatorStore: PropTypes.any,
+    uiStore: PropTypes.any
 };
 
 Sidebar.defaultProps = {};

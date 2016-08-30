@@ -5,6 +5,9 @@
   flex-direction column
   transition all 0.15s linear
 
+.side-bar.expanded
+  flex 0 0 750px
+
 /*
 /
 / Side Bar Trigger
@@ -12,28 +15,19 @@
 */
 
 .side-bar-trigger
-  display: none
-
-.side-bar-trigger ~ label
-  background-image url("ic_search_white_24dp_2x.png")
   z-index 1000
   position absolute
-  right 0
-  top 220px
-  background-size 100%
-  background-color #00adc6
+  float left
+  margin 50px 0 0 -50px
+  padding 0
+
+.side-bar-trigger .material-icons
+  font-size 50px
+  background #00adc6
+  border-radius 8px 0 0 8px
   height 50px
   width 50px
-  transition all 0.15s linear
-  transform translateX(calc(-300px))
-  border-radius 8px 0 0 8px
-
-.side-bar-trigger:checked ~ label
-  background-image url("ic_navigate_next_white_24dp_2x.png")
-  transform translateX(calc(-750px))
-
-.side-bar-trigger:checked ~ .side-bar
-  flex 0 0 750px
+  color white
 
 /*
 /
@@ -41,10 +35,10 @@
 /
 */
 
-.side-bar .filter
+.side-bar .filter.hide
   display none
 
-.side-bar-trigger:checked ~ .side-bar .filter
+.side-bar .filter.show
   display block
   flex 0 0 35px
   border 2px solid #ebebeb

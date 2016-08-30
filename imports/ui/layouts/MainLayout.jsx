@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react';
 import DevTools from 'mobx-react-devtools';
 import {observer} from 'mobx-react';
 
-import Sidebar from '../sidebar/SideBar.jsx';
-import TopBar from '../topbar/TopBar.jsx';
-import Charts from '../charts/Charts.jsx';
+import Sidebar from '../components/sidebar/SideBar.jsx';
+import TopBar from '../components/topbar/TopBar.jsx';
+import Charts from '../components/charts/Charts.jsx';
 
 // MainLayout component - represents the whole app
 const MainLayout = observer((props) =>
@@ -16,14 +16,10 @@ const MainLayout = observer((props) =>
 
         <div className="container">
             <Charts/>
-            <input
-                className="side-bar-trigger"
-                type="checkbox"
-                id="trigger"
-            /><label htmlFor="trigger"></label>
             <Sidebar
                 countryStore={props.countryStore}
                 indicatorStore={props.indicatorStore}
+                uiStore={props.uiStore}
             />
         </div>
 

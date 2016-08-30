@@ -46,7 +46,7 @@ class IndicatorStore {
         this.indicators.replace(indicators);
     }
 
-    setActive = (value) => {
+    setActive = value => {
         value.active = !value.active;
     }
 
