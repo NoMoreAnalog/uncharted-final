@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 
 import Sidebar from '../components/sidebar/SideBar.jsx';
 import TopBar from '../components/topbar/TopBar.jsx';
-import Charts from '../components/charts/Charts.jsx';
+import Charts from '../components/charts/ChartArea.jsx';
 
 // MainLayout component - represents the whole app
 const MainLayout = observer((props) =>
@@ -15,12 +15,19 @@ const MainLayout = observer((props) =>
         <DevTools />
 
         <div className="container">
-            <Charts/>
+
+            <Charts
+                countryStore={props.countryStore}
+                indicatorStore={props.indicatorStore}
+                uiStore={props.uiStore}
+            />
+
             <Sidebar
                 countryStore={props.countryStore}
                 indicatorStore={props.indicatorStore}
                 uiStore={props.uiStore}
             />
+
         </div>
 
     </div>
