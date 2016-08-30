@@ -1,7 +1,22 @@
 .chart-area
   flex 1 1
   margin 20px 60px 20px 60px
-  color #636363
+  color #727272
+
+.chart-area .title
+  font-size 36px
+
+.chart-area .horizontal-line
+  margin 20px 0 20px 0
+  border-style solid
+  border-width 3pt
+  color #727272
+  width 50px
+
+.chart-area .subtitle
+  font-size 24px
+  color #00adc6
+  margin 0 0 50px 0
 
 .chart-area button
   background none
@@ -20,13 +35,13 @@
 /
 */
 
-.chart-area .wrapper
-  align-self center
+.chart-area .text-wrapper
+  height calc(20% + 50px)
+
+.chart-area .chart-wrapper
+  height calc(80% - 70px)
   background-color #fdfdfd
-  display flex
-  flex-direction column
-  justify-content flex-end
-  height 99%
+  padding 0 10px 20px 10px
 
 /*
 /
@@ -35,9 +50,7 @@
 */
 
 .chart-area .chart
-  background-color aqua
-  flex 1 1 75%
-  margin 0 0 10px 0
+  height 75%
 
 /*
 /
@@ -46,51 +59,55 @@
 */
 
 .chart-area .legends
-  flex 1 1 25%
-  display flex
-  margin 0 20px 20px 20px
-  align-content bottom
+  height 25%
 
 .chart-area .legend
-  border solid #ebebeb medium
+  border solid #ebebeb 3pt
   border-radius 5px
   overflow hidden
-  display flex
-  flex-direction column
-
-.chart-area .text
-  display flex
-  flex-wrap wrap
-  margin 5px 0px 5px 0
-
-.chart-area .text .title
-  font-weight bold
-
-.chart-area .list
-  margin 5px 0 0 0
-  overflow-y scroll
-  padding 0
-  list-style none
-  font-size 16px
-
-/*
-/
-/ Countries Section
-/
-*/
+  display inline-block
+  height 100%
+  padding 0 15px 15px 15px
 
 .chart-area .legend.countries
-  flex 1 0 30%
-  margin-right 10px
-
-/*
-/
-/ Indicators Section
-/
-*/
+  width calc(30% - 6pt - 30px)
 
 .chart-area .legend.indicators
-  flex 1 0 70%
+  margin 0 0 0 20px
+  width calc(70% - 6pt - 50px)
+
+.chart-area .legend .text
+  height 20%
+  overflow hidden
+  width 100%
+  text-align center
+
+.chart-area .legend .text .title
+  font-weight bold
+  font-size 16px
+  display inline-block
+  margin 0
+  color #727272
+
+.chart-area .legend .text .subtitle
+  font-size 16px
+  display inline-block
+  margin 0
+  color #727272
+
+.chart-area .legend .list-wrapper
+  height 80%
+
+.chart-area .legend .list
+  padding 0
+  margin 0
+  list-style none
+  font-size 16px
+  overflow-y scroll
+  height 100%
+
+.chart-area .legend .list .item
+  margin-bottom 5px
 
 /*
 /

@@ -9,19 +9,22 @@ const Legend = observer((props) =>
     <div className={'legend ' + props.classed}>
 
         <div className="text">
-            <div className="title">{props.title}</div>&nbsp;
+            <div className="title">{props.title}</div>
+            &nbsp;
             <div className="subtitle">{props.subtitle}</div>
         </div>
 
-        <ul className="list">
-            {props.list.map(item =>
-                <Item
-                    key={item._id}
-                    store={props.store}
-                    item={item}
-                />
-            )}
-        </ul>
+        <div className="list-wrapper">
+            <ul className="list">
+                {props.list.map(item =>
+                    <Item
+                        key={item._id}
+                        store={props.store}
+                        item={item}
+                    />
+                )}
+            </ul>
+        </div>
 
     </div>
 )

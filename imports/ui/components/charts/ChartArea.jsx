@@ -9,9 +9,13 @@ const ChartArea = observer((props) =>
 
     <div className="chart-area">
 
-        <div className="title">Title Goes Here</div>
+        <div className="text-wrapper">
+            <div className="title">Title Goes Here</div>
+            <hr className="horizontal-line"/>
+            <div className="subtitle">Choose your Countries and Indicators</div>
+        </div>
 
-        <div className="wrapper">
+        <div className="chart-wrapper">
 
             <Chart/>
 
