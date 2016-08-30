@@ -4,7 +4,7 @@ import {observer} from 'mobx-react';
 import Filter from './Filter.jsx';
 import Item from './Item.jsx';
 
-// Sidebar component - bar on right side of screen with filters
+// Section component - these make up the side bar
 const Section = observer((props) =>
 
     <div className={'section ' + props.classed}>
