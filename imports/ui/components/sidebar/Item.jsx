@@ -1,24 +1,53 @@
-import React, {PropTypes} from "react";
+import React, {PropTypes, Component} from "react";
 import {observer} from 'mobx-react';
 
 // Item component - item to make up list in each section
-const Item = observer((props) =>
+@observer
+class Item extends Component {
 
-    <li key={props.item._id} className={props.item.active ? 'active item' : 'item'}>
+    constructor() {
+        super();
 
-        <button className='clickable' onClick={props.store.setActive.bind(this, props.item)}>
-            {props.item.type === 'country' ? <i className="material-icons dot">lens</i> : ''}
-            {props.item.type === 'indicator' ? <i className="material-icons close">close</i> : ''}
-            {props.item.name}
-        </button>
+        this._clicked = this._clicked.bind(this);
+    }
 
-    </li>
+    _clicked() {
+        const {item, itemStore} = {...this.props};
 
-)
+        itemStore.setActive(item);
+        store.chartDetermination();
+    }
+
+    render() {
+
+        const {item} = {...this.props};
+
+        const className = item.active ? 'active item' : 'item';
+
+        const icon = item.type === 'country' ?
+            <i className="material-icons dot">lens</i> :
+            <i className="material-icons close">close</i>;
+
+        return (
+
+            <li
+                key={item._id}
+                className={className}>
+
+                <button className='clickable' onClick={this._clicked}>
+                    {icon} {item.name}
+                </button>
+
+            </li>
+        )
+
+    }
+}
 
 export default Item;
 
 Item.propTypes = {
+    itemStore: PropTypes.any.isRequired,
     store: PropTypes.any.isRequired,
     item: PropTypes.object.isRequired
 };

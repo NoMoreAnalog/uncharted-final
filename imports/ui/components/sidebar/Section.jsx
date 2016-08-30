@@ -22,7 +22,8 @@ const Section = observer((props) =>
             {props.list.map(item =>
                 <Item
                     key={item._id}
-                    store={props.itemStore}
+                    itemStore={props.itemStore}
+                    store={props.store}
                     item={item}
                 />
             )}

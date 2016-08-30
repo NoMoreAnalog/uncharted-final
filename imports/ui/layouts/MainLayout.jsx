@@ -11,7 +11,7 @@ const MainLayout = observer((props) =>
 
     <div className="main-layout">
 
-        <TopBar/>
+        <TopBar store={props.store}/>
         <DevTools />
 
         <div className="container">
