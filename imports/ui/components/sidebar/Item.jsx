@@ -2,8 +2,7 @@ import React, {PropTypes, Component} from "react";
 import {observer} from 'mobx-react';
 
 // Item component - item to make up list in each section
-@observer
-class Item extends Component {
+const Item = observer(class Item extends Component {
 
     constructor() {
         super();
@@ -42,7 +41,7 @@ class Item extends Component {
         )
 
     }
-}
+})
 
 export default Item;
 
