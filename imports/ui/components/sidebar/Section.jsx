@@ -13,8 +13,8 @@ const Section = observer((props) =>
         <div className="subtitle">{props.subtitle}</div>
 
         <Filter
+            itemStore={props.itemStore}
             store={props.store}
-            uiStore={props.uiStore}
             useActiveFilter={props.title === 'Active Indicators'}
         />
 
@@ -22,7 +22,7 @@ const Section = observer((props) =>
             {props.list.map(item =>
                 <Item
                     key={item._id}
-                    store={props.store}
+                    store={props.itemStore}
                     item={item}
                 />
             )}
@@ -38,8 +38,8 @@ Section.propTypes = {
     subtitle: PropTypes.string,
     list: PropTypes.array.isRequired,
     classed: PropTypes.string.isRequired,
-    store: PropTypes.any.isRequired,
-    uiStore: PropTypes.any
+    itemStore: PropTypes.any.isRequired,
+    store: PropTypes.any
 };
 
 Section.defaultProps = {

@@ -19,13 +19,13 @@ const MainLayout = observer((props) =>
             <Charts
                 countryStore={props.countryStore}
                 indicatorStore={props.indicatorStore}
-                uiStore={props.uiStore}
+                store={props.store}
             />
 
             <Sidebar
                 countryStore={props.countryStore}
                 indicatorStore={props.indicatorStore}
-                uiStore={props.uiStore}
+                store={props.store}
             />
 
         </div>
@@ -38,7 +38,8 @@ export default MainLayout;
 
 MainLayout.propTypes = {
     countryStore: PropTypes.any,
-    indicatorStore: PropTypes.any
+    indicatorStore: PropTypes.any,
+    store: PropTypes.any
 };
 
 MainLayout.defaultProps = {};

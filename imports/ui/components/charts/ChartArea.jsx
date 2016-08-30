@@ -25,16 +25,16 @@ const ChartArea = observer((props) =>
                     title={'Country:'}
                     list={props.countryStore.filteredCountries}
                     classed="countries"
-                    store={props.countryStore}
-                    uiStore={props.uiStore}
+                    itemStore={props.countryStore}
+                    store={props.store}
                 />
 
                 <Legend
                     title={'Indicator:'}
                     list={props.indicatorStore.filteredIndicators}
                     classed="indicators"
-                    store={props.indicatorStore}
-                    uiStore={props.uiStore}
+                    itemStore={props.indicatorStore}
+                    store={props.store}
                 />
 
             </div>
@@ -47,7 +47,7 @@ const ChartArea = observer((props) =>
 ChartArea.propTypes = {
     countryStore: PropTypes.any.isRequired,
     indicatorStore: PropTypes.any.isRequired,
-    uiStore: PropTypes.any.isRequired,
+    store: PropTypes.any.isRequired,
 };
 
 ChartArea.defaultProps = {};

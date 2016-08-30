@@ -21,7 +21,6 @@ class IndicatorStore {
 
         extendObservable(this, {
             indicators: [],
-            activeIndicatorsOpen: false,
             filter: '',
             activeFilter: '',
             filteredIndicators: () => {
@@ -48,10 +47,6 @@ class IndicatorStore {
 
     setActive = value => {
         value.active = !value.active;
-    }
-
-    toggleActiveIndicators = () => {
-        this.activeIndicatorsOpen = !this.activeIndicatorsOpen;
     }
 
 }

@@ -8,37 +8,37 @@ import SideBarTrigger from './SideBarTrigger.jsx';
 // Sidebar component - bar on right side of screen with filters
 const Sidebar = observer((props) =>
 
-    <div className={props.uiStore.sideBarExpanded ?
+    <div className={props.store.sideBarExpanded ?
         'side-bar expanded' :
         'side-bar'}>
 
-        <SideBarTrigger store={props.uiStore}/>
+        <SideBarTrigger store={props.store}/>
 
         <Section
             title={'Countries'}
             list={props.countryStore.filteredCountries}
             classed="countries"
-            store={props.countryStore}
-            uiStore={props.uiStore}
+            itemStore={props.countryStore}
+            store={props.store}
         />
 
         <Section
             title={'Indicators'}
             list={props.indicatorStore.filteredIndicators}
             classed="indicators"
-            store={props.indicatorStore}
-            uiStore={props.uiStore}
+            itemStore={props.indicatorStore}
+            store={props.store}
         />
 
-        <ViewActiveTrigger store={props.indicatorStore}/>
+        <ViewActiveTrigger store={props.store}/>
 
         <Section
             title={'Active Indicators'}
             subtitle={'Click to deselect'}
             list={props.indicatorStore.filteredActiveIndicators}
-            classed={props.indicatorStore.activeIndicatorsOpen ? 'active-indicators active-indicators-open' : 'active-indicators active-indicators-closed'}
-            store={props.indicatorStore}
-            uiStore={props.uiStore}
+            classed={props.store.activeIndicatorsOpen ? 'active-indicators active-indicators-open' : 'active-indicators active-indicators-closed'}
+            itemStore={props.indicatorStore}
+            store={props.store}
         />
 
     </div>
@@ -47,7 +47,7 @@ const Sidebar = observer((props) =>
 Sidebar.propTypes = {
     countryStore: PropTypes.any,
     indicatorStore: PropTypes.any,
-    uiStore: PropTypes.any
+    store: PropTypes.any
 };
 
 Sidebar.defaultProps = {};
