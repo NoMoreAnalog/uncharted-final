@@ -1,14 +1,17 @@
-import {extendObservable} from 'mobx';
+import {extendObservable, observable, action} from 'mobx';
 
 class Store {
+
+    @observable sideBarExpanded = false;
+    @observable activeIndicatorsOpen = false;
 
     constructor() {
 
         extendObservable(this, {
 
-            // UI setup
-            sideBarExpanded: false,
-            activeIndicatorsOpen: false,
+            // // UI setup
+            // sideBarExpanded: false,
+            // activeIndicatorsOpen: false,
 
             // Used in top bar to determine which chart user can selected
             barAvailable: false,
@@ -36,11 +39,11 @@ class Store {
 
     }
 
-    toggleSideBarExpanded = () => {
+    @action toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
     }
 
-    toggleActiveIndicators = () => {
+    @action toggleActiveIndicators = () => {
         this.activeIndicatorsOpen = !this.activeIndicatorsOpen;
     }
 
