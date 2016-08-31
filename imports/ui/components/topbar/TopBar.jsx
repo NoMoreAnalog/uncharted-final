@@ -16,28 +16,32 @@ const TopBar = observer((props) =>
                 onClick={props.store.selectChart.bind(this, 'bar')}
                 className={props.store.barAvailable ? 'chart-type available' : 'chart-type'}
             >
-                <img src="bar.svg"/>Bar
+                {props.store.barShowing ? <img src="bar-selected.svg"/> : <img src="bar.svg"/>}
+                Bar
             </button>
 
             <button
                 onClick={props.store.selectChart.bind(this, 'line')}
                 className={props.store.lineAvailable ? 'chart-type available' : 'chart-type'}
             >
-                <img src="line.svg"/>Line
+                {props.store.lineShowing ? <img src="line-selected.svg"/> : <img src="line.svg"/>}
+                Line
             </button>
 
             <button
                 onClick={props.store.selectChart.bind(this, 'radar')}
                 className={props.store.radarAvailable ? 'chart-type available' : 'chart-type'}
             >
-                <img src="radar.svg"/>Radar
+                {props.store.radarShowing ? <img src="radar-selected.svg"/> : <img src="radar.svg"/>}
+                Radar
             </button>
 
             <button
                 onClick={props.store.selectChart.bind(this, 'scatter')}
                 className={props.store.scatterAvailable ? 'chart-type available' : 'chart-type'}
             >
-                <img src="scatter.svg"/>Scatter
+                {props.store.scatterShowing ? <img src="scatter-selected.svg"/> : <img src="scatter.svg"/>}
+                Scatter
             </button>
 
         </div>
