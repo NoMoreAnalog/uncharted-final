@@ -14,7 +14,7 @@ const Item = observer(class Item extends Component {
         const {item, itemStore} = {...this.props};
 
         itemStore.setActive(item);
-        store.chartDetermination();
+        store.chartDetermination(itemStore);
     }
 
     render() {

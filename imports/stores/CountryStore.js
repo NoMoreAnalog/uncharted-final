@@ -20,11 +20,15 @@ class CountryStore {
     constructor() {
 
         extendObservable(this, {
+            type: 'country',
             countries: [],
             filter: '',
             filteredCountries: () => {
                 var matchesFilter = new RegExp(this.filter, 'i');
                 return this.countries.filter(country => !this.filter || matchesFilter.test(country.name));
+            },
+            activeCountries: () => {
+                return this.countries.filter(country => country.active);
             }
         });
 

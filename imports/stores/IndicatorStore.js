@@ -20,12 +20,16 @@ class IndicatorStore {
     constructor() {
 
         extendObservable(this, {
+            type: 'indicator',
             indicators: [],
             filter: '',
             activeFilter: '',
             filteredIndicators: () => {
                 var matchesFilter = new RegExp(this.filter, 'i');
                 return this.indicators.filter(indicator => !this.filter || matchesFilter.test(indicator.name));
+            },
+            activeIndicators: () => {
+                return this.indicators.filter(indicator => indicator.active);
             },
             filteredActiveIndicators: () => {
                 var matchesFilter = new RegExp(this.activeFilter, 'i');

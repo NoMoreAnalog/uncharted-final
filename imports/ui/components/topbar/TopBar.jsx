@@ -9,15 +9,40 @@ const TopBar = observer((props) =>
         <div className="fake-navigation"></div>
 
         <div className="chart-types">
+
             <div className="label">Available Graphs:</div>
-            <div className="chart-type"><img src="bar.svg"/>Bar</div>
-            <div className="chart-type"><img src="line.svg"/>Line</div>
-            <div className="chart-type"><img src="radar.svg"/>Radar</div>
-            <div className="chart-type"><img src="scatter.svg"/>Scatter</div>
+
+            <button
+                onClick={props.store.selectChart.bind(this, 'bar')}
+                className={props.store.barAvailable ? 'chart-type available' : 'chart-type'}
+            >
+                <img src="bar.svg"/>Bar
+            </button>
+
+            <button
+                onClick={props.store.selectChart.bind(this, 'line')}
+                className={props.store.lineAvailable ? 'chart-type available' : 'chart-type'}
+            >
+                <img src="line.svg"/>Line
+            </button>
+
+            <button
+                onClick={props.store.selectChart.bind(this, 'radar')}
+                className={props.store.radarAvailable ? 'chart-type available' : 'chart-type'}
+            >
+                <img src="radar.svg"/>Radar
+            </button>
+
+            <button
+                onClick={props.store.selectChart.bind(this, 'scatter')}
+                className={props.store.scatterAvailable ? 'chart-type available' : 'chart-type'}
+            >
+                <img src="scatter.svg"/>Scatter
+            </button>
+
         </div>
 
     </div>
-
 )
 
 TopBar.propTypes = {

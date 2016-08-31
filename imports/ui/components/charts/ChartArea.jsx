@@ -10,14 +10,14 @@ const ChartArea = observer((props) =>
     <div className="chart-area">
 
         <div className="text-wrapper">
-            <div className="title">Title Goes Here</div>
+            <div className="title">{props.store.chartTitle}</div>
             <hr className="horizontal-line"/>
             <div className="subtitle">Choose your Countries and Indicators</div>
         </div>
 
         <div className="chart-wrapper">
 
-            <Chart/>
+            <Chart {...props}/>
 
             <div className="legends">
 
@@ -47,7 +47,7 @@ const ChartArea = observer((props) =>
 ChartArea.propTypes = {
     countryStore: PropTypes.any.isRequired,
     indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired,
+    store: PropTypes.any.isRequired
 };
 
 ChartArea.defaultProps = {};
