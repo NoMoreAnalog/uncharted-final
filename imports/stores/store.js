@@ -51,32 +51,28 @@ class Store {
             case 'bar':
 
                 if (!this.barAvailable) return;
-                this.barShowing = true;
-                this.lineShowing = this.radarAvailable = this.scatterShowing = false;
+                this.setBarShowing(!this.barShowing);
 
                 break;
 
             case 'line':
 
                 if (!this.lineAvailable) return;
-                this.lineShowing = true;
-                this.barShowing = this.radarAvailable = this.scatterShowing = false;
+                this.setLineShowing(!this.lineShowing);
 
                 break;
 
             case 'radar':
 
                 if (!this.radarAvailable) return;
-                this.radarShowing = true;
-                this.barShowing = this.lineAvailable = this.scatterShowing = false;
+                this.setRadarShowing(!this.radarShowing);
 
                 break;
 
             case 'scatter':
 
                 if (!this.scatterAvailable) return;
-                this.scatterShowing = true;
-                this.barShowing = this.lineAvailable = this.radarShowing = false;
+                this.setScatterShowing(!this.scatterShowing);
 
                 break;
         }
@@ -101,18 +97,18 @@ class Store {
         this.radarAvailable = (countries >= 1 && indicators >= 3) || (indicators >= 1 && countries >= 3);
         this.scatterAvailable = (countries === 1 && indicators >= 2);
 
-        if (!this.barAvailable) this.barShowing = false;
-        if (!this.lineAvailable) this.lineShowing = false;
-        if (!this.radarAvailable) this.radarShowing = false;
-        if (!this.scatterAvailable) this.scatterShowing = false;
+        if (!this.barAvailable) this.setBarShowing(false);
+        if (!this.lineAvailable) this.setLineShowing(false);
+        if (!this.radarAvailable) this.setRadarShowing(false);
+        if (!this.scatterAvailable) this.setScatterShowing(false);
 
         // Default a chart to show, we prefer bar first and scatter last
 
         if (!this.barShowing && !this.lineShowing && !this.radarShowing && !this.scatterShowing) {
-            if (this.barAvailable) this.barShowing = true
-            else if (this.lineAvailable) this.lineShowing = true;
-            else if (this.radarAvailable) this.radarShowing = true;
-            else if (this.scatterAvailable) this.scatterShowing = true;
+            if (this.barAvailable) this.setBarShowing()
+            else if (this.lineAvailable) this.setLineShowing();
+            else if (this.radarAvailable) this.setRadarShowing();
+            else if (this.scatterAvailable) this.setScatterShowing();
         }
 
         // Depending on the focus we will set the title for ChartArea
@@ -139,6 +135,70 @@ class Store {
 
     }
 
+    setBarShowing = (show = true) => {
+        this.barShowing = show;
+        if (this.barShowing) {
+            this.setLineShowing(false);
+            this.setRadarShowing(false);
+            this.setScatterShowing(false);
+        }
+    }
+
+    setLineShowing = (show = true) => {
+        this.lineShowing = show;
+        if (this.lineShowing) {
+            this.setBarShowing(false);
+            this.setRadarShowing(false);
+            this.setScatterShowing(false);
+        }
+    }
+
+    setRadarShowing = (show = true) => {
+        this.radarShowing = show;
+        if (this.radarShowing) {
+            this.setBarShowing(false);
+            this.setLineShowing(false);
+            this.setScatterShowing(false);
+        }
+    }
+
+    setScatterShowing = (show = true) => {
+        this.scatterShowing = show;
+        if (this.scatterShowing) {
+            this.setBarShowing(false);
+            this.setLineShowing(false);
+            this.setRadarShowing(false);
+        }
+    }
+
 }
 
 export default Store;
+
+(function ($) {
+    // select a svg element from embed or object tag
+    $.fn.getSVG = function (selector) {
+        var svgDoc = this[0].contentDocument; // Get the document object for the SVG
+        return $(svgDoc);
+    };
+    $.fn.setSVGStyle = function (style) {
+        var svgDoc = this[0].contentDocument; // Get the document object for the SVG
+        var styleElement = svgDoc.createElementNS("http://www.w3.org/2000/svg", "style");
+        styleElement.textContent = style; // add whatever you need here
+        svgDoc.getElementsByTagName("svg")[0].appendChild(styleElement);
+        return;
+    };
+    $.fn.setSVGStyleLink = function (link) {
+        var svgDoc = this[0].contentDocument; // Get the document object for the SVG
+        var linkElm = svgDoc.createElementNS("http://www.w3.org/1999/xhtml", "link");
+        linkElm.setAttribute("href", link);
+        linkElm.setAttribute("type", "text/css");
+        linkElm.setAttribute("rel", "stylesheet");
+        svgDoc.getElementsByTagName("svg")[0].appendChild(linkElm);
+        return;
+    };
+    // get a random number between min and max
+    $.getRandom = function (min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    };
+}(jQuery));
