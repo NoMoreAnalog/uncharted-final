@@ -1,15 +1,17 @@
-import {extendObservable} from 'mobx';
-import _ from 'lodash';
+import {extendObservable, observable, action} from 'mobx';
 
 class Store {
+
+    @observable sideBarExpanded = false;
+    @observable activeIndicatorsOpen = false;
 
     constructor() {
 
         extendObservable(this, {
 
-            // UI setup
-            sideBarExpanded: false,
-            activeIndicatorsOpen: false,
+            // // UI setup
+            // sideBarExpanded: false,
+            // activeIndicatorsOpen: false,
 
             // Used in top bar to determine which chart user can selected
             barAvailable: false,
@@ -37,11 +39,11 @@ class Store {
 
     }
 
-    toggleSideBarExpanded = () => {
+    @action toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
     }
 
-    toggleActiveIndicators = () => {
+    @action toggleActiveIndicators = () => {
         this.activeIndicatorsOpen = !this.activeIndicatorsOpen;
     }
 
@@ -95,7 +97,7 @@ class Store {
         this.barAvailable = (countries === 1 && indicators >= 1) || (indicators === 1 && countries >= 1);
         this.lineAvailable = (countries >= 1 && indicators >= 1) || (indicators >= 1 && countries >= 1);
         this.radarAvailable = (countries >= 1 && indicators >= 3) || (indicators >= 1 && countries >= 3);
-        this.scatterAvailable = (countries === 1 && indicators >= 2);
+        this.scatterAvailable = (countries >= 1 && indicators === 2);
 
         if (!this.barAvailable) this.setBarShowing(false);
         if (!this.lineAvailable) this.setLineShowing(false);
@@ -174,31 +176,3 @@ class Store {
 }
 
 export default Store;
-
-(function ($) {
-    // select a svg element from embed or object tag
-    $.fn.getSVG = function (selector) {
-        var svgDoc = this[0].contentDocument; // Get the document object for the SVG
-        return $(svgDoc);
-    };
-    $.fn.setSVGStyle = function (style) {
-        var svgDoc = this[0].contentDocument; // Get the document object for the SVG
-        var styleElement = svgDoc.createElementNS("http://www.w3.org/2000/svg", "style");
-        styleElement.textContent = style; // add whatever you need here
-        svgDoc.getElementsByTagName("svg")[0].appendChild(styleElement);
-        return;
-    };
-    $.fn.setSVGStyleLink = function (link) {
-        var svgDoc = this[0].contentDocument; // Get the document object for the SVG
-        var linkElm = svgDoc.createElementNS("http://www.w3.org/1999/xhtml", "link");
-        linkElm.setAttribute("href", link);
-        linkElm.setAttribute("type", "text/css");
-        linkElm.setAttribute("rel", "stylesheet");
-        svgDoc.getElementsByTagName("svg")[0].appendChild(linkElm);
-        return;
-    };
-    // get a random number between min and max
-    $.getRandom = function (min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    };
-}(jQuery));
