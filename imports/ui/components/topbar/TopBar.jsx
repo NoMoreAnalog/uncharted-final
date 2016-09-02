@@ -1,6 +1,5 @@
 import React, {PropTypes, Component} from 'react';
 import {inject, observer} from 'mobx-react';
-import {Sticky} from 'react-sticky';
 
 import NavBar from './NavBar.jsx';
 
@@ -19,6 +18,27 @@ class TopBar extends Component {
         this._drawRadar = store.drawChart.bind(this, 'radar');
         this._drawScatter = store.drawChart.bind(this, 'scatter');
 
+    }
+
+    componentDidMount() {
+        var menu = document.querySelector('.chart-types');
+        var menuPosition = menu.getBoundingClientRect();
+        var placeholder = document.createElement('div');
+        placeholder.style.width = menuPosition.width + 'px';
+        placeholder.style.height = menuPosition.height + 'px';
+        var isAdded = false;
+
+        window.addEventListener('scroll', function () {
+            if (window.pageYOffset >= menuPosition.top && !isAdded) {
+                menu.classList.add('sticky');
+                menu.parentNode.insertBefore(placeholder, menu);
+                isAdded = true;
+            } else if (window.pageYOffset < menuPosition.top && isAdded) {
+                menu.classList.remove('sticky');
+                menu.parentNode.removeChild(placeholder);
+                isAdded = false;
+            }
+        });
     }
 
     render() {
@@ -40,20 +60,16 @@ class TopBar extends Component {
 
                 <NavBar/>
 
-                <Sticky className={'high-z-index'}>
+                <div className="chart-types">
 
-                    <div className="chart-types">
+                    <div className="label">Available Graphs:</div>
 
-                        <div className="label">Available Graphs:</div>
+                    <button onClick={this._drawBar} className={classNameBar}>{imgBar} Bar</button>
+                    <button onClick={this._drawLine} className={classNameLine}>{imgLine} Line</button>
+                    <button onClick={this._drawRadar} className={classNameRadar}>{imgRadar} Radar</button>
+                    <button onClick={this._drawScatter} className={classNameScatter}>{imgScatter} Scatter</button>
 
-                        <button onClick={this._drawBar} className={classNameBar}>{imgBar} Bar</button>
-                        <button onClick={this._drawLine} className={classNameLine}>{imgLine} Line</button>
-                        <button onClick={this._drawRadar} className={classNameRadar}>{imgRadar} Radar</button>
-                        <button onClick={this._drawScatter} className={classNameScatter}>{imgScatter} Scatter</button>
-
-                    </div>
-
-                </Sticky>
+                </div>
 
             </div>
         )

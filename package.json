@@ -13,8 +13,7 @@
     "mobx-react": "^3.5.5",
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",
-    "react-dom": "^15.1.0",
-    "react-sticky": "^5.0.5"
+    "react-dom": "^15.1.0"
   },
   "devDependencies": {
     "babel-preset-meteor": "^6.12.0",
