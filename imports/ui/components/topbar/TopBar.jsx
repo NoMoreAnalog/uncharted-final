@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import {inject, observer} from 'mobx-react';
+import {Sticky} from 'react-sticky';
 
 import NavBar from './NavBar.jsx';
 
@@ -39,16 +40,20 @@ class TopBar extends Component {
 
                 <NavBar/>
 
-                <div className="chart-types">
+                <Sticky className={'high-z-index'}>
 
-                    <div className="label">Available Graphs:</div>
+                    <div className="chart-types">
 
-                    <button onClick={this._drawBar} className={classNameBar}>{imgBar} Bar</button>
-                    <button onClick={this._drawLine} className={classNameLine}>{imgLine} Line</button>
-                    <button onClick={this._drawRadar} className={classNameRadar}>{imgRadar} Radar</button>
-                    <button onClick={this._drawScatter} className={classNameScatter}>{imgScatter} Scatter</button>
+                        <div className="label">Available Graphs:</div>
 
-                </div>
+                        <button onClick={this._drawBar} className={classNameBar}>{imgBar} Bar</button>
+                        <button onClick={this._drawLine} className={classNameLine}>{imgLine} Line</button>
+                        <button onClick={this._drawRadar} className={classNameRadar}>{imgRadar} Radar</button>
+                        <button onClick={this._drawScatter} className={classNameScatter}>{imgScatter} Scatter</button>
+
+                    </div>
+
+                </Sticky>
 
             </div>
         )
