@@ -1,12 +1,12 @@
-import React, {PropTypes, Component} from "react";
+import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
 
 // Item component - item to make up list in each section
-const Item = observer(class Item extends Component {
+@observer(['store'])
+class Item extends Component {
 
     constructor() {
         super();
-
         this._clicked = this._clicked.bind(this);
     }
 
@@ -28,7 +28,6 @@ const Item = observer(class Item extends Component {
             <i className="material-icons close">close</i>;
 
         return (
-
             <li
                 key={item._id}
                 className={className}>
@@ -41,14 +40,15 @@ const Item = observer(class Item extends Component {
         )
 
     }
-})
+
+}
 
 export default Item;
 
-Item.propTypes = {
+Item.wrappedComponent.propTypes = {
     itemStore: PropTypes.any.isRequired,
     store: PropTypes.any.isRequired,
     item: PropTypes.object.isRequired
 };
 
-Item.defaultProps = {};
+Item.wrappedComponent.defaultProps = {};

@@ -2127,7 +2127,6 @@
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/email/1.1.17/npm/node_modules/rai/lib/mockup.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/email/1.1.17/npm/node_modules/rai/lib/starttls.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/email/1.1.17/npm/node_modules/rai/lib/rai.js" />
-        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/tmeasday_check-npm-versions/0.3.1/npm/node_modules/semver/semver.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/babel-compiler/6.9.1/npm/node_modules/babel-runtime/core-js/string/match-all.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/babel-compiler/6.9.1/npm/node_modules/babel-runtime/core-js/string/trim-right.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/babel-compiler/6.9.1/npm/node_modules/babel-runtime/core-js/string/pad-start.js" />
@@ -7077,7 +7076,6 @@
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/email/1.1.17/npm/node_modules/rai/lib/mockup.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/email/1.1.17/npm/node_modules/rai/lib/starttls.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/email/1.1.17/npm/node_modules/rai/lib/rai.js" />
-      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/tmeasday_check-npm-versions/0.3.1/npm/node_modules/semver/semver.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/babel-compiler/6.9.1/npm/node_modules/babel-runtime/core-js/string/match-all.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/babel-compiler/6.9.1/npm/node_modules/babel-runtime/core-js/string/trim-right.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/babel-compiler/6.9.1/npm/node_modules/babel-runtime/core-js/string/pad-start.js" />

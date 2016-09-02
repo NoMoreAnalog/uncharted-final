@@ -22,7 +22,6 @@
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/promise/0.8.4/web.browser/promise-tests.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/promise/0.8.4/web.browser/server.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/allow-deny/1.0.5/web.browser/allow-deny-tests.js" />
-        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/tmeasday_check-npm-versions/0.3.1/web.browser/check-npm-versions.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/allow-deny/1.0.5/web.browser/allow-deny.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/accounts-ui-unstyled/1.1.12/web.browser/accounts_ui.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/accounts-ui-unstyled/1.1.12/web.browser/login_buttons_dropdown.js" />
@@ -92,7 +91,6 @@
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-client/1.3.1/web.browser/sockjs-0.3.4.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/heartbeat.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/logging/1.1.15/web.browser/logging.js" />
-        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/ultimatejs_tracker-react/1.0.5/web.browser/main.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/utils.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/logging/1.1.15/web.browser/logging_test.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/srp/1.0.9/web.browser/biginteger.js" />
@@ -103,13 +101,9 @@
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/method_invocation.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/geojson-utils/1.0.9/web.browser/geojson-utils.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/logging/1.1.15/web.browser/logging_cordova.js" />
-        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/ultimatejs_tracker-react/1.0.5/web.browser/Tracker.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/random_stream.js" />
-        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/react-meteor-data/0.2.9/web.browser/react-meteor-data.jsx" />
-        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/react-meteor-data/0.2.9/web.browser/createContainer.jsx" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/reload/1.1.10/web.browser/reload.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/observe-sequence/1.0.12/web.browser/observe_sequence.js" />
-        <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/react-meteor-data/0.2.9/web.browser/ReactMeteorData.jsx" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/reload/1.1.10/web.browser/deprecated.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/tracker/1.1.0/web.browser/deprecated.js" />
         <item url="file://$USER_HOME$/AppData/Local/.meteor/packages/fastclick/1.0.12/web.browser/fastclick.js" />
@@ -198,7 +192,6 @@
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/promise/0.8.4/web.browser/promise-tests.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/promise/0.8.4/web.browser/server.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/allow-deny/1.0.5/web.browser/allow-deny-tests.js" />
-      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/tmeasday_check-npm-versions/0.3.1/web.browser/check-npm-versions.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/allow-deny/1.0.5/web.browser/allow-deny.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/accounts-ui-unstyled/1.1.12/web.browser/accounts_ui.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/accounts-ui-unstyled/1.1.12/web.browser/login_buttons_dropdown.js" />
@@ -268,7 +261,6 @@
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-client/1.3.1/web.browser/sockjs-0.3.4.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/heartbeat.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/logging/1.1.15/web.browser/logging.js" />
-      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/ultimatejs_tracker-react/1.0.5/web.browser/main.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/utils.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/logging/1.1.15/web.browser/logging_test.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/srp/1.0.9/web.browser/biginteger.js" />
@@ -279,13 +271,9 @@
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/method_invocation.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/geojson-utils/1.0.9/web.browser/geojson-utils.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/logging/1.1.15/web.browser/logging_cordova.js" />
-      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/ultimatejs_tracker-react/1.0.5/web.browser/Tracker.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/ddp-common/1.2.6/web.browser/random_stream.js" />
-      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/react-meteor-data/0.2.9/web.browser/react-meteor-data.jsx" />
-      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/react-meteor-data/0.2.9/web.browser/createContainer.jsx" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/reload/1.1.10/web.browser/reload.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/observe-sequence/1.0.12/web.browser/observe_sequence.js" />
-      <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/react-meteor-data/0.2.9/web.browser/ReactMeteorData.jsx" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/reload/1.1.10/web.browser/deprecated.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/tracker/1.1.0/web.browser/deprecated.js" />
       <root url="file://$USER_HOME$/AppData/Local/.meteor/packages/fastclick/1.0.12/web.browser/fastclick.js" />

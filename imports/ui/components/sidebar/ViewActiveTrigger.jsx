@@ -2,7 +2,7 @@ import React, {PropTypes} from "react";
 import {observer} from 'mobx-react';
 
 // ViewActiveTrigger component - Clickable area to slide open/close active indicators sections
-const ViewActiveTrigger = observer((props) =>
+const ViewActiveTrigger = observer(['store'], (props) =>
 
     <div className="view-active-trigger">
 
@@ -17,8 +17,8 @@ const ViewActiveTrigger = observer((props) =>
 
 export default ViewActiveTrigger;
 
-ViewActiveTrigger.propTypes = {
+ViewActiveTrigger.wrappedComponent.propTypes = {
     store: PropTypes.any.isRequired
 };
 
-ViewActiveTrigger.defaultProps = {};
+ViewActiveTrigger.wrappedComponent.defaultProps = {};

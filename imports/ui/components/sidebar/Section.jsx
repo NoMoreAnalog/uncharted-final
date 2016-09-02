@@ -5,7 +5,7 @@ import Filter from './Filter.jsx';
 import Item from './Item.jsx';
 
 // Section component - these make up the side bar
-const Section = observer((props) =>
+const Section = observer(['store'], (props) =>
 
     <div className={'section ' + props.classed}>
 
@@ -14,7 +14,6 @@ const Section = observer((props) =>
 
         <Filter
             itemStore={props.itemStore}
-            store={props.store}
             useActiveFilter={props.title === 'Active Indicators'}
         />
 
@@ -23,18 +22,18 @@ const Section = observer((props) =>
                 <Item
                     key={item._id}
                     itemStore={props.itemStore}
-                    store={props.store}
                     item={item}
                 />
             )}
         </ul>
 
     </div>
+
 )
 
 export default Section;
 
-Section.propTypes = {
+Section.wrappedComponent.propTypes = {
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string,
     list: PropTypes.array.isRequired,
@@ -43,7 +42,7 @@ Section.propTypes = {
     store: PropTypes.any
 };
 
-Section.defaultProps = {
+Section.wrappedComponent.defaultProps = {
     title: 'Title',
     subtitle: 'Click to select/deselect',
     list: [],

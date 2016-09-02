@@ -19,7 +19,7 @@ const Legend = observer((props) =>
                 {props.list.map(item =>
                     <Item
                         key={item._id}
-                        store={props.itemStore}
+                        itemStore={props.itemStore}
                         item={item}
                     />
                 )}
@@ -27,6 +27,7 @@ const Legend = observer((props) =>
         </div>
 
     </div>
+
 )
 
 export default Legend;
@@ -41,8 +42,5 @@ Legend.propTypes = {
 };
 
 Legend.defaultProps = {
-    title: 'Title',
-    subtitle: 'Click to select/deselect',
-    list: [],
-    classed: ''
+    subtitle: 'Click to select/deselect'
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Meteor} from 'meteor/meteor';
+import {Provider} from 'mobx-react';
 
 import '../imports/startup/client/'
 
@@ -15,9 +16,11 @@ const store = window.store = new Store();
 
 Meteor.startup(() => {
     render(
-        <MainLayout
+        <Provider
             countryStore={countryStore}
             indicatorStore={indicatorStore}
             store={store}
-        />, document.getElementById('render-target'));
+        >
+            <MainLayout/>
+        </Provider>, document.getElementById('render-target'));
 });

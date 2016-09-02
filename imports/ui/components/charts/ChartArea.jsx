@@ -5,7 +5,7 @@ import Chart from './Chart.jsx';
 import Legend from './Legend.jsx';
 
 // Chart component - Area for chart and chart information
-const ChartArea = observer((props) =>
+const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
 
     <div className="chart-area">
 
@@ -23,7 +23,7 @@ const ChartArea = observer((props) =>
 
                 <Legend
                     title={'Country:'}
-                    list={props.countryStore.filteredCountries}
+                    list={props.countryStore.activeCountries}
                     classed="countries"
                     itemStore={props.countryStore}
                     store={props.store}
@@ -31,7 +31,7 @@ const ChartArea = observer((props) =>
 
                 <Legend
                     title={'Indicator:'}
-                    list={props.indicatorStore.filteredIndicators}
+                    list={props.indicatorStore.activeIndicators}
                     classed="indicators"
                     itemStore={props.indicatorStore}
                     store={props.store}
@@ -42,14 +42,15 @@ const ChartArea = observer((props) =>
         </div>
 
     </div>
+
 )
 
-ChartArea.propTypes = {
+export default ChartArea;
+
+ChartArea.wrappedComponent.propTypes = {
     countryStore: PropTypes.any.isRequired,
     indicatorStore: PropTypes.any.isRequired,
     store: PropTypes.any.isRequired
 };
 
-ChartArea.defaultProps = {};
-
-export default ChartArea;
+ChartArea.wrappedComponent.defaultProps = {};

@@ -1,83 +1,48 @@
-import {extendObservable, observable, action} from 'mobx';
+import {observable} from 'mobx';
 
 class Store {
 
+    // UI setup
     @observable sideBarExpanded = false;
     @observable activeIndicatorsOpen = false;
 
-    constructor() {
+    // Used in top bar to determine which chart user can selected
+    @observable barActive = false;
+    @observable lineActive = false;
+    @observable radarActive = false;
+    @observable scatterActive = false;
 
-        extendObservable(this, {
+    // Which chart is being displayed
+    @observable barDraw = false;
+    @observable lineDraw = false;
+    @observable radarDraw = false;
+    @observable scatterDraw = false;
 
-            // // UI setup
-            // sideBarExpanded: false,
-            // activeIndicatorsOpen: false,
+    // Number of currently selected countries/indicators
+    @observable activeCountries = [];
+    @observable activeIndicators = [];
 
-            // Used in top bar to determine which chart user can selected
-            barAvailable: false,
-            lineAvailable: false,
-            radarAvailable: false,
-            scatterAvailable: false,
+    // Current focus (default is country)
+    @observable countryFocus = true;
+    @observable indicatorFocus = false;
 
-            // Which chart is being displayed
-            barShowing: false,
-            lineShowing: false,
-            radarShowing: false,
-            scatterShowing: false,
+    // Title for ChartArea
+    @observable chartTitle = '';
 
-            // Number of currently selected countries/indicators
-            activeCountries: [],
-            activeIndicators: [],
-
-            // Current focus (default is country)
-            countryFocus: true,
-            indicatorFocus: false,
-
-            // Title for ChartArea
-            chartTitle: ''
-        });
-
-    }
-
-    @action toggleSideBarExpanded = () => {
+    toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
     }
 
-    @action toggleActiveIndicators = () => {
+    toggleActiveIndicators = () => {
         this.activeIndicatorsOpen = !this.activeIndicatorsOpen;
     }
 
-    selectChart = chartType => {
+    drawChart = chartType => {
 
-        switch (chartType) {
-            case 'bar':
-
-                if (!this.barAvailable) return;
-                this.setBarShowing(!this.barShowing);
-
-                break;
-
-            case 'line':
-
-                if (!this.lineAvailable) return;
-                this.setLineShowing(!this.lineShowing);
-
-                break;
-
-            case 'radar':
-
-                if (!this.radarAvailable) return;
-                this.setRadarShowing(!this.radarShowing);
-
-                break;
-
-            case 'scatter':
-
-                if (!this.scatterAvailable) return;
-                this.setScatterShowing(!this.scatterShowing);
-
-                break;
-        }
+        if (chartType === 'bar' && this.barActive) this.setBarDraw(!this.barDraw);
+        if (chartType === 'line' && this.lineActive) this.setLineDraw(!this.lineDraw);
+        if (chartType === 'radar' && this.radarActive) this.setRadarDraw(!this.radarDraw);
+        if (chartType === 'scatter' && this.scatterActive) this.setScatterDraw(!this.scatterDraw);
 
     }
 
@@ -94,23 +59,23 @@ class Store {
         const countries = this.activeCountries.length;
         const indicators = this.activeIndicators.length;
 
-        this.barAvailable = (countries === 1 && indicators >= 1) || (indicators === 1 && countries >= 1);
-        this.lineAvailable = (countries >= 1 && indicators >= 1) || (indicators >= 1 && countries >= 1);
-        this.radarAvailable = (countries >= 1 && indicators >= 3) || (indicators >= 1 && countries >= 3);
-        this.scatterAvailable = (countries >= 1 && indicators === 2);
+        this.barActive = (countries === 1 && indicators >= 1) || (indicators === 1 && countries >= 1);
+        this.lineActive = (countries >= 1 && indicators >= 1) || (indicators >= 1 && countries >= 1);
+        this.radarActive = (countries >= 1 && indicators >= 3) || (indicators >= 1 && countries >= 3);
+        this.scatterActive = (countries >= 1 && indicators === 2);
 
-        if (!this.barAvailable) this.setBarShowing(false);
-        if (!this.lineAvailable) this.setLineShowing(false);
-        if (!this.radarAvailable) this.setRadarShowing(false);
-        if (!this.scatterAvailable) this.setScatterShowing(false);
+        if (!this.barActive) this.setBarDraw(false);
+        if (!this.lineActive) this.setLineDraw(false);
+        if (!this.radarActive) this.setRadarDraw(false);
+        if (!this.scatterActive) this.setScatterDraw(false);
 
         // Default a chart to show, we prefer bar first and scatter last
 
-        if (!this.barShowing && !this.lineShowing && !this.radarShowing && !this.scatterShowing) {
-            if (this.barAvailable) this.setBarShowing()
-            else if (this.lineAvailable) this.setLineShowing();
-            else if (this.radarAvailable) this.setRadarShowing();
-            else if (this.scatterAvailable) this.setScatterShowing();
+        if (!this.barDraw && !this.lineDraw && !this.radarDraw && !this.scatterDraw) {
+            if (this.barActive) this.setBarDraw()
+            else if (this.lineActive) this.setLineDraw();
+            else if (this.radarActive) this.setRadarDraw();
+            else if (this.scatterActive) this.setScatterDraw();
         }
 
         // Depending on the focus we will set the title for ChartArea
@@ -137,39 +102,39 @@ class Store {
 
     }
 
-    setBarShowing = (show = true) => {
-        this.barShowing = show;
-        if (this.barShowing) {
-            this.setLineShowing(false);
-            this.setRadarShowing(false);
-            this.setScatterShowing(false);
+    setBarDraw = (show = true) => {
+        this.barDraw = show;
+        if (this.barDraw) {
+            this.setLineDraw(false);
+            this.setRadarDraw(false);
+            this.setScatterDraw(false);
         }
     }
 
-    setLineShowing = (show = true) => {
-        this.lineShowing = show;
-        if (this.lineShowing) {
-            this.setBarShowing(false);
-            this.setRadarShowing(false);
-            this.setScatterShowing(false);
+    setLineDraw = (show = true) => {
+        this.lineDraw = show;
+        if (this.lineDraw) {
+            this.setBarDraw(false);
+            this.setRadarDraw(false);
+            this.setScatterDraw(false);
         }
     }
 
-    setRadarShowing = (show = true) => {
-        this.radarShowing = show;
-        if (this.radarShowing) {
-            this.setBarShowing(false);
-            this.setLineShowing(false);
-            this.setScatterShowing(false);
+    setRadarDraw = (show = true) => {
+        this.radarDraw = show;
+        if (this.radarDraw) {
+            this.setBarDraw(false);
+            this.setLineDraw(false);
+            this.setScatterDraw(false);
         }
     }
 
-    setScatterShowing = (show = true) => {
-        this.scatterShowing = show;
-        if (this.scatterShowing) {
-            this.setBarShowing(false);
-            this.setLineShowing(false);
-            this.setRadarShowing(false);
+    setScatterDraw = (show = true) => {
+        this.scatterDraw = show;
+        if (this.scatterDraw) {
+            this.setBarDraw(false);
+            this.setLineDraw(false);
+            this.setRadarDraw(false);
         }
     }
 
