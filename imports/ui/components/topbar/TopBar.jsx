@@ -1,58 +1,66 @@
-import React, {PropTypes} from 'react';
-import {observer} from 'mobx-react';
+import React, {PropTypes, Component} from 'react';
+import {inject, observer} from 'mobx-react';
+
+import NavBar from './NavBar.jsx';
 
 // TopBar component - bar on top of page with chart options
-const TopBar = observer((props) =>
+@inject(['store']) @observer
+class TopBar extends Component {
 
-    <div className="top-bar">
+    constructor(props) {
 
-        <div className="fake-navigation"></div>
+        super(props);
 
-        <div className="chart-types">
+        const store = props.store;
 
-            <div className="label">Available Graphs:</div>
+        this._drawBar = store.drawChart.bind(this, 'bar');
+        this._drawLine = store.drawChart.bind(this, 'line');
+        this._drawRadar = store.drawChart.bind(this, 'radar');
+        this._drawScatter = store.drawChart.bind(this, 'scatter');
 
-            <button
-                onClick={props.store.selectChart.bind(this, 'bar')}
-                className={props.store.barAvailable ? 'chart-type available' : 'chart-type'}
-            >
-                {props.store.barShowing ? <img src="bar-selected.svg"/> : <img src="bar.svg"/>}
-                Bar
-            </button>
+    }
 
-            <button
-                onClick={props.store.selectChart.bind(this, 'line')}
-                className={props.store.lineAvailable ? 'chart-type available' : 'chart-type'}
-            >
-                {props.store.lineShowing ? <img src="line-selected.svg"/> : <img src="line.svg"/>}
-                Line
-            </button>
+    render() {
 
-            <button
-                onClick={props.store.selectChart.bind(this, 'radar')}
-                className={props.store.radarAvailable ? 'chart-type available' : 'chart-type'}
-            >
-                {props.store.radarShowing ? <img src="radar-selected.svg"/> : <img src="radar.svg"/>}
-                Radar
-            </button>
+        const store = this.props.store;
 
-            <button
-                onClick={props.store.selectChart.bind(this, 'scatter')}
-                className={props.store.scatterAvailable ? 'chart-type available' : 'chart-type'}
-            >
-                {props.store.scatterShowing ? <img src="scatter-selected.svg"/> : <img src="scatter.svg"/>}
-                Scatter
-            </button>
+        const classNameBar = store.barActive ? 'chart-type active' : 'chart-type';
+        const classNameLine = store.lineActive ? 'chart-type active' : 'chart-type';
+        const classNameRadar = store.radarActive ? 'chart-type active' : 'chart-type';
+        const classNameScatter = store.scatterActive ? 'chart-type active' : 'chart-type';
 
-        </div>
+        const imgBar = store.barDraw ? <img src="bar-selected.svg"/> : <img src="bar.svg"/>;
+        const imgLine = store.lineDraw ? <img src="line-selected.svg"/> : <img src="line.svg"/>;
+        const imgRadar = store.radarDraw ? <img src="radar-selected.svg"/> : <img src="radar.svg"/>;
+        const imgScatter = store.scatterDraw ? <img src="scatter-selected.svg"/> : <img src="scatter.svg"/>;
 
-    </div>
-)
+        return (
+            <div className="top-bar">
 
-TopBar.propTypes = {
+                <NavBar/>
+
+                <div className="chart-types">
+
+                    <div className="label">Available Graphs:</div>
+
+                    <button onClick={this._drawBar} className={classNameBar}>{imgBar} Bar</button>
+                    <button onClick={this._drawLine} className={classNameLine}>{imgLine} Line</button>
+                    <button onClick={this._drawRadar} className={classNameRadar}>{imgRadar} Radar</button>
+                    <button onClick={this._drawScatter} className={classNameScatter}>{imgScatter} Scatter</button>
+
+                </div>
+
+            </div>
+        )
+
+    }
+
+}
+
+export default TopBar;
+
+TopBar.wrappedComponent.propTypes = {
     store: PropTypes.any.isRequired
 };
 
-TopBar.defaultProps = {};
-
-export default TopBar;
+TopBar.wrappedComponent.defaultProps = {};
