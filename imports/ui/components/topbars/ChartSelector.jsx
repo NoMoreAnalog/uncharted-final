@@ -22,11 +22,11 @@ class ChartSelector extends Component {
 
     componentDidMount() {
 
-        $(this.chartSelector)
-            .visibility({
-                type   : 'fixed'
-            })
-        ;
+        $(this.chartSelector).visibility({
+            type: 'fixed',
+            zIndex: 1001
+        });
+
     }
 
     render() {
@@ -44,29 +44,33 @@ class ChartSelector extends Component {
                     <ChartType
                         click={this._drawBar}
                         active={store.barActive}
-                        text={'Bar'}
+                        content={'Bar'}
                         imageSource={store.barDraw ? 'bar-selected.svg' : 'bar.svg'}
+                        popup="Requires a minimum of one country and one indicator."
                     />
 
                     <ChartType
                         click={this._drawLine}
                         active={store.lineActive}
-                        text={'Line'}
+                        content={'Line'}
                         imageSource={store.lineDraw ? 'line-selected.svg' : 'line.svg'}
+                        popup="Requires a minimum of one country and one indicator."
                     />
 
                     <ChartType
                         click={this._drawRadar}
                         active={store.radarActive}
-                        text={'Radar'}
+                        content={'Radar'}
                         imageSource={store.radarDraw ? 'radar-selected.svg' : 'radar.svg'}
+                        popup="Requires a minimum of three countries and one indicator OR three indicators and one country."
                     />
 
                     <ChartType
                         click={this._drawScatter}
                         active={store.scatterActive}
-                        text={'Scatter'}
+                        content={'Scatter'}
                         imageSource={store.scatterDraw ? 'scatter-selected.svg' : 'scatter.svg'}
+                        popup="Requires a minimum of one country and exactly two indicators."
                     />
 
                 </div>

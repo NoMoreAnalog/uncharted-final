@@ -30,7 +30,7 @@
     "message": false,
     "modal": false,
     "nag": false,
-    "popup": false,
+    "popup": true,
     "progress": false,
     "rail": false,
     "rating": false,
@@ -47,7 +47,7 @@
     "sticky": false,
     "tab": false,
     "table": false,
-    "transition": false,
+    "transition": true,
     "visibility": true,
     "visit": false
   },
