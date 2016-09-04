@@ -21,7 +21,7 @@ class Item extends Component {
 
         const {item} = {...this.props};
 
-        const className = item.active ? 'active item' : 'item';
+        const className = item.active ? 'ui active item' : 'ui item';
 
         const icon = item.type === 'country' ?
             <i className="material-icons dot">lens</i> :

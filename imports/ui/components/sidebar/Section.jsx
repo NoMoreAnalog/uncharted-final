@@ -1,35 +1,81 @@
-import React, {PropTypes} from "react";
+import React, {PropTypes, Component} from "react";
 import {observer} from 'mobx-react';
 
 import Filter from './Filter.jsx';
 import Item from './Item.jsx';
 
 // Section component - these make up the side bar
-const Section = observer(['store'], (props) =>
+@observer(['store'])
+class Section extends Component {
 
-    <div className={'section ' + props.classed}>
+    constructor() {
+        super();
+        this._handleResize = this._handleResize.bind(this);
+    }
 
-        <div className="title">{props.title}</div>
-        <div className="subtitle">{props.subtitle}</div>
+    _handleResize() {
 
-        <Filter
-            itemStore={props.itemStore}
-            useActiveFilter={props.title === 'Active Indicators'}
-        />
+        // Set the scroll area height or it is not scrollable
 
-        <ul className="list">
-            {props.list.map(item =>
-                <Item
-                    key={item._id}
-                    itemStore={props.itemStore}
-                    item={item}
-                />
-            )}
-        </ul>
+        const height =
+            this.section.clientHeight -
+            this.wrapper.clientHeight;
 
-    </div>
+        const padding =
+            parseInt($(this.section).css('padding-top')) +
+            parseInt($(this.section).css('padding-bottom'));
 
-)
+        this.scrollArea.style.height = height - padding + 'px';
+        this.scrollArea.style.overflowY = 'scroll';
+
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this._handleResize);
+        this._handleResize();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this._handleResize);
+    }
+
+    render() {
+
+        const props = this.props;
+
+        return (
+
+            <div
+                className={'section ' + props.classed}
+                ref={(ref) => this.section = ref}>
+
+                <div ref={(ref) => this.wrapper = ref}>
+                    <div className="title">{props.title}</div>
+                    <div className="subtitle">{props.subtitle}</div>
+                    <Filter
+                        itemStore={props.itemStore}
+                        useActiveFilter={props.title === 'Active Indicators'}
+                    />
+                </div>
+
+                <div ref={(ref) => this.scrollArea = ref}>
+                    <ul className="ui list">
+                        {props.list.map(item =>
+                            <Item
+                                key={item._id}
+                                itemStore={props.itemStore}
+                                item={item}
+                            />
+                        )}
+                    </ul>
+                </div>
+
+            </div>
+        )
+
+    }
+
+}
 
 export default Section;
 

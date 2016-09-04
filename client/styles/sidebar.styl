@@ -1,12 +1,50 @@
+//.side-bar
+//  flex 0 0 300px
+//  color #636363
+//  display flex
+//  flex-direction column
+//  transition all 0.15s linear
+
 .side-bar
-  flex 0 0 300px
-  color #636363
+  box-sizing border-box
   display flex
   flex-direction column
-  transition all 0.15s linear
+  border-left solid 3px #ebebeb
+  -webkit-transition: all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  -moz-transition: all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  -o-transition: all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  transition: all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000); /* easeOutCubic */
+  box-shadow 0 5px 15px rgba(black, 0.2)
 
-.side-bar.expanded
-  flex 0 0 750px
+.section
+  box-sizing border-box
+  padding 10px
+  overflow-y hidden
+
+.section.countries
+  flex 0 1 30%
+  border-bottom solid 3px #ebebeb
+
+.section.indicators
+  flex 0 1 70%
+  border-bottom solid 3px #ebebeb
+
+.section.active-indicators
+  display none
+  flex 0 0 0%
+  border-bottom solid 3px #ebebeb
+
+.view-active-trigger
+  display none
+
+@media (max-width: 600px)
+
+  .side-bar
+    display block
+    box-shadow none
+
+  .section
+    height 300px
 
 /*
 /
@@ -20,6 +58,9 @@
   float left
   margin 50px 0 0 -50px
   padding 0
+  box-shadow: 0 5px 15px rgba(black, 0.2);
+  border-radius 8px 0 0 8px
+  height 50px
 
 .side-bar-trigger .material-icons
   font-size 50px
@@ -29,163 +70,171 @@
   width 50px
   color white
 
-/*
-/
-/ Filter
-/
-*/
+.side-bar.expanded
+  flex 0 0 750px
 
-.side-bar .filter.hide
-  display none
+@media (max-width: 600px)
 
-.side-bar .filter.show
-  display block
-  flex 0 0 35px
-  border 2px solid #ebebeb
-  margin 10px 30px 0 20px
-  padding 0 10px 0 10px
-  border-radius 10px
-  background url("ic_search_gray_24dp_2x.png") no-repeat right center
-  background-size 30px
-  outline none
+  .side-bar-trigger
+    display none
 
-.filter::-webkit-input-placeholder
-  font-style italic
-  font-size 1.1em
-  color #dddddd
-
-/*
-/
-/ Sections
-/
-*/
-
-.side-bar .section
-  border solid #ebebeb medium
-  border-top 0
-  border-bottom  0
-  overflow hidden
-  display flex
-  flex-direction column
-  padding-right 15px
-
-.side-bar .active-indicators.open
-  flex 1 0 calc(100% - 50px)
-  transition all 0.15s linear
-
-.side-bar .active-indicators.closed
-  flex 0 0 0
-  transition all 0.15s linear
-
-.side-bar .title
-  font-size 1.5em
-  text-align center
-  flex 0 0
-
-.side-bar .subtitle
-  font-size .9em
-  text-align center
-  font-style italic
-  flex 0 0
-
-.side-bar .list
-  margin 30px 0 15px 0
-  overflow-y scroll
-  padding 0
-  list-style none
-  font-size 16px
-
-/*
-/
-/ Countries Section
-/
-*/
-
-.side-bar .countries
-  flex 0 1 40%
-  border-bottom solid #ebebeb medium
-
-.side-bar .countries .item
-  margin 0 0 10px 40px
-  padding 0 10px 0 0
-
-.side-bar .countries .item.active .clickable
-  color #00adc6
-
-/*
-/
-/ Indicators Section
-/
-*/
-
-.side-bar .indicators
-  flex 0 1 60%
-
-.side-bar .indicators .item
-  margin 0 10px 25px 10px
-  border-radius 8px
-
-.side-bar .indicators .item .clickable
-  border-radius 8px
-  background-color #e3e3e3
-  padding 10px
-
-.side-bar .indicators .item.active .clickable
-  background-color #00adc6
-  color white
-
-.side-bar .indicators .close
-  display none
-
-/*
-/
-/ Active Indicators Section
-/
-*/
-
-.side-bar .active-indicators .item
-  margin 0 10px 25px -15px
-
-.side-bar .active-indicators .clickable
-  display flex
-  margin 0 10px 25px 10px
-  padding 10px
-
-/*
-/
-/ View Active Trigger
-/
-*/
-
-.side-bar .view-active-trigger
-  flex 0 0 44px
-  line-height 44px
-  color white
-  background-color #00adc6
-
-.side-bar .view-active-trigger button
-  width 100%
-  display flex
-  justify-content center
-
-.side-bar .view-active-trigger div
-  display flex
-  align-items center
-
-/*
-/
-/ Misc
-/
-*/
-
-.side-bar .dot
-  font-size 10px
-  margin-right 20px
-
-.side-bar .close
-  color white
-  background-color red
-  display table
-  border-radius 12px
-  margin 0 5px 0 0
-  font-size 15px
+///*
+///
+/// Filter
+///
+//*/
+//
+//.side-bar .filter.hide
+//  display none
+//
+//.side-bar .filter.show
+//  display block
+//  flex 0 0 35px
+//  border 2px solid #ebebeb
+//  margin 10px 30px 0 20px
+//  padding 0 10px 0 10px
+//  border-radius 10px
+//  background url("ic_search_gray_24dp_2x.png") no-repeat right center
+//  background-size 30px
+//  outline none
+//
+//.filter::-webkit-input-placeholder
+//  font-style italic
+//  font-size 1.1em
+//  color #dddddd
+//
+///*
+///
+/// Sections
+///
+//*/
+//
+//.side-bar .section
+//  border solid #ebebeb medium
+//  border-top 0
+//  border-bottom  0
+//  overflow hidden
+//  display flex
+//  flex-direction column
+//  padding-right 15px
+//
+//.side-bar .active-indicators.open
+//  flex 1 0 calc(100% - 50px)
+//  transition all 0.15s linear
+//
+//.side-bar .active-indicators.closed
+//  flex 0 0 0
+//  transition all 0.15s linear
+//
+//.side-bar .title
+//  font-size 1.5em
+//  text-align center
+//  flex 0 0
+//
+//.side-bar .subtitle
+//  font-size .9em
+//  text-align center
+//  font-style italic
+//  flex 0 0
+//
+//.side-bar .list
+//  margin 30px 0 15px 0
+//  overflow-y scroll
+//  padding 0
+//  list-style none
+//  font-size 16px
+//
+///*
+///
+/// Countries Section
+///
+//*/
+//
+//.side-bar .countries
+//  flex 0 1 40%
+//  border-bottom solid #ebebeb medium
+//
+//.side-bar .countries .item
+//  margin 0 0 10px 40px
+//  padding 0 10px 0 0
+//
+//.side-bar .countries .item.active .clickable
+//  color #00adc6
+//
+///*
+///
+/// Indicators Section
+///
+//*/
+//
+//.side-bar .indicators
+//  flex 0 1 60%
+//
+//.side-bar .indicators .item
+//  margin 0 10px 25px 10px
+//  border-radius 8px
+//
+//.side-bar .indicators .item .clickable
+//  border-radius 8px
+//  background-color #e3e3e3
+//  padding 10px
+//
+//.side-bar .indicators .item.active .clickable
+//  background-color #00adc6
+//  color white
+//
+//.side-bar .indicators .close
+//  display none
+//
+///*
+///
+/// Active Indicators Section
+///
+//*/
+//
+//.side-bar .active-indicators .item
+//  margin 0 10px 25px -15px
+//
+//.side-bar .active-indicators .clickable
+//  display flex
+//  margin 0 10px 25px 10px
+//  padding 10px
+//
+///*
+///
+/// View Active Trigger
+///
+//*/
+//
+//.side-bar .view-active-trigger
+//  flex 0 0 44px
+//  line-height 44px
+//  color white
+//  background-color #00adc6
+//
+//.side-bar .view-active-trigger button
+//  width 100%
+//  display flex
+//  justify-content center
+//
+//.side-bar .view-active-trigger div
+//  display flex
+//  align-items center
+//
+///*
+///
+/// Misc
+///
+//*/
+//
+//.side-bar .dot
+//  font-size 10px
+//  margin-right 20px
+//
+//.side-bar .close
+//  color white
+//  background-color red
+//  display table
+//  border-radius 12px
+//  margin 0 5px 0 0
+//  font-size 15px

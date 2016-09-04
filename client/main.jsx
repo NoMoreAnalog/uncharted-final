@@ -22,5 +22,5 @@ Meteor.startup(() => {
             store={store}
         >
             <MainLayout/>
-        </Provider>, document.getElementById('render-target'));
+        </Provider>, document.getElementById('app'));
 });

@@ -8,7 +8,10 @@ import SideBarTrigger from './SideBarTrigger.jsx';
 // Sidebar component - bar on right side of screen with filters
 const Sidebar = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
 
-    <div className={props.store.sideBarExpanded ? 'side-bar expanded' : 'side-bar'}>
+    <div
+        className={props.store.sideBarExpanded ?
+            'side-bar expanded' :
+            'side-bar'}>
 
         <SideBarTrigger />
 
