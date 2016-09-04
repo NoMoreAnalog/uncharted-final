@@ -27,7 +27,7 @@ class ChartType extends Component {
                 <div className="content">{content}</div>
 
                 <div
-                    className="ui custom popup transition hidden"
+                    className="ui popup transition hidden"
                     ref={(ref) => this.popup = ref}
                 >
                     {popup}
