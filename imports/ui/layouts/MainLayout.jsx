@@ -3,7 +3,8 @@ import DevTools from 'mobx-react-devtools';
 import {observer, inject} from 'mobx-react';
 
 import Sidebar from '../components/sidebar/SideBar.jsx';
-import TopBar from '../components/topbar/TopBar.jsx';
+import NavBar from '../components/topbars/NavBar.jsx';
+import ChartSelector from '../components/topbars/ChartSelector.jsx';
 import Charts from '../components/charts/ChartArea.jsx';
 
 // MainLayout component - represents the whole app
@@ -11,8 +12,12 @@ const MainLayout = observer(['countryStore', 'indicatorStore', 'store'], (props)
 
     <div className="main-layout">
 
-        <TopBar />
         <DevTools />
+
+        <div className="top-bar">
+            <NavBar />
+            <ChartSelector />
+        </div>
 
         <div className="container">
             <Charts />
