@@ -48,7 +48,7 @@
     "tab": false,
     "table": false,
     "transition": false,
-    "visibility": false,
+    "visibility": true,
     "visit": false
   },
   "themes": {
