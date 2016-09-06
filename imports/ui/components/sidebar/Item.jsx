@@ -24,6 +24,7 @@ class Item extends Component {
         const {item} = {...this.props};
 
         const className = item.active ? 'active item ui button' : 'item ui button';
+        const icon = item.active && item.type === 'indicator' ? <i className="large red remove circle icon"/> : '';
 
         return (
             <div
@@ -33,6 +34,7 @@ class Item extends Component {
             >
 
                 <Dot createSvg={true} fill={'#636363'}/>
+                {icon}
                 <div className="content">{item.name}</div>
 
             </div>
