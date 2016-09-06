@@ -1,6 +1,8 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
 
+import Dot from '../charts/Dot.jsx';
+
 // Item component - item to make up list in each section
 @observer(['store'])
 class Item extends Component {
@@ -21,22 +23,19 @@ class Item extends Component {
 
         const {item} = {...this.props};
 
-        const className = item.active ? 'ui active item' : 'ui item';
-
-        const icon = item.type === 'country' ?
-            <i className="material-icons dot">lens</i> :
-            <i className="material-icons close">close</i>;
+        const className = item.active ? 'active item ui button' : 'item ui button';
 
         return (
-            <li
+            <div
                 key={item._id}
-                className={className}>
+                className={className}
+                onClick={this._clicked}
+            >
 
-                <button className='clickable' onClick={this._clicked}>
-                    {icon} {item.name}
-                </button>
+                <Dot createSvg={true} fill={'#636363'}/>
+                <div className="content">{item.name}</div>
 
-            </li>
+            </div>
         )
 
     }

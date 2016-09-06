@@ -18,14 +18,14 @@ const Sidebar = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
         <Section
             title={'Countries'}
             list={props.countryStore.filteredCountries}
-            classed="countries"
+            classed={props.store.activeIndicatorsOpen ? 'countries closed' : 'countries'}
             itemStore={props.countryStore}
         />
 
         <Section
             title={'Indicators'}
             list={props.indicatorStore.filteredIndicators}
-            classed="indicators"
+            classed={props.store.activeIndicatorsOpen ? 'indicators closed' : 'indicators'}
             itemStore={props.indicatorStore}
         />
 

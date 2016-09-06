@@ -1,3 +1,66 @@
 /*******************************
     User Variable Overrides
 *******************************/
+
+/*******************************
+    Section Lists
+*******************************/
+
+.section.countries .list {
+  margin: 0 0 0 30px;
+}
+
+.section.indicators .list {
+  margin: 0 10px 0 10px;
+}
+
+.section .list .item {
+  display: flex;
+  padding: 6px 0 6px 0;
+  background: transparent;
+}
+
+.section .list .active:hover {
+  background: transparent;
+}
+
+.section .item:hover {
+  cursor: pointer;
+}
+
+.section .list .content {
+  color: #636363;
+  text-align: start;
+}
+
+.section .list .item.active .content {
+  color: #00adc6;
+}
+
+.section .list .dot {
+  margin: 0 20px 0 0;
+}
+
+// Indicators are different
+
+.section.indicators .list .item {
+  background: #e3e3e3;
+  margin: 0 0 20px 0;
+  padding: 15px;
+}
+
+.section.indicators .list .item.active {
+  background: #00adc6;
+}
+
+.section.indicators .list .item .content {
+  text-align: center;
+}
+
+.section.indicators .list .item.active .content {
+  color: white;
+}
+
+.section.indicators .list .dot {
+  display: none;
+}

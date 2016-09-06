@@ -23,15 +23,18 @@ class Section extends Component {
 
         const padding =
             parseInt($(this.section).css('padding-top')) +
-            parseInt($(this.section).css('padding-bottom'));
+            parseInt($(this.section).css('padding-bottom')) +
+            parseInt($(this.header).css('margin-bottom'));
 
         this.scrollArea.style.height = height - padding + 'px';
         this.scrollArea.style.overflowY = 'scroll';
+        this.scrollArea.style.overflowX = 'hidden';
 
     }
 
     componentDidMount() {
         window.addEventListener('resize', this._handleResize);
+        this.props.store.resizeSectionScroller = this._handleResize;
         this._handleResize();
     }
 
@@ -39,35 +42,42 @@ class Section extends Component {
         window.removeEventListener('resize', this._handleResize);
     }
 
+    componentDidUpdate() {
+        this._handleResize();
+    }
+
     render() {
 
-        const props = this.props;
+        const {classed, title, subtitle, itemStore, list} = {...this.props};
 
         return (
 
-            <div
-                className={'section ' + props.classed}
-                ref={(ref) => this.section = ref}>
+            <div className={'section ' + classed} ref={(ref) => this.section = ref}>
 
                 <div ref={(ref) => this.wrapper = ref}>
-                    <div className="title">{props.title}</div>
-                    <div className="subtitle">{props.subtitle}</div>
+
+                    <h2 className="ui center aligned header" ref={(ref) => this.header = ref}>
+                        {title}
+                        <div className="ui center aligned sub header">{subtitle}</div>
+                    </h2>
+
                     <Filter
-                        itemStore={props.itemStore}
-                        useActiveFilter={props.title === 'Active Indicators'}
+                        itemStore={itemStore}
+                        useActiveFilter={title === 'Active Indicators'}
                     />
+
                 </div>
 
                 <div ref={(ref) => this.scrollArea = ref}>
-                    <ul className="ui list">
-                        {props.list.map(item =>
+                    <div className="ui list">
+                        {list.map(item =>
                             <Item
                                 key={item._id}
-                                itemStore={props.itemStore}
+                                itemStore={itemStore}
                                 item={item}
                             />
                         )}
-                    </ul>
+                    </div>
                 </div>
 
             </div>

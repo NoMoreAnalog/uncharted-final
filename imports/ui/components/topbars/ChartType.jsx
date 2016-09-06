@@ -14,17 +14,18 @@ class ChartType extends Component {
 
     render() {
 
-        const {click, active, imageSource, content, popup} = {...this.props};
+        const {click, active, image, text, popup} = {...this.props};
 
         return (
-            <button
-                onClick={click}
-                className={active ? 'item active' : 'item'}
-                ref={(ref) => this.button = ref}
-            >
+            <div>
 
-                <img className="ui image" src={imageSource}/>
-                <div className="content">{content}</div>
+                <div
+                    onClick={click}
+                    className={active ? 'item active' : 'item'}
+                    ref={(ref) => this.button = ref}
+                >
+                    <img className="ui image" src={image}/>{text}
+                </div>
 
                 <div
                     className="ui popup transition hidden"
@@ -33,7 +34,7 @@ class ChartType extends Component {
                     {popup}
                 </div>
 
-            </button>
+            </div>
         )
 
     }
@@ -43,8 +44,8 @@ class ChartType extends Component {
 ChartType.propTypes = {
     click: PropTypes.func.isRequired,
     active: PropTypes.bool.isRequired,
-    imageSource: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
     popup: PropTypes.string
 };
 

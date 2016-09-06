@@ -2,6 +2,7 @@
   "name": "uncharted",
   "private": true,
   "scripts": {
+    "dev": "set MONGO_URL=mongodb://uncharted:uncharted@ds139655.mlab.com:39655/uncharted && set METEOR_OFFLINE_CATALOG=1 && meteor",
     "start": "meteor run"
   },
   "dependencies": {

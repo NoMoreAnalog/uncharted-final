@@ -18,16 +18,21 @@ class Filter extends Component {
 
     render() {
 
-        const className = this.props.store.sideBarExpanded ? 'filter show' : 'filter hide';
+        return this.props.store.sideBarExpanded ?
 
-        return (
-            <input
-                className={className}
-                placeholder="Search"
-                onChange={this._onChange}
-                ref={(ref) => this.input = ref}
-            />
-        )
+            <div className="ui fluid icon input">
+                <input
+                    type="text"
+                    className="filter"
+                    placeholder="Search"
+                    onChange={this._onChange}
+                    ref={(ref) => this.input = ref}
+                />
+                <i className="search icon"/>
+            </div>
+
+            : <div/>;
+
     }
 
 }

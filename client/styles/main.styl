@@ -1,22 +1,7 @@
 html, body, #app, .main-layout
   height 100%
   min-height 650px
-
-body
-  font-family 'Open Sans', sans-serif
-  //font-family 'Lato', sans-serif
-  //font-family 'Roboto', sans-serif
   margin 0
-
-button
-  background none
-  border none
-  outline none
-  font inherit
-  color inherit
-
-button:hover
-  cursor pointer
 
 /*
 /
@@ -38,22 +23,6 @@ button:hover
 .main-layout
   display flex
   flex-direction column
-
-// Top bar area
-
-.top-bar
-  width 100%
-  flex 1 1 220px // IE needs a flex basis value
-  display flex
-  flex-direction column
-
-.nav-bar
-  width 100%
-  flex 0 0 120px
-
-.chart-selector
-  width 100%
-  flex 1 1 100%
 
 // Wrapper area
 
@@ -77,9 +46,9 @@ button:hover
   flex 0 0 300px
   height 100%
 
-@media (max-width: 600px)
+@media (max-width: 768px)
 
-  .main-layout, .top-bar, .wrapper, .content, .side-bar
+  .main-layout, .wrapper, .content, .side-bar
     display block
 
   .wrapper
@@ -87,6 +56,22 @@ button:hover
 
   .chart-area
     height 500px
+
+/*
+/
+/ NavBar
+/
+*/
+
+.top-bar .nav-bar
+  background-color #525866
+  color white
+  font-size 16px
+  border-bottom solid #0faec6 2pt
+
+.top-bar .nav-bar .unaki
+  margin 20px
+  height 49px
 
 /*
 /

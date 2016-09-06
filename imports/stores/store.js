@@ -29,6 +29,8 @@ class Store {
     // Title for ChartArea
     @observable chartTitle = '';
 
+    resizeSectionScroller;
+
     toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
     }

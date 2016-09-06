@@ -4,15 +4,15 @@ import {observer} from 'mobx-react';
 // ViewActiveTrigger component - Clickable area to slide open/close active indicators sections
 const ViewActiveTrigger = observer(['store'], (props) =>
 
-    <div className="view-active-trigger">
+    <button
+        className="ui fluid button view-active-trigger"
+        onClick={props.store.toggleActiveIndicators}
+    >
 
-        <button onClick={props.store.toggleActiveIndicators}>
-            {props.store.activeIndicatorsOpen ?
-                <div><i className="material-icons">expand_more</i>View Countries and Indicators</div> :
-                <div><i className="material-icons">expand_less</i>View Active Indicators</div>}
-        </button>
+        {props.store.activeIndicatorsOpen ? <i className="icon chevron down"/> : <i className="icon chevron up"/>}
+        {props.store.activeIndicatorsOpen ? 'View Countries and Indicators' : 'View Active Indicators'}
 
-    </div>
+    </button>
 )
 
 export default ViewActiveTrigger;
