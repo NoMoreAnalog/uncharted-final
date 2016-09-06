@@ -6,13 +6,12 @@ import Item from './Item.jsx';
 // Legend component - legend to appear next to the chart, used to filter chart component
 const Legend = observer((props) =>
 
-    <div className={'legend ' + props.classed}>
+    <div className={'ui segment legend ' + props.classed}>
 
-        <div className="text">
-            <div className="title">{props.title}</div>
-            &nbsp;
-            <div className="subtitle">{props.subtitle}</div>
-        </div>
+        <h4 className="ui center aligned header">
+            {props.title}
+            <div className="ui center aligned sub header">{props.subtitle}</div>
+        </h4>
 
         <div className="list-wrapper">
             <ul className="list">

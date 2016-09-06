@@ -15,34 +15,25 @@ const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) 
             <div className="subtitle">Choose your Countries and Indicators</div>
         </div>
 
-        <div className="chart-wrapper">
+        <Chart {...props}/>
 
-            <Chart {...props}/>
+        <Legend
+            title={'Country:'}
+            list={props.countryStore.activeCountries}
+            classed="countries"
+            itemStore={props.countryStore}
+            store={props.store}
+        />
 
-            <div className="legends">
-
-                <Legend
-                    title={'Country:'}
-                    list={props.countryStore.activeCountries}
-                    classed="countries"
-                    itemStore={props.countryStore}
-                    store={props.store}
-                />
-
-                <Legend
-                    title={'Indicator:'}
-                    list={props.indicatorStore.activeIndicators}
-                    classed="indicators"
-                    itemStore={props.indicatorStore}
-                    store={props.store}
-                />
-
-            </div>
-
-        </div>
+        <Legend
+            title={'Indicator:'}
+            list={props.indicatorStore.activeIndicators}
+            classed="indicators"
+            itemStore={props.indicatorStore}
+            store={props.store}
+        />
 
     </div>
-
 )
 
 export default ChartArea;
