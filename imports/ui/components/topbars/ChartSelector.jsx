@@ -22,7 +22,7 @@ class ChartSelector extends Component {
 
     componentDidMount() {
 
-        $(this.chartSelector).visibility({
+        $(this.container).visibility({
             type: 'fixed',
             zIndex: 1001
         });
@@ -35,41 +35,45 @@ class ChartSelector extends Component {
 
         return (
 
-            <div className="ui stackable borderless menu chart-selector" ref={(ref) => this.chartSelector = ref}>
+            <div ref={(ref) => this.container = ref}>
 
-                <div className="header item">Available Graphs:</div>
+                <div className="ui stackable borderless menu chart-selector">
 
-                <ChartType
-                    click={this._drawBar}
-                    active={store.barActive}
-                    text={'Bar'}
-                    image={store.barDraw ? 'bar-selected.svg' : 'bar.svg'}
-                    popup="Requires a minimum of one country and one indicator."
-                />
+                    <div className="header item">Available Graphs:</div>
 
-                <ChartType
-                    click={this._drawLine}
-                    active={store.lineActive}
-                    text={'Line'}
-                    image={store.lineDraw ? 'line-selected.svg' : 'line.svg'}
-                    popup="Requires a minimum of one country and one indicator."
-                />
+                    <ChartType
+                        click={this._drawBar}
+                        active={store.barActive}
+                        text={'Bar'}
+                        image={store.barDraw ? 'bar-selected.svg' : 'bar.svg'}
+                        popup="Requires a minimum of one country and one indicator."
+                    />
 
-                <ChartType
-                    click={this._drawRadar}
-                    active={store.radarActive}
-                    text={'Radar'}
-                    image={store.radarDraw ? 'radar-selected.svg' : 'radar.svg'}
-                    popup="Requires a minimum of three countries and one indicator OR three indicators and one country."
-                />
+                    <ChartType
+                        click={this._drawLine}
+                        active={store.lineActive}
+                        text={'Line'}
+                        image={store.lineDraw ? 'line-selected.svg' : 'line.svg'}
+                        popup="Requires a minimum of one country and one indicator."
+                    />
 
-                <ChartType
-                    click={this._drawScatter}
-                    active={store.scatterActive}
-                    text={'Scatter'}
-                    image={store.scatterDraw ? 'scatter-selected.svg' : 'scatter.svg'}
-                    popup="Requires a minimum of one country and exactly two indicators."
-                />
+                    <ChartType
+                        click={this._drawRadar}
+                        active={store.radarActive}
+                        text={'Radar'}
+                        image={store.radarDraw ? 'radar-selected.svg' : 'radar.svg'}
+                        popup="Requires a minimum of three countries and one indicator OR three indicators and one country."
+                    />
+
+                    <ChartType
+                        click={this._drawScatter}
+                        active={store.scatterActive}
+                        text={'Scatter'}
+                        image={store.scatterDraw ? 'scatter-selected.svg' : 'scatter.svg'}
+                        popup="Requires a minimum of one country and exactly two indicators."
+                    />
+
+                </div>
 
             </div>
 
