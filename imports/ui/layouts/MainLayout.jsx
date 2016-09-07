@@ -20,13 +20,12 @@ const MainLayout = observer(['countryStore', 'indicatorStore', 'store'], (props)
             <ChartSelector />
         </div>
 
-        <div className="wrapper">
-            <div className="content">
-                <Charts />
-                <Footer />
-            </div>
-            <SideBar />
+        <div className={props.store.sideBarExpanded ? 'content-wrapper shrink' : 'content-wrapper'}>
+            <Charts />
+            <Footer />
         </div>
+
+        <SideBar />
 
     </div>
 )

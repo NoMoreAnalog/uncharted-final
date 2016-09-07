@@ -5,6 +5,9 @@ const Footer = (props) => (
 
     <div className="footer">
 
+        <div className="top"></div>
+        <div className="bottom"></div>
+
     </div>
 
 )

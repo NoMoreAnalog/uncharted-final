@@ -2,6 +2,28 @@
     User Variable Overrides
 *******************************/
 
+.list .item:hover {
+  cursor: pointer;
+}
+
+/*******************************
+    Legend Lists
+*******************************/
+
+.legend .list .item {
+  display: flex;
+  padding: 6px 0 6px 0;
+  background: transparent;
+}
+
+.legend .list .dot {
+  margin: 0 20px 0 0;
+}
+
+.legend .list .item.draw .content {
+  color: #00adc6;
+}
+
 /*******************************
     Section Lists
 *******************************/
@@ -22,10 +44,6 @@
 
 .section .list .active:hover {
   background: transparent;
-}
-
-.section .item:hover {
-  cursor: pointer;
 }
 
 .section .list .content {

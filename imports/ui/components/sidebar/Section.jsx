@@ -33,13 +33,18 @@ class Section extends Component {
     }
 
     componentDidMount() {
+
         window.addEventListener('resize', this._handleResize);
+        window.addEventListener('scroll', this._handleResize);
+
         this.props.store.resizeSectionScroller = this._handleResize;
         this._handleResize();
+
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._handleResize);
+        window.removeEventListener('scroll', this._handleResize);
     }
 
     componentDidUpdate() {
@@ -68,7 +73,7 @@ class Section extends Component {
 
                 </div>
 
-                <div ref={(ref) => this.scrollArea = ref}>
+                <div className="scrollArea" ref={(ref) => this.scrollArea = ref}>
                     <div className="ui list">
                         {list.map(item =>
                             <Item

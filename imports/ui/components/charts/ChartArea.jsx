@@ -1,37 +1,22 @@
 import React, {PropTypes} from 'react';
 import {observer} from 'mobx-react';
 
-import Chart from './Chart.jsx';
-import Legend from './Legend.jsx';
+import ChartWrapper from './ChartWrapper.jsx';
 
-// Chart component - Area for chart and chart information
+// ChartArea component - Area for chart and chart information
 const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
 
     <div className="chart-area">
 
-        <div className="text-wrapper">
-            <div className="title">{props.store.chartTitle}</div>
-            <hr className="horizontal-line"/>
-            <div className="subtitle">Choose your Countries and Indicators</div>
-        </div>
+        <h1 className="ui header title">
+            <div className="content">
+                {props.store.chartTitle}
+                <hr/>
+                <div className="sub header">Choose your Countries and Indicators</div>
+            </div>
+        </h1>
 
-        <Chart {...props}/>
-
-        <Legend
-            title={'Country:'}
-            list={props.countryStore.activeCountries}
-            classed="countries"
-            itemStore={props.countryStore}
-            store={props.store}
-        />
-
-        <Legend
-            title={'Indicator:'}
-            list={props.indicatorStore.activeIndicators}
-            classed="indicators"
-            itemStore={props.indicatorStore}
-            store={props.store}
-        />
+            <ChartWrapper />
 
     </div>
 )

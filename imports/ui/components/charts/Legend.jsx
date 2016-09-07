@@ -13,8 +13,8 @@ const Legend = observer((props) =>
             <div className="ui center aligned sub header">{props.subtitle}</div>
         </h4>
 
-        <div className="list-wrapper">
-            <ul className="list">
+        <div className="scrollArea">
+            <ul className="ui list">
                 {props.list.map(item =>
                     <Item
                         key={item._id}
