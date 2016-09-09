@@ -35,7 +35,7 @@ class Store {
 
     // Stored functions called from this store
     resizeSectionScroller;
-    resizeChartSVGOnChartAreaResize;
+    chartResizeOnSideBarExpand;
 
     /*
      /
@@ -46,8 +46,8 @@ class Store {
     toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
         this.sideBarExpanded ?
-            this.resizeChartSVGOnChartAreaResize(-450) :
-            this.resizeChartSVGOnChartAreaResize(450);
+            this.chartResizeOnSideBarExpand(-450) :
+            this.chartResizeOnSideBarExpand(450);
     }
 
     toggleActiveIndicators = () => {

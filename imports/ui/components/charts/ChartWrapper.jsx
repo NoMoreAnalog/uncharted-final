@@ -13,22 +13,29 @@ class ChartWrapper extends Component {
 
     constructor() {
         super();
-        this._updateSize = this._updateSize.bind(this);
+        this._onResize = this._onResize.bind(this);
+        this._chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand.bind(this);
     }
 
     componentWillMount() {
-        this.props.store.resizeChartSVGOnChartAreaResize = this._updateSize;
-        window.addEventListener('resize', this._updateSize);    }
+        this.props.store.chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand;
+        window.addEventListener('resize', this._onResize);
+    }
 
     componentDidMount() {
-        this._updateSize();
+        this._onResize();
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this._handleResize);
+        window.removeEventListener('resize', this._onResize);
     }
 
-    _updateSize(extra = 0) {
+    _onResize() {
+        this.props.store.width = this.chartWrapper.clientWidth;
+        // this.props.store.height = this.chartWrapper.clientHeight;
+    }
+
+    _chartResizeOnSideBarExpand(extra) {
         this.props.store.width = this.chartWrapper.clientWidth + extra;
         // this.props.store.height = this.chartWrapper.clientHeight;
     }
@@ -93,12 +100,7 @@ export default ChartWrapper;
 ChartWrapper.wrappedComponent.propTypes = {
     countryStore: PropTypes.any.isRequired,
     indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number
+    store: PropTypes.any.isRequired
 };
 
-ChartWrapper.wrappedComponent.defaultProps = {
-    width: 800,
-    height: 300
-};
+ChartWrapper.wrappedComponent.defaultProps = {};
