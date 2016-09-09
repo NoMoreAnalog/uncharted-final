@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
 
-import Dot from '../charts/Dot.jsx';
+import Dot from '../common/Dot.jsx';
 
 // Item component - item to make up list in each section
 @observer

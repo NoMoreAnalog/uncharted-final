@@ -6,6 +6,10 @@ class Store {
     @observable sideBarExpanded = false;
     @observable activeIndicatorsOpen = false;
 
+    // Chart setup
+    @observable width = 500;
+    @observable height = 500;
+
     // Used in top bar to determine which chart user can selected
     @observable barActive = false;
     @observable lineActive = false;
@@ -29,10 +33,21 @@ class Store {
     // Title for ChartArea
     @observable chartTitle = '';
 
+    // Stored functions called from this store
     resizeSectionScroller;
+    resizeChartSVGOnChartAreaResize;
+
+    /*
+     /
+     / Callable functions
+     /
+     */
 
     toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
+        this.sideBarExpanded ?
+            this.resizeChartSVGOnChartAreaResize(-450) :
+            this.resizeChartSVGOnChartAreaResize(450);
     }
 
     toggleActiveIndicators = () => {
