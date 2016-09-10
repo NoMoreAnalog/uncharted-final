@@ -12,7 +12,7 @@
     "container": true,
     "dimmer": false,
     "divider": true,
-    "dropdown": false,
+    "dropdown": true,
     "embed": false,
     "feed": false,
     "flag": false,

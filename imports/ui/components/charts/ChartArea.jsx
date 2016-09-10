@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react';
 import {observer} from 'mobx-react';
 
 import ChartWrapper from './ChartWrapper.jsx';
+import Menu from './Menu.jsx';
+import Legends from './legend/Legends.jsx';
 
 // ChartArea component - Area for chart and chart information
 const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
@@ -16,7 +18,11 @@ const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) 
             </div>
         </h1>
 
+        <div className="stage">
+            <Menu/>
             <ChartWrapper />
+            <Legends />
+        </div>
 
     </div>
 )
