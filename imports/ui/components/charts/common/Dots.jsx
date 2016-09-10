@@ -19,7 +19,7 @@ class Dots extends Component {
                     <Dot
                         key={i}
                         cx={x(d.date)}
-                        cy={y(d.count)}
+                        cy={y(d.value)}
                     />
                 )}
             </g>

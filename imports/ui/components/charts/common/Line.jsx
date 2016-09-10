@@ -8,7 +8,7 @@ class Line extends Component {
 
         const line = d3.line()
             .x(d => x(d.date))
-            .y(d => y(d.count))
+            .y(d => y(d.value))
             .curve(d3.curveCardinal.tension(0));
 
         return (

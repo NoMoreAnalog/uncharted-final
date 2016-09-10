@@ -16,24 +16,24 @@ class LineChart extends Component {
         const {countryStore, indicatorStore, store} = {...this.props};
 
         var data = [
-            {day: '02-11-2016', count: 180},
-            {day: '02-12-2016', count: 250},
-            {day: '02-13-2016', count: 150},
-            {day: '02-14-2016', count: 496},
-            {day: '02-15-2016', count: 140},
-            {day: '02-16-2016', count: 380},
-            {day: '02-17-2016', count: 100},
-            {day: '02-18-2016', count: 150}
+            {year: '2000', value: .5},
+            {year: '2001', value: .15},
+            {year: '2002', value: .5},
+            {year: '2003', value: .25},
+            {year: '2004', value: .5},
+            {year: '2005', value: .4},
+            {year: '2006', value: .8},
+            {year: '2007', value: .4}
         ];
 
         const margin = {top: 5, right: 50, bottom: 20, left: 50},
             w = store.width - (margin.left + margin.right),
             h = store.height - (margin.top + margin.bottom);
 
-        const parseDate = d3.timeParse("%m-%d-%Y");
+        const parseDate = d3.timeParse("%Y");
 
         data.forEach(d => {
-            d.date = parseDate(d.day);
+            d.date = parseDate(d.year);
         });
 
         const x = d3.scaleTime()
@@ -41,7 +41,7 @@ class LineChart extends Component {
             .range([0, w]);
 
         const y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.count + 100)])
+            .domain([0, d3.max(data, d => d.value)])
             .range([h, 0]);
 
         const transform = 'translate(' + margin.left + ',' + margin.top + ')';
