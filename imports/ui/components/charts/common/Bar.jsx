@@ -1,7 +1,12 @@
 import React, {PropTypes, Component} from 'react';
-import * as d3 from 'd3';
 
 class Bar extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {height: 0};
+        Meteor.setTimeout(() => this.setState({height: props.height}), 50 * props.i);
+    }
 
     render() {
 
@@ -12,9 +17,9 @@ class Bar extends Component {
             <rect
                 className={props.classed}
                 x={props.x}
-                y={props.y}
+                y={0}
                 fill={props.fill}
-                height={props.height}
+                height={this.state.height}
                 width={props.width}
             />
 

@@ -38,17 +38,19 @@ class BarChart extends Component {
             .domain([0, d3.max(data, d => d.value)])
             .range([h, 0]);
 
-        const transform = 'translate(' + margin.left + ',' + margin.top + ')';
-
         const bars = data.map((d, i) =>
             <Bar
                 key={i}
+                i={i}
                 height={h - y(d.value)}
                 width={w / data.length * .5}
                 x={x(d.year)}
                 y={y(d.value)}
             />
         );
+
+        const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
+        const barsTransform = 'scale(1,-1) translate(0,-' + h + ')';
 
         return (
 
@@ -57,11 +59,13 @@ class BarChart extends Component {
                 width={store.width}
                 height={store.height}>
 
-                <g transform={transform}>
+                <g transform={mainTransform}>
 
                     <Grid height={h} width={w} scale={y} gridType="y"/>
 
-                    {bars}
+                    <g className="bars" transform={barsTransform}>
+                        {bars}
+                    </g>
 
                     <Axis data={data} height={h} scale={y} axisType="y"/>
                     <Axis data={data} height={h} scale={x} axisType="x"/>
