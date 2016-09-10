@@ -15,18 +15,20 @@ class Axis extends Component {
 
         const axis = this.props.axisType === 'y' ?
 
-                d3.axisLeft(this.props.scale)
-                    .ticks(5)
+                d3.axisLeft(this.props.scale) // y scale
 
                 :
 
-                d3.axisBottom(this.props.scale)
-                    .tickValues(
-                        this.props.data.map((d, i) => {
-                            if (i > 0) return d.date;
-                        }).splice(1)
-                    )
-                    .ticks(4)
+                d3.axisBottom(this.props.scale) // x scale
+                    .tickFormat(d3.format('d'))
+                    .ticks(8)
+                    // .tickValues(['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007'])
+            // .tickValues(
+            //     this.props.data.map((d, i) => {
+            //         if (i > 0) return d.date;
+            //     }).splice(1)
+            // )
+            // .ticks(4)
 
             ;
 
@@ -38,11 +40,13 @@ class Axis extends Component {
 
         const translate = 'translate(0,' + (this.props.height) + ')';
 
+        const transform = this.props.axisType === 'x' ? translate : '';
+
         return (
             <g
                 ref={(ref) => this.axis = ref}
                 className="axis"
-                transform={this.props.axisType == 'x' ? translate : ''}
+                transform={transform}
             />
         );
 

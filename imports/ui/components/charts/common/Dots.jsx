@@ -18,7 +18,7 @@ class Dots extends Component {
                 {data.map((d, i) =>
                     <Dot
                         key={i}
-                        cx={x(d.date)}
+                        cx={x(d.year)}
                         cy={y(d.value)}
                     />
                 )}

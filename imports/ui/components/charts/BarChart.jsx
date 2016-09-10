@@ -29,15 +29,10 @@ class BarChart extends Component {
             w = store.width - (margin.left + margin.right),
             h = store.height - (margin.top + margin.bottom);
 
-        const parseDate = d3.timeParse('%Y');
-
-        data.forEach(d => {
-            d.date = parseDate(d.year);
-        });
-
-        const x = d3.scaleTime()
-            .domain(d3.extent(data, d => d.date))
-            .range([0, w]);
+        const x = d3.scaleBand()
+            .domain(data.map(d => d.year))
+            .range([0, w])
+            .padding(.5);
 
         var y = d3.scaleLinear()
             .domain([0, d3.max(data, d => d.value)])
@@ -50,7 +45,7 @@ class BarChart extends Component {
                 key={i}
                 height={h - y(d.value)}
                 width={w / data.length * .5}
-                x={x(d.date)}
+                x={x(d.year)}
                 y={y(d.value)}
             />
         );

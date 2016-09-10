@@ -4,18 +4,13 @@ import * as d3 from 'd3';
 class Line extends Component {
     render() {
 
-        const {data, x, y, classed, strokeLineCap} = {...this.props};
-
-        const line = d3.line()
-            .x(d => x(d.date))
-            .y(d => y(d.value))
-            .curve(d3.curveCardinal.tension(0));
+        const {classed, d, strokeLineCap} = {...this.props};
 
         return (
 
             <path
                 className={classed}
-                d={line(data)}
+                d={d}
                 strokeLinecap={strokeLineCap}/>
 
         )
@@ -26,11 +21,9 @@ class Line extends Component {
 export default Line;
 
 Line.propTypes = {
-    data: PropTypes.array.isRequired,
-    x: React.PropTypes.func.isRequired,
-    y: React.PropTypes.func.isRequired,
     classed: PropTypes.string,
     strokeLineCap: PropTypes.string,
+    d: PropTypes.any
 };
 
 Line.defaultProps = {

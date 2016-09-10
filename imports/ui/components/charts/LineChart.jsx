@@ -30,14 +30,8 @@ class LineChart extends Component {
             w = store.width - (margin.left + margin.right),
             h = store.height - (margin.top + margin.bottom);
 
-        const parseDate = d3.timeParse("%Y");
-
-        data.forEach(d => {
-            d.date = parseDate(d.year);
-        });
-
-        const x = d3.scaleTime()
-            .domain(d3.extent(data, d => d.date))
+        const x = d3.scaleLinear()
+            .domain(d3.extent(data, d => d.year))
             .range([0, w]);
 
         const y = d3.scaleLinear()
@@ -45,6 +39,13 @@ class LineChart extends Component {
             .range([h, 0]);
 
         const transform = 'translate(' + margin.left + ',' + margin.top + ')';
+
+        const line = d3.line()
+            .x(d => x(d.year))
+            .y(d => y(d.value))
+            .curve(d3.curveCardinal.tension(0));
+
+        const lines = [<Line key={1} d={line(data)}/>]
 
         return (
 
@@ -60,7 +61,8 @@ class LineChart extends Component {
                     <Axis data={data} height={h} scale={y} axisType="y"/>
                     <Axis data={data} height={h} scale={x} axisType="x"/>
 
-                    <Line data={data} x={x} y={y}/>
+                    {lines}
+
                     <Dots data={data} x={x} y={y}/>
 
                 </g>

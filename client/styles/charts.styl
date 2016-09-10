@@ -1,3 +1,9 @@
+/*
+/
+/ Chart area
+/
+*/
+
 .chart-area
   padding 10px 50px 0 50px
 
@@ -11,12 +17,38 @@
   width 250px
   margin-left 0
 
-.chart-area .chart
+/*
+/
+/ Chart stage
+/
+*/
+
+.chart-area .stage
+  background-color #fdfdfd
+
+.chart-area .stage .chart-menu
+  float right
+  position relative
+  top 20px
+  right 20px
+
+/*
+/
+/ Chart wrapper
+/
+*/
+
+.chart-area .chart-wrapper
   min-height 500px
 
 .chart-area .chart-wrapper
-  background-color #fdfdfd
-  padding 20px
+  padding 20px 75px 20px 75px
+
+/*
+/
+/ Legends
+/
+*/
 
 .chart-area .legends
   padding 0 100px
@@ -32,12 +64,12 @@
 /
 */
 
-.chart .line
+.chart-wrapper .line
   fill none
   stroke #7dc7f4
   stroke-width 5px
 
-.chart .line, .chart .dot, .chart .bar
+.chart-wrapper .line, .chart-wrapper .dot, .chart-wrapper .bar
   -moz-transition all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000)
   -o-transition all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000)
   transition all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000)
