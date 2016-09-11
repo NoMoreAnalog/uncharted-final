@@ -69,7 +69,45 @@
   stroke #7dc7f4
   stroke-width 5px
 
-.chart-wrapper .line, .chart-wrapper .dot, .chart-wrapper .bar
-  -moz-transition all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000)
-  -o-transition all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000)
-  transition all 400ms cubic-bezier(0.215, 0.610, 0.355, 1.000)
+.chart-wrapper .line
+  -webkit-transition d 400ms
+  -moz-transition d 400ms
+  -o-transition d 400ms
+  transition d 400ms
+
+.chart-wrapper .dot
+  -webkit-transition cx 400ms
+  -moz-transition cx 400ms
+  -o-transition cx 400ms
+  transition cx 400ms
+
+.chart-wrapper .bar
+  -webkit-transition width 400ms
+  -moz-transition width 400ms
+  -o-transition width 400ms
+  transition width 400ms
+  -webkit-transition x 400ms
+  -moz-transition x 400ms
+  -o-transition x 400ms
+  transition x 400ms
+  //-webkit-transition transform  400ms
+  //-moz-transition transform 400ms
+  //-o-transition transform 400ms
+  //transition transform 400ms
+
+.chart-wrapper .line
+  stroke-dasharray 500%
+  -webkit-animation line-effect 2s ease-out forwards
+  animation line-effect 2s ease-out forwards
+
+@-webkit-keyframes line-effect
+  0%
+    stroke-dashoffset 500%
+  100%
+    stroke-dashoffset 0%
+
+@keyframes line-effect
+  0%
+    stroke-dashoffset 500%
+  100%
+    stroke-dashoffset 0%

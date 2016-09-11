@@ -5,7 +5,20 @@ class Bar extends Component {
     constructor(props) {
         super(props);
         this.state = {height: 0};
-        Meteor.setTimeout(() => this.setState({height: props.height}), 50 * props.i);
+    }
+
+    componentDidMount() {
+
+        const props = this.props;
+
+        Meteor.setTimeout(() => {
+            TweenLite.to(this.bar, .2, {
+                attr: {height: props.height},
+                ease: Linear.easeNone
+            });
+            // this.setState({height: props.height});
+        }, 50 * props.i);
+
     }
 
     render() {
@@ -15,6 +28,7 @@ class Bar extends Component {
         return (
 
             <rect
+                ref={(ref) => this.bar = ref}
                 className={props.classed}
                 x={props.x}
                 y={0}
