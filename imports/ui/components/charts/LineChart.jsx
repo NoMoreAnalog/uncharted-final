@@ -1,51 +1,65 @@
+// Libs
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
 import * as d3 from 'd3';
 
+// Components
 import Line from './common/Line.jsx';
 import Dots from './common/Dots.jsx';
 import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
 
 // Line chart - Component displayed when line chart is selected
-@observer(['countryStore', 'indicatorStore', 'store'])
+@observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
 class LineChart extends Component {
 
     render() {
 
-        const {countryStore, indicatorStore, store} = {...this.props};
+        const {countryStore, indicatorStore, recordStore, store} = {...this.props};
 
-        var data = [
-            {year: '2000', value: .5},
-            {year: '2001', value: .15},
-            {year: '2002', value: .5},
-            {year: '2003', value: .25},
-            {year: '2004', value: .5},
-            {year: '2005', value: .4},
-            {year: '2006', value: .8},
-            {year: '2007', value: .4}
-        ];
+        const margin = {top: 5, right: 50, bottom: 20, left: 50};
+        const w = store.width - (margin.left + margin.right);
+        const h = store.height - (margin.top + margin.bottom);
 
-        const margin = {top: 5, right: 50, bottom: 20, left: 50},
-            w = store.width - (margin.left + margin.right),
-            h = store.height - (margin.top + margin.bottom);
+        const countries = countryStore.activeCountries;
+        const indicators = indicatorStore.activeIndicators;
+        const countryIds = countries.map(c => c._id);
+        const indicatorIds = indicators.map(c => c._id);
+
+        let data = [];
+        for (var i = 0; i < countryIds.length; i++) {
+            for (var j = 0; j < indicatorIds.length; j++) {
+                const records = recordStore.getRecords([countryIds[i]], [indicatorIds[j]]);
+                data.push(records.map(r => ({
+                    year: r.year,
+                    value: r.value,
+                    country: r.country,
+                    indicator: r.indicator
+                })));
+            }
+        }
 
         const x = d3.scaleLinear()
-            .domain(d3.extent(data, d => d.year))
+            .domain([
+                d3.min(data, (d, i) => d3.min(data[i], d => d.year)),
+                d3.max(data, (d, i) => d3.max(data[i], d => d.year))
+            ])
             .range([0, w]);
-
         const y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.value)])
+            .domain([0, d3.max(data, (d, i) => d3.max(data[i], d => d.value))])
             .range([h, 0]);
-
-        const transform = 'translate(' + margin.left + ',' + margin.top + ')';
 
         const line = d3.line()
             .x(d => x(d.year))
             .y(d => y(d.value))
             .curve(d3.curveCardinal.tension(0));
 
-        const lines = [<Line key={1} d={line(data)}/>]
+        const lines = [];
+        const dots = [];
+        for (var i = 0; i < data.length; i++) {
+            lines.push(<Line key={i} d={line(data[i])}/>);
+            dots.push(<Dots key={i} data={data[i]} x={x} y={y}/>);
+        }
 
         return (
 
@@ -54,16 +68,15 @@ class LineChart extends Component {
                 width={store.width}
                 height={store.height}>
 
-                <g transform={transform}>
+                <g transform={'translate(' + margin.left + ',' + margin.top + ')'}>
 
                     <Grid height={h} width={w} scale={y} gridType="y"/>
 
-                    <Axis data={data} height={h} scale={y} axisType="y"/>
-                    <Axis data={data} height={h} scale={x} axisType="x"/>
+                    <Axis data={data[0]} height={h} scale={y} axisType="y"/>
+                    <Axis data={data[0]} height={h} scale={x} axisType="x"/>
 
                     {lines}
-
-                    <Dots data={data} x={x} y={y}/>
+                    {dots}
 
                 </g>
 

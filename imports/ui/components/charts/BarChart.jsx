@@ -7,23 +7,23 @@ import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
 
 // Line chart - Component displayed when line chart is selected
-@observer(['countryStore', 'indicatorStore', 'store'])
+@observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
 class BarChart extends Component {
 
     render() {
 
-        const {countryStore, indicatorStore, store} = {...this.props};
+        const {countryStore, indicatorStore, recordStore, store} = {...this.props};
 
-        var data = [
-            {year: '2000', value: .5},
-            {year: '2001', value: .15},
-            {year: '2002', value: .5},
-            {year: '2003', value: .25},
-            {year: '2004', value: .5},
-            {year: '2005', value: .4},
-            {year: '2006', value: .8},
-            {year: '2007', value: .4}
-        ];
+        let countries = countryStore.activeCountries;
+        let indicators = indicatorStore.activeIndicators;
+
+        const countryIds = countries.map(c => c._id);
+
+        const indicatorIds = indicators.map(c => c._id);
+
+        const records = recordStore.getRecords(countryIds, indicatorIds);
+
+        const data = records.map(r => ({year: r.year, value: r.value}));
 
         const margin = {top: 5, right: 50, bottom: 20, left: 50},
             w = store.width - (margin.left + margin.right),
@@ -34,8 +34,8 @@ class BarChart extends Component {
             .range([0, w])
             .padding(.5);
 
-        var y = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.value)])
+        const y = d3.scaleLinear()
+            .domain([0, d3.max(data, d => Number.parseFloat(d.value))])
             .range([h, 0]);
 
         const bars = data.map((d, i) =>
