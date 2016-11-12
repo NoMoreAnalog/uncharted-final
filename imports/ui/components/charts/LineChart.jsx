@@ -33,8 +33,8 @@ class LineChart extends Component {
                 data.push(records.map(r => ({
                     year: r.year,
                     value: r.value,
-                    country: r.country,
-                    indicator: r.indicator
+                    country: r.countryName,
+                    indicator: r.indicatorName
                 })));
             }
         }
@@ -57,7 +57,14 @@ class LineChart extends Component {
         const lines = [];
         const dots = [];
         for (var i = 0; i < data.length; i++) {
-            lines.push(<Line key={i} d={line(data[i])}/>);
+            let tempData = [];
+            for (var j = 0; j < data[i].length; j++) {
+                tempData.push(data[i][j]);
+                if (!data[i][j + 1] || data[i][j + 1].year != data[i][j].year + 1) {
+                    lines.push(<Line key={i + '' + j} d={line(tempData)}/>);
+                    tempData = [];
+                }
+            }
             dots.push(<Dots key={i} data={data[i]} x={x} y={y}/>);
         }
 

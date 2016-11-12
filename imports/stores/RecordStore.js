@@ -18,8 +18,10 @@ class RecordStore {
 
     getRecords(countryIds, indicatorIds) {
         const values = Records.find({
-            country: { $in: countryIds },
-            indicator: { $in: indicatorIds }
+            $and: [
+                {country: {$in: countryIds}},
+                {indicator: {$in: indicatorIds}}
+            ]
         }, {}).fetch();
         let records = [];
         values.forEach(record => {

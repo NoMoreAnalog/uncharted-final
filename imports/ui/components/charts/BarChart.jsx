@@ -1,3 +1,112 @@
+// import React, {Component} from 'react';
+// import {observer} from 'mobx-react';
+// import {BarGroupChart} from 'react-d3-basic';
+// import * as d3 from 'd3';
+// import * as _ from 'lodash';
+//
+// Bar chart - Component displayed when bar chart is selected
+// @observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
+// class BarChart extends Component {
+//
+//     render() {
+//
+//         const {countryStore, indicatorStore, recordStore, store} = {...this.props},
+//             countries = countryStore.activeCountries,
+//             indicators = indicatorStore.activeIndicators,
+//             countryIds = countries.map(c => c._id),
+//             indicatorIds = indicators.map(c => c._id),
+//             records = recordStore.getRecords(countryIds, indicatorIds),
+//             yearData = _.groupBy(records, 'year');
+//
+//         let data = [],
+//             chartSeries = {};
+//
+//         // data = [
+//         //     {
+//         //         'Year': '2000',
+//         //         'Indicator 1': 10,
+//         //         'Indicator 2': 11,
+//         //         'Indicator 3': 15
+//         //     },
+//         //     {
+//         //         'Year': '2001',
+//         //         'Indicator 1': 5,
+//         //         'Indicator 2': 12,
+//         //         'Indicator 3': 15
+//         //     }
+//         // ]
+//
+//         // chartSeries = [
+//         //     {field: 'Indicator 1', name: 'Indicator 1'},
+//         //     {field: 'Indicator 2', name: 'Indicator 2'},
+//         //     {field: 'Indicator 3', name: 'Indicator 3'}
+//         //
+//         // ]
+//
+//         if (countryIds.length === 1) {
+//
+//             _.forEach(_.keys(yearData), y => {
+//                 let d = {};
+//                 d.year = y;
+//                 _.forEach(yearData[d.year], y => {
+//                     d[y.indicatorName] = y.value;
+//                 });
+//                 data.push(d);
+//             });
+//
+//             chartSeries = _.uniqWith(records.map(r => ({
+//                 field: r.indicatorName,
+//                 name: r.indicatorName
+//             })), _.isEqual);
+//
+//         } else {
+//
+//             _.forEach(_.keys(yearData), y => {
+//                 let d = {};
+//                 d.year = y;
+//                 _.forEach(yearData[d.year], y => {
+//                     d[y.countryName] = y.value;
+//                 });
+//                 data.push(d);
+//             });
+//
+//             chartSeries = _.uniqWith(records.map(r => ({
+//                 field: r.countryName,
+//                 name: r.countryName
+//             })), _.isEqual);
+//
+//         }
+//
+//         const x = d => d.year,
+//             xScale = 'ordinal',
+//             xLabel = 'Countries',
+//             yLabel = 'Value',
+//             yLabelPosition = 'right',
+//             yTickFormat = d3.format('.2s');
+//
+//         return (
+//             <BarGroupChart
+//                 margins={{top: 5, right: 50, bottom: 20, left: 50}}
+//                 data={data}
+//                 width={store.width}
+//                 height={store.height}
+//                 chartSeries={chartSeries}
+//                 x={x}
+//                 xScale={xScale}
+//                 xLabel={xLabel}
+//                 yTickFormat={yTickFormat}
+//                 yLabelPosition={yLabelPosition}
+//                 yLabel={yLabel}
+//                 showLegend={false}
+//             />
+//         )
+//
+//     }
+//
+// }
+//
+// export default BarChart;
+
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
 import * as d3 from 'd3';

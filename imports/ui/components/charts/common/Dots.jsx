@@ -17,7 +17,7 @@ class Dots extends Component {
             <g>
                 {data.map((d, i) =>
                     <Dot
-                        key={i}
+                        key={d.country + d.indicator + d.year}
                         cx={x(d.year)}
                         cy={y(d.value)}
                     />
