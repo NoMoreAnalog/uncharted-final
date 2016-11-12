@@ -15,16 +15,14 @@ class LineChart extends Component {
 
     render() {
 
-        const {countryStore, indicatorStore, recordStore, store} = {...this.props};
-
-        const margin = {top: 5, right: 50, bottom: 20, left: 50};
-        const w = store.width - (margin.left + margin.right);
-        const h = store.height - (margin.top + margin.bottom);
-
-        const countries = countryStore.activeCountries;
-        const indicators = indicatorStore.activeIndicators;
-        const countryIds = countries.map(c => c._id);
-        const indicatorIds = indicators.map(c => c._id);
+        const {countryStore, indicatorStore, recordStore, store} = {...this.props},
+            margin = {top: 5, right: 50, bottom: 20, left: 50},
+            width = store.width - margin.left - margin.right,
+            height = store.height - margin.top - margin.bottom,
+            countries = countryStore.activeCountries,
+            indicators = indicatorStore.activeIndicators,
+            countryIds = countries.map(c => c._id),
+            indicatorIds = indicators.map(c => c._id);
 
         let data = [];
         for (var i = 0; i < countryIds.length; i++) {
@@ -44,10 +42,10 @@ class LineChart extends Component {
                 d3.min(data, (d, i) => d3.min(data[i], d => d.year)),
                 d3.max(data, (d, i) => d3.max(data[i], d => d.year))
             ])
-            .range([0, w]);
+            .range([0, width]);
         const y = d3.scaleLinear()
             .domain([0, d3.max(data, (d, i) => d3.max(data[i], d => d.value))])
-            .range([h, 0]);
+            .range([height, 0]);
 
         const line = d3.line()
             .x(d => x(d.year))
@@ -68,19 +66,21 @@ class LineChart extends Component {
             dots.push(<Dots key={i} data={data[i]} x={x} y={y}/>);
         }
 
+        const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
+
         return (
 
             <svg
-                className="line-chart"
-                width={store.width}
-                height={store.height}>
+                className='line-chart'
+                width={width + margin.left + margin.right}
+                height={height + margin.top + margin.bottom}>
 
-                <g transform={'translate(' + margin.left + ',' + margin.top + ')'}>
+                <g transform={mainTransform}>
 
-                    <Grid height={h} width={w} scale={y} gridType="y"/>
+                    <Grid height={height} width={width} scale={y} gridType='y'/>
 
-                    <Axis data={data[0]} height={h} scale={y} axisType="y"/>
-                    <Axis data={data[0]} height={h} scale={x} axisType="x"/>
+                    <Axis data={data[0]} height={height} scale={y} axisType='y'/>
+                    <Axis data={data[0]} height={height} scale={x} axisType='x'/>
 
                     {lines}
                     {dots}
@@ -98,9 +98,7 @@ class LineChart extends Component {
 LineChart.wrappedComponent.propTypes = {
     countryStore: PropTypes.any.isRequired,
     indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired,
-    width: React.PropTypes.number,
-    height: React.PropTypes.number
+    store: PropTypes.any.isRequired
 };
 
 LineChart.wrappedComponent.defaultProps = {};

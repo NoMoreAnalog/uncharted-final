@@ -14,26 +14,12 @@ class Axis extends Component {
     _renderAxis() {
 
         const axis = this.props.axisType === 'y' ?
+            d3.axisLeft(this.props.scale) : // y scale
+            d3.axisBottom(this.props.scale) // x scale
+                .tickFormat(d3.format('d'))
+                .ticks(8);
 
-                d3.axisLeft(this.props.scale) // y scale
-
-                :
-
-                d3.axisBottom(this.props.scale) // x scale
-                    .tickFormat(d3.format('d'))
-                    .ticks(8)
-                    // .tickValues(['2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007'])
-            // .tickValues(
-            //     this.props.data.map((d, i) => {
-            //         if (i > 0) return d.date;
-            //     }).splice(1)
-            // )
-            // .ticks(4)
-
-            ;
-
-        d3.select(this.axis)
-            .call(axis);
+        d3.select(this.axis).call(axis);
     }
 
     render() {
@@ -57,7 +43,7 @@ class Axis extends Component {
 export default Axis;
 
 Axis.propTypes = {
-    data: PropTypes.array.isRequired,
+    // data: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     scale: PropTypes.func.isRequired,
     axisType: PropTypes.oneOf(['x', 'y']).isRequired

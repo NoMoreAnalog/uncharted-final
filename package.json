@@ -14,7 +14,6 @@
     "perfect-scrollbar": "^0.6.12",
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",
-    "react-d3-basic": "^1.6.11",
     "react-dom": "^15.1.0"
   },
   "devDependencies": {
