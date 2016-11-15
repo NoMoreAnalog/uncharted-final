@@ -2,39 +2,46 @@ import React, {PropTypes, Component} from 'react';
 
 class Bar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {height: 0};
+    componentDidMount() {
+        this._tweenHeight()
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
+        this._tweenHeight()
+    }
 
-        const props = this.props;
+    _tweenHeight() {
+
+        const {height, i} = {...this.props};
+
+        TweenLite.to(this.bar, 0, {
+            attr: {height: 0},
+            ease: Linear.easeNone
+        });
 
         Meteor.setTimeout(() => {
             TweenLite.to(this.bar, .2, {
-                attr: {height: props.height},
+                attr: {height: height},
                 ease: Linear.easeNone
             });
-            // this.setState({height: props.height});
-        }, 50 * props.i);
+        }, 50 * i);
 
     }
 
     render() {
 
-        const props = this.props;
+        const {classed, x, fill, width, height} = {...this.props};
 
         return (
 
             <rect
                 ref={(ref) => this.bar = ref}
-                className={props.classed}
-                x={props.x}
+                className={classed}
+                x={x}
                 y={0}
-                fill={'#' + props.fill}
-                height={this.state.height}
-                width={props.width}
+                fill={fill}
+                height={height}
+                width={width}
             />
 
         )

@@ -9,10 +9,9 @@ class Dot extends Component {
         return createSvg ?
 
             <div>
-                <svg className="dot"
+                <svg className='dot'
                      width={(radius + strokeWidth) * 2}
-                     height={(radius + strokeWidth) * 2}
-                >
+                     height={(radius + strokeWidth) * 2}>
                     <circle
                         className={classed}
                         r={radius}

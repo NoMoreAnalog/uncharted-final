@@ -2,6 +2,7 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
 import * as d3 from 'd3';
+import * as _ from 'lodash';
 
 // Components
 import Line from './common/Line.jsx';
@@ -19,20 +20,23 @@ class LineChart extends Component {
             margin = {top: 5, right: 50, bottom: 20, left: 50},
             width = store.width - margin.left - margin.right,
             height = store.height - margin.top - margin.bottom,
-            countries = countryStore.activeCountries,
-            indicators = indicatorStore.activeIndicators,
-            countryIds = countries.map(c => c._id),
-            indicatorIds = indicators.map(c => c._id);
+            countryIds = countryStore.countriesToDraw.map(c => c._id),
+            indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);
+
+        if (_.size(countryIds) === 0 || _.size(indicatorIds) === 0) {
+            return null;
+        }
 
         let data = [];
         for (var i = 0; i < countryIds.length; i++) {
             for (var j = 0; j < indicatorIds.length; j++) {
-                const records = recordStore.getRecords([countryIds[i]], [indicatorIds[j]]);
+                const records = _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j]);
                 data.push(records.map(r => ({
                     year: r.year,
                     value: r.value,
                     country: r.countryName,
-                    indicator: r.indicatorName
+                    indicator: r.indicatorName,
+                    countryColor: r.countryColor
                 })));
             }
         }
@@ -43,6 +47,7 @@ class LineChart extends Component {
                 d3.max(data, (d, i) => d3.max(data[i], d => d.year))
             ])
             .range([0, width]);
+
         const y = d3.scaleLinear()
             .domain([0, d3.max(data, (d, i) => d3.max(data[i], d => d.value))])
             .range([height, 0]);
@@ -59,7 +64,12 @@ class LineChart extends Component {
             for (var j = 0; j < data[i].length; j++) {
                 tempData.push(data[i][j]);
                 if (!data[i][j + 1] || data[i][j + 1].year != data[i][j].year + 1) {
-                    lines.push(<Line key={i + '' + j} d={line(tempData)}/>);
+                    lines.push(
+                        <Line
+                            key={i + '' + j}
+                            d={line(tempData)}
+                            stroke={data[i][j].countryColor}
+                        />);
                     tempData = [];
                 }
             }

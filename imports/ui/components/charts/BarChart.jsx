@@ -17,12 +17,14 @@ class BarChart extends Component {
             margin = {top: 5, right: 50, bottom: 20, left: 50},
             width = store.width - margin.left - margin.right,
             height = store.height - margin.top - margin.bottom,
-            countries = countryStore.activeCountries,
-            indicators = indicatorStore.activeIndicators,
-            countryIds = countries.map(c => c._id),
-            indicatorIds = indicators.map(c => c._id),
-            records = recordStore.getRecords(countryIds, indicatorIds),
-            yearData = _.groupBy(records, 'year');
+            records = recordStore.recordsToDraw,
+            yearData = _.groupBy(records, 'year'),
+            countryIds = countryStore.countriesToDraw.map(c => c._id),
+            indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);
+
+        if (_.size(countryIds) === 0 || _.size(indicatorIds) === 0) {
+            return null;
+        }
 
         const y = d3.scaleLinear()
             .domain([0, d3.max(records, r => r.value)])
@@ -43,7 +45,7 @@ class BarChart extends Component {
             _.forOwn(yearData, (d, year) => {
                 years.push(
                     <g key={year} className='year' transform={'translate(' + x0(year) + ',0)'}>
-                        {d.map(d =>
+                        {d.map((d, i) =>
                             <Bar
                                 key={d.countryId + d.indicatorId + d.year}
                                 height={height - y(d.value)}
@@ -51,6 +53,7 @@ class BarChart extends Component {
                                 x={x1(d.indicatorId)}
                                 y={y(d.value)}
                                 fill={d.countryColor}
+                                i={i}
                             />
                         )}
                     </g>);

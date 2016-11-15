@@ -10,10 +10,12 @@ class Country {
     _id = '';
     name = name;
     type = 'country';
+    color = '';
 
-    constructor(_id, name) {
+    constructor(_id, name, color) {
         this._id = _id;
         this.name = name;
+        this.color = '#' + color;
     }
 
 }
@@ -34,6 +36,10 @@ class CountryStore {
         return this.countries.filter(country => country.active);
     };
 
+    @computed get countriesToDraw() {
+        return this.countries.filter(country => country.draw);
+    };
+
     constructor() {
 
         this.handle = Meteor.subscribe('countries');
@@ -45,7 +51,7 @@ class CountryStore {
     }
 
     setCountries = values => {
-        const countries = values.map(value => new Country(value._id, value.name));
+        const countries = values.map(value => new Country(value._id, value.name, value.color));
         this.countries.replace(countries);
     }
 

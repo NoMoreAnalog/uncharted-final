@@ -11,7 +11,7 @@ class Line extends Component {
 
     render() {
 
-        const {classed, d, strokeLineCap} = {...this.props};
+        const {classed, d, strokeLineCap, stroke, fill, strokeWidth} = {...this.props};
 
         // These are path attributes for when we do not use CSS keyframes
         // strokeDashoffset={this.state.offset}
@@ -20,6 +20,9 @@ class Line extends Component {
         return (
 
             <path
+                stroke={stroke}
+                fill={fill}
+                strokeWidth={strokeWidth}
                 className={classed}
                 d={d}
                 strokeLinecap={strokeLineCap}
@@ -40,5 +43,8 @@ Line.propTypes = {
 
 Line.defaultProps = {
     classed: 'line',
-    strokeLineCap: 'round'
+    strokeLineCap: 'round',
+    fill: 'none',
+    stroke: '#7dc7f4',
+    strokeWidth: '5px'
 };

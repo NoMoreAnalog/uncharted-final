@@ -16,13 +16,20 @@ class RecordStore {
         });
     }
 
-    getRecords(countryIds, indicatorIds) {
+    @computed get recordsToDraw() {
+
+        const countries = countryStore.countriesToDraw,
+            indicators = indicatorStore.activeIndicators,
+            countryIds = countries.map(c => c._id),
+            indicatorIds = indicators.map(c => c._id);
+
         const values = Records.find({
             $and: [
                 {country: {$in: countryIds}},
                 {indicator: {$in: indicatorIds}}
             ]
         }, {}).fetch();
+
         let records = [];
         values.forEach(record => {
             record.values.forEach(value => {
@@ -35,6 +42,7 @@ class RecordStore {
                 ));
             });
         });
+
         return records;
     }
 
@@ -54,7 +62,7 @@ class Record {
         this._id = record._id;
         this.countryId = record.country
         this.countryName = countryName
-        this.countryColor = countryColor
+        this.countryColor = '#' + countryColor
         this.indicatorId = record.indicator;
         this.indicatorName = indicatorName;
         this.year = Number.parseInt(value.year)

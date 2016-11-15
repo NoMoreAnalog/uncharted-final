@@ -23,20 +23,19 @@ class Item extends Component {
 
         const {item} = {...this.props};
 
-        const className = item.active ? 'active item ui button' : 'item ui button';
-        const icon = item.active && item.type === 'indicator' ? <i className="large red remove circle icon"/> : '';
+        const className = item.active ? 'active item ui button' : 'item ui button',
+            dot = item.active ? <Dot createSvg={true} fill={item.color}/> : <Dot createSvg={true} fill='#636363'/>,
+            icon = item.active && item.type === 'indicator' ? <i className='large red remove circle icon'/> : '',
+            style = item.active ? {color: item.color} : {};
 
         return (
             <div
                 key={item._id}
                 className={className}
-                onClick={this._clicked}
-            >
-
-                <Dot createSvg={true} fill={'#636363'}/>
+                onClick={this._clicked}>
+                {dot}
                 {icon}
-                <div className="content">{item.name}</div>
-
+                <div className='content' style={style}>{item.name}</div>
             </div>
         )
 

@@ -35,6 +35,10 @@ class IndicatorStore {
         return this.indicators.filter(indicator => indicator.active);
     };
 
+    @computed get indicatorsToDraw() {
+        return this.indicators.filter(indicator => indicator.draw);
+    };
+
     @computed get filteredActiveIndicators() {
         var matchesFilter = new RegExp(this.activeFilter, 'i');
         return this.indicators.filter(indicator => indicator.active === true && (!this.activeFilter || matchesFilter.test(indicator.name)));
