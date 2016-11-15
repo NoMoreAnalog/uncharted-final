@@ -32,7 +32,7 @@ class Bar extends Component {
                 className={props.classed}
                 x={props.x}
                 y={0}
-                fill={props.fill}
+                fill={'#' + props.fill}
                 height={this.state.height}
                 width={props.width}
             />
@@ -55,5 +55,5 @@ Bar.propTypes = {
 
 Bar.defaultProps = {
     classed: 'bar',
-    fill: '#7dc7f4'
+    fill: '7dc7f4'
 };

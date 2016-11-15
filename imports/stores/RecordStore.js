@@ -30,6 +30,7 @@ class RecordStore {
                     record,
                     value,
                     Countries.findOne({_id: record.country}).name,
+                    Countries.findOne({_id: record.country}).color,
                     Indicators.findOne({_id: record.indicator}).name
                 ));
             });
@@ -49,10 +50,11 @@ class Record {
     year = 0;
     value = 0;
 
-    constructor(record, value, countryName, indicatorName) {
+    constructor(record, value, countryName, countryColor, indicatorName) {
         this._id = record._id;
         this.countryId = record.country
         this.countryName = countryName
+        this.countryColor = countryColor
         this.indicatorId = record.indicator;
         this.indicatorName = indicatorName;
         this.year = Number.parseInt(value.year)

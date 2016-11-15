@@ -50,6 +50,7 @@ class BarChart extends Component {
                                 width={x1.bandwidth()}
                                 x={x1(d.indicatorId)}
                                 y={y(d.value)}
+                                fill={d.countryColor}
                             />
                         )}
                     </g>);
@@ -69,6 +70,7 @@ class BarChart extends Component {
                                 width={x1.bandwidth()}
                                 x={x1(d.countryId)}
                                 y={y(d.value)}
+                                fill={d.countryColor}
                             />
                         )}
                     </g>);
