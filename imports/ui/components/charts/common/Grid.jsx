@@ -12,13 +12,13 @@ class Grid extends Component {
     }
 
     _renderGrid() {
-
         const grid = d3.axisLeft(this.props.scale)
-            .ticks(5)
+            // .ticks(5)
             .tickSize(-this.props.width, 0, 0)
             .tickFormat('');
 
         d3.select(this.grid)
+            .attr('class', 'grid')
             .call(grid);
     }
 

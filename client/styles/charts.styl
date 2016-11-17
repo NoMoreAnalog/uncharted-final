@@ -85,10 +85,25 @@
   -moz-transition x 200ms
   -o-transition x 200ms
   transition x 200ms
-  //-webkit-transition transform  400ms
-  //-moz-transition transform 400ms
-  //-o-transition transform 400ms
-  //transition transform 400ms
+
+//-webkit-transition transform  400ms
+//-moz-transition transform 400ms
+//-o-transition transform 400ms
+//transition transform 400ms
+
+.grid .tick, line {
+  stroke: #ABABAB;
+  opacity: 0.7;
+  stroke-dasharray: 5 1;
+}
+
+.grid .domain {
+  display: none;
+}
+
+.domain {
+  display: none;
+}
 
 .chart-wrapper .line
   stroke-dasharray 500%
