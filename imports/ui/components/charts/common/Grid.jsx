@@ -12,23 +12,44 @@ class Grid extends Component {
     }
 
     _renderGrid() {
-        const grid = d3.axisLeft(this.props.scale)
-            .tickSize(-this.props.width, 0, 0)
-            .tickFormat('');
 
-        d3.select(this.grid)
-            .attr('class', 'grid')
-            .call(grid);
+        const {height, width, scale, gridType} = {...this.props};
+
+        if (gridType === 'horizontal') {
+
+            const grid = d3.axisLeft(scale)
+                .tickSize(-width, 0, 0)
+                .tickFormat('');
+
+            d3.select(this.grid)
+                .attr('class', 'grid')
+                .call(grid);
+
+        } else if (gridType === 'vertical') {
+
+            const grid = d3.axisBottom(scale)
+                .tickSize(-height, 0, 0)
+                .tickFormat('');
+
+            d3.select(this.grid)
+                .attr('class', 'grid')
+                .call(grid);
+
+        }
+
     }
 
     render() {
 
-        var translate = 'translate(0,' + (this.props.h) + ')';
+        const {height, gridType} = {...this.props};
+
+        const transform = 'translate(0,' + height + ')';
+
         return (
             <g
                 ref={(ref) => this.grid = ref}
-                className="y-grid"
-                transform={this.props.gridType == 'x' ? translate : ''}
+                className="grid"
+                transform={gridType === 'horizontal' ? '' : transform}
             />
         );
 
@@ -41,7 +62,7 @@ Grid.propTypes = {
     scale: PropTypes.func.isRequired,
     height: React.PropTypes.number.isRequired,
     width: React.PropTypes.number.isRequired,
-    gridType: React.PropTypes.oneOf(['x', 'y']).isRequired
+    gridType: React.PropTypes.oneOf(['horizontal', 'vertical']).isRequired
 };
 
 Grid.defaultProps = {};

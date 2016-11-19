@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 import * as d3 from 'd3';
 
-class Axis extends Component {
+export default class Axis extends Component {
 
     componentDidMount() {
         this._renderAxis();
@@ -16,8 +16,7 @@ class Axis extends Component {
         const axis = this.props.axisType === 'y' ?
             d3.axisLeft(this.props.scale) : // y scale
             d3.axisBottom(this.props.scale) // x scale
-                .tickFormat(d3.format('d'))
-                .ticks(8);
+                .tickFormat(d3.format('d'));
 
         d3.select(this.axis).call(axis);
     }
@@ -42,13 +41,9 @@ class Axis extends Component {
 
 }
 
-export default Axis;
-
 Axis.propTypes = {
     // data: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     scale: PropTypes.func.isRequired,
     axisType: PropTypes.oneOf(['x', 'y']).isRequired
 };
-
-Axis.defaultProps = {};

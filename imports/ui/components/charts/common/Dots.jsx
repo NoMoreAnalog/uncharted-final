@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Popup, List, Divider, Grid} from 'semantic-ui-react'
+import {Popup, List, Divider} from 'semantic-ui-react'
 
 import Dot from './Dot.jsx'
 
 export default class Dots extends Component {
     render() {
 
-        let {data, x, y, endPoints} = {...this.props};
+        let {data, x, y, endPoints, fill} = {...this.props};
 
         if (!endPoints) {
             // Remove last & first point
@@ -24,9 +24,9 @@ export default class Dots extends Component {
                             r={5}
                             cx={x(d.year)}
                             cy={y(d.value)}
-                            fill={d.countryColor}
+                            fill={fill}
                             strokeOpacity={0}
-                            stroke={d.countryColor}
+                            stroke={fill}
                             strokeWidth={10 + 'px'}
                             onMouseOver={e => e.target.setAttribute('stroke-opacity', '0.2')}
                             onMouseOut={e => e.target.setAttribute('stroke-opacity', '0')}
@@ -36,9 +36,9 @@ export default class Dots extends Component {
                         <Dot
                             cx={x(d.year)}
                             cy={y(d.value)}
-                            fill={d.countryColor}
+                            fill={fill}
                             strokeOpacity={.2}
-                            stroke={d.countryColor}
+                            stroke={fill}
                             strokeWidth={10}
                         />;
 
@@ -47,7 +47,7 @@ export default class Dots extends Component {
                             <List.Header content={d.year}/>
                             <Divider fitted/>
                             <List.Item key={d.countryId + d.indicatorId}>
-                                <div style={{color: d.countryColor}}>{d.countryName}</div>
+                                <div style={{color: fill}}>{d.countryName}</div>
                                 <div style={{color: '#00adc6'}}>{d.indicatorCode}</div>
                                 <div>{d.value}</div>
                             </List.Item>
@@ -56,7 +56,7 @@ export default class Dots extends Component {
                     return (
                         <Popup
                             key={d.countryId + d.indicatorId + d.year}
-                            style={{border: 'solid ' + d.countryColor + ' 1px'}}
+                            style={{border: 'solid ' + fill + ' 1px'}}
                             flowing
                             hoverable
                             className='line-chart-popup'
@@ -78,7 +78,8 @@ Dots.propTypes = {
     data: React.PropTypes.array.isRequired,
     x: React.PropTypes.func.isRequired,
     y: React.PropTypes.func.isRequired,
-    endPoints: React.PropTypes.bool
+    endPoints: React.PropTypes.bool,
+    fill: React.PropTypes.string
 };
 
 Dots.defaultProps = {

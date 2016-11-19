@@ -13,11 +13,6 @@ import CustomPopup from './common/CustomPopup.jsx';
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
 export default class BarChart extends Component {
 
-    _shadeColor2(color, percent) {
-        var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
-        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
-    }
-
     render() {
 
         const {countryStore, indicatorStore, recordStore, store} = {...this.props},
@@ -64,13 +59,7 @@ export default class BarChart extends Component {
                 />;
 
             const bars =
-                d.map((d2, i) => {
-                        let color;
-                        if (_.size(countryIds) === 1) {
-                            color = this._shadeColor2(d2.countryColor, i / d.length);
-                        } else {
-                            color = d2.countryColor;
-                        }
+                d.map(d2 => {
                         return (
                             <Bar
                                 key={d2.countryId + d2.indicatorId + d2.year}
@@ -78,7 +67,7 @@ export default class BarChart extends Component {
                                 width={x1.bandwidth()}
                                 x={_.size(countryIds) === 1 ? x1(d2.indicatorId) : x1(d2.countryId)}
                                 y={y(d2.value)}
-                                fill={color}
+                                fill={d2.countryColor}
                             />
                         )
                     }
@@ -99,18 +88,11 @@ export default class BarChart extends Component {
                 <List>
                     <List.Header content={year}/>
                     <Divider fitted/>
-                    {d.map((d2, i) => {
-                        let name, style;
-                        if (_.size(countryIds) === 1) {
-                            name = d2.indicatorCode;
-                            style = {color: this._shadeColor2(d2.countryColor, i / d.length)};
-                        } else {
-                            name = d2.countryName;
-                            style = {color: d2.countryColor};
-                        }
+                    {d.map(d2 => {
+                        const name = _.size(countryIds) === 1 ? d2.indicatorCode : d2.countryName;
                         return (
                             <List.Item key={d2.countryId + d2.indicatorId}>
-                                <span style={style}>{name}</span>&nbsp;&nbsp;&nbsp;{d2.value}
+                                <span style={{color: d2.countryColor}}>{name}</span>&nbsp;&nbsp;&nbsp;{d2.value}
                             </List.Item>
                         )
                     })}
@@ -152,7 +134,7 @@ export default class BarChart extends Component {
 
                 <g transform={mainTransform}>
 
-                    <Grid height={height} width={width} scale={y} gridType='y'/>
+                    <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
                     <g className='years' transform={yearsTransform}>
                         {years}

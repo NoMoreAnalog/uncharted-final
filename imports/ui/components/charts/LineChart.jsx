@@ -12,12 +12,7 @@ import Axis from './common/Axis.jsx';
 
 // Line chart - Component displayed when line chart is selected
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
-class LineChart extends Component {
-
-    _shadeColor2(color, percent) {
-        var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
-        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
-    }
+export default class LineChart extends Component {
 
     render() {
 
@@ -32,14 +27,10 @@ class LineChart extends Component {
             return null;
         }
 
-        const totalIndicators = _.keys(_.groupBy(recordStore.recordsToDraw, 'indicatorId')).length;
         let data = [];
         for (var i = 0; i < countryIds.length; i++) {
             for (var j = 0; j < indicatorIds.length; j++) {
                 const d = _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j]);
-                for (var z = 0; z < d.length; z++) {
-                    d[z].countryColor = this._shadeColor2( d[z].countryColor, j / totalIndicators);
-                }
                 data.push(d);
             }
         }
@@ -60,8 +51,8 @@ class LineChart extends Component {
             .y(d => y(d.value))
             .curve(d3.curveLinear);
 
-        const lines = [];
-        const dots = [];
+        const lines = [],
+            dots = [];
         for (var i = 0; i < data.length; i++) {
             let tempData = [];
             for (var j = 0; j < data[i].length; j++) {
@@ -75,8 +66,16 @@ class LineChart extends Component {
                         />);
                     tempData = [];
                 }
+                dots.push(
+                    <Dots
+                        key={i + '' + j}
+                        data={tempData}
+                        x={x}
+                        y={y}
+                        fill={data[i][j].countryColor}
+                    />
+                );
             }
-            dots.push(<Dots key={i} data={data[i]} x={x} y={y}/>);
         }
 
         const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
@@ -90,7 +89,8 @@ class LineChart extends Component {
 
                 <g transform={mainTransform}>
 
-                    <Grid height={height} width={width} scale={y} gridType='y'/>
+                    <Grid height={height} width={width} scale={x} gridType='vertical'/>
+                    <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
                     <Axis data={data[0]} height={height} scale={y} axisType='y'/>
                     <Axis data={data[0]} height={height} scale={x} axisType='x'/>
@@ -107,13 +107,3 @@ class LineChart extends Component {
     }
 
 }
-
-LineChart.wrappedComponent.propTypes = {
-    countryStore: PropTypes.any.isRequired,
-    indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired
-};
-
-LineChart.wrappedComponent.defaultProps = {};
-
-export default LineChart;
