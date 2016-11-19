@@ -13,7 +13,7 @@ import CustomPopup from './common/CustomPopup.jsx';
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
 export default class BarChart extends Component {
 
-    shadeColor2(color, percent) {
+    _shadeColor2(color, percent) {
         var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
         return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
     }
@@ -67,7 +67,7 @@ export default class BarChart extends Component {
                 d.map((d2, i) => {
                         let color;
                         if (_.size(countryIds) === 1) {
-                            color = this.shadeColor2(d2.countryColor, i / d.length);
+                            color = this._shadeColor2(d2.countryColor, i / d.length);
                         } else {
                             color = d2.countryColor;
                         }
@@ -103,7 +103,7 @@ export default class BarChart extends Component {
                         let name, style;
                         if (_.size(countryIds) === 1) {
                             name = d2.indicatorCode;
-                            style = {color: this.shadeColor2(d2.countryColor, i / d.length)};
+                            style = {color: this._shadeColor2(d2.countryColor, i / d.length)};
                         } else {
                             name = d2.countryName;
                             style = {color: d2.countryColor};

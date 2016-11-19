@@ -14,6 +14,11 @@ import Axis from './common/Axis.jsx';
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
 class LineChart extends Component {
 
+    _shadeColor2(color, percent) {
+        var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+    }
+
     render() {
 
         const {countryStore, indicatorStore, recordStore, store} = {...this.props},
@@ -27,12 +32,15 @@ class LineChart extends Component {
             return null;
         }
 
+        const totalIndicators = _.keys(_.groupBy(recordStore.recordsToDraw, 'indicatorId')).length;
         let data = [];
         for (var i = 0; i < countryIds.length; i++) {
             for (var j = 0; j < indicatorIds.length; j++) {
-                data.push(
-                    _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j])
-                );
+                const d = _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j]);
+                for (var z = 0; z < d.length; z++) {
+                    d[z].countryColor = this._shadeColor2( d[z].countryColor, j / totalIndicators);
+                }
+                data.push(d);
             }
         }
 
