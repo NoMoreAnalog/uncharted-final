@@ -38,7 +38,8 @@ class RecordStore {
                     value,
                     Countries.findOne({_id: record.country}).name,
                     Countries.findOne({_id: record.country}).color,
-                    Indicators.findOne({_id: record.indicator}).name
+                    Indicators.findOne({_id: record.indicator}).name,
+                    Indicators.findOne({_id: record.indicator}).code
                 ));
             });
         });
@@ -55,16 +56,18 @@ class Record {
     countryName = '';
     indicatorId = '';
     indicatorName = '';
+    indicatorCode = '';
     year = 0;
     value = 0;
 
-    constructor(record, value, countryName, countryColor, indicatorName) {
+    constructor(record, value, countryName, countryColor, indicatorName, indicatorCode) {
         this._id = record._id;
         this.countryId = record.country
         this.countryName = countryName
         this.countryColor = '#' + countryColor
         this.indicatorId = record.indicator;
         this.indicatorName = indicatorName;
+        this.indicatorCode = indicatorCode;
         this.year = Number.parseInt(value.year)
         this.value = Number.parseFloat(value.value)
     }

@@ -24,14 +24,16 @@ class Axis extends Component {
 
     render() {
 
-        const translate = 'translate(0,' + (this.props.height) + ')';
+        const {height, axisType} = {...this.props};
 
-        const transform = this.props.axisType === 'x' ? translate : '';
+        const translate = 'translate(0,' + (height) + ')';
+
+        const transform = axisType === 'x' ? translate : '';
 
         return (
             <g
                 ref={(ref) => this.axis = ref}
-                className="axis"
+                className={axisType + '-axis'}
                 transform={transform}
             />
         );

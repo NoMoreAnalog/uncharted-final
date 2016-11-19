@@ -3,38 +3,37 @@ import React, {PropTypes, Component} from 'react';
 class Bar extends Component {
 
     componentDidMount() {
-        this._tweenHeight()
+        this._tweenHeight(0)
     }
 
-    componentDidUpdate() {
-        this._tweenHeight()
+    componentDidUpdate(prevProps, prevState) {
+        this._tweenHeight(prevProps.height)
     }
 
-    _tweenHeight() {
+    _tweenHeight(fromHeight) {
 
-        const {height, i} = {...this.props};
+        const {height} = {...this.props};
 
         TweenLite.to(this.bar, 0, {
-            attr: {height: 0},
-            ease: Linear.easeNone
+            attr: {height: fromHeight},
+            ease: Power1.easeOut
         });
 
-        Meteor.setTimeout(() => {
-            TweenLite.to(this.bar, .2, {
-                attr: {height: height},
-                ease: Linear.easeNone
-            });
-        }, 50 * i);
+        TweenLite.to(this.bar, .2, {
+            attr: {height: height},
+            ease: Power1.easeOut
+        });
 
     }
 
     render() {
 
-        const {classed, x, fill, width, height} = {...this.props};
+        const {transform, classed, x, fill, width, height} = {...this.props};
 
         return (
 
             <rect
+                transform={transform}
                 ref={(ref) => this.bar = ref}
                 className={classed}
                 x={x}
@@ -57,10 +56,12 @@ Bar.propTypes = {
     height: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     classed: PropTypes.string,
-    fill: PropTypes.string
+    fill: PropTypes.string,
+    transform: PropTypes.string
 };
 
 Bar.defaultProps = {
     classed: 'bar',
-    fill: '7dc7f4'
+    fill: '7dc7f4',
+    transform: 'translate(0,0)'
 };

@@ -1,15 +1,22 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
+import {Popup, List, Divider} from 'semantic-ui-react'
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 
 import Bar from './common/Bar.jsx';
 import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
+import CustomPopup from './common/CustomPopup.jsx';
 
-// Line chart - Component displayed when line chart is selected
+// Bar chart - Component displayed when bar chart is selected
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
-class BarChart extends Component {
+export default class BarChart extends Component {
+
+    shadeColor2(color, percent) {
+        var f = parseInt(color.slice(1), 16), t = percent < 0 ? 0 : 255, p = percent < 0 ? percent * -1 : percent, R = f >> 16, G = f >> 8 & 0x00FF, B = f & 0x0000FF;
+        return "#" + (0x1000000 + (Math.round((t - R) * p) + R) * 0x10000 + (Math.round((t - G) * p) + G) * 0x100 + (Math.round((t - B) * p) + B)).toString(16).slice(1);
+    }
 
     render() {
 
@@ -33,56 +40,118 @@ class BarChart extends Component {
         const x0 = d3.scaleBand()
             .domain(_.map(_.uniqBy(records, 'year'), d => d.year))
             .range([0, width])
-            .padding(.5);
+            .padding(.1);
 
-        const x1 = d3.scaleBand(),
-            years = [];
+        const x1 = d3.scaleBand()
+            .padding(.1);
 
-        if (_.size(countryIds) === 1) {
+        const years = [];
 
-            x1.domain(indicatorIds).range([0, x0.bandwidth()]);
-
-            _.forOwn(yearData, (d, year) => {
-                years.push(
-                    <g key={year} className='year' transform={'translate(' + x0(year) + ',0)'}>
-                        {d.map((d, i) =>
-                            <Bar
-                                key={d.countryId + d.indicatorId + d.year}
-                                height={height - y(d.value)}
-                                width={x1.bandwidth()}
-                                x={x1(d.indicatorId)}
-                                y={y(d.value)}
-                                fill={d.countryColor}
-                                i={i}
-                            />
-                        )}
-                    </g>);
-            });
-
-        } else {
-
+        (_.size(countryIds) === 1) ?
+            x1.domain(indicatorIds).range([0, x0.bandwidth()]) :
             x1.domain(countryIds).range([0, x0.bandwidth()]);
 
-            _.forOwn(yearData, (d, year) => {
-                years.push(
-                    <g key={year} className='year' transform={'translate(' + x0(year) + ',0)'}>
-                        {d.map(d =>
-                            <Bar
-                                key={d.countryId + d.indicatorId + d.year}
-                                height={height - y(d.value)}
-                                width={x1.bandwidth()}
-                                x={x1(d.countryId)}
-                                y={y(d.value)}
-                                fill={d.countryColor}
-                            />
-                        )}
-                    </g>);
-            });
+        _.forOwn(yearData, (d, year) => {
 
-        }
+            const colorRect =
+                <rect
+                    className="year-area"
+                    fill='#ABABAB'
+                    height={height}
+                    width={x0.bandwidth()}
+                    x={0}
+                    y={0}
+                    fillOpacity={0}
+                />;
+
+            const bars =
+                d.map((d2, i) => {
+                        let color;
+                        if (_.size(countryIds) === 1) {
+                            color = this.shadeColor2(d2.countryColor, i / d.length);
+                        } else {
+                            color = d2.countryColor;
+                        }
+                        return (
+                            <Bar
+                                key={d2.countryId + d2.indicatorId + d2.year}
+                                height={height - y(d2.value)}
+                                width={x1.bandwidth()}
+                                x={_.size(countryIds) === 1 ? x1(d2.indicatorId) : x1(d2.countryId)}
+                                y={y(d2.value)}
+                                fill={color}
+                            />
+                        )
+                    }
+                );
+
+            const hoverRect =
+                <rect
+                    onMouseOver={e => e.target.parentNode.getElementsByClassName('year-area')[0].setAttribute('fill-opacity', '0.1')}
+                    onMouseOut={e => e.target.parentNode.getElementsByClassName('year-area')[0].setAttribute('fill-opacity', '0')}
+                    fillOpacity={0}
+                    height={height}
+                    width={x0.bandwidth()}
+                    x={0}
+                    y={0}
+                />;
+
+            const targetRect =
+                <rect
+                    fillOpacity={0}
+                    height={height * .8}
+                    width={x0.bandwidth()}
+                    x={0}
+                    y={0}
+                />;
+
+            const list =
+                <List>
+                    <List.Header content={year}/>
+                    <Divider fitted/>
+                    {d.map((d2, i) => {
+                        let name, style;
+                        if (_.size(countryIds) === 1) {
+                            name = d2.indicatorCode;
+                            style = {color: this.shadeColor2(d2.countryColor, i / d.length)};
+                        } else {
+                            name = d2.countryName;
+                            style = {color: d2.countryColor};
+                        }
+                        return (
+                            <List.Item key={d2.countryId + d2.indicatorId}>
+                                <span style={style}>{name}</span>&nbsp;&nbsp;&nbsp;{d2.value}
+                            </List.Item>
+                        )
+                    })}
+                </List>;
+
+            const popup =
+                <CustomPopup
+                    style={{border: 'none'}}
+                    flowing
+                    basic
+                    hoverable
+                    className='bar-chart-popup'
+                    on='hover'
+                    positioning='top center'
+                    trigger={hoverRect}
+                    children={list}>
+                </CustomPopup>;
+
+            years.push(
+                <g
+                    key={year}
+                    className='year'
+                    transform={'translate(' + x0(year) + ',0)'}>
+                    {colorRect}
+                    {bars}
+                    {popup}
+                </g>);
+        });
 
         const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
-        const yearsTransform = 'scale(1,-1) translate(0,-' + height + ')';
+        const yearsTransform = 'scale(1,-1) translate(0,-' + height + ')'; // mirror it on x axis
 
         return (
 
@@ -111,13 +180,3 @@ class BarChart extends Component {
     }
 
 }
-
-export default BarChart;
-
-BarChart.wrappedComponent.propTypes = {
-    countryStore: PropTypes.any.isRequired,
-    indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired
-};
-
-BarChart.wrappedComponent.defaultProps = {};
