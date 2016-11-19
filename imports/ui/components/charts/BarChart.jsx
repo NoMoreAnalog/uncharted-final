@@ -42,8 +42,7 @@ export default class BarChart extends Component {
             .range([0, width])
             .padding(.2);
 
-        const x1 = d3.scaleBand()
-            .padding(.1);
+        const x1 = d3.scaleBand();
 
         const years = [];
 
