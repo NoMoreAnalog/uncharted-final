@@ -46,5 +46,5 @@ Line.defaultProps = {
     strokeLineCap: 'round',
     fill: 'none',
     stroke: '#7dc7f4',
-    strokeWidth: '5px'
+    strokeWidth: '2px'
 };

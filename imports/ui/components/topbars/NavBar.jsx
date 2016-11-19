@@ -6,7 +6,7 @@ const NavBar = observer((props) =>
     <div className="nav-bar">
 
         <div className="left">
-            <img className="unaki" src="UNAKI.png"/>
+            <img className="k4a" src="K4A.png"/>
         </div>
 
         {/*<div className="center">*/}

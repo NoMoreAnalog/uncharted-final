@@ -30,14 +30,9 @@ class LineChart extends Component {
         let data = [];
         for (var i = 0; i < countryIds.length; i++) {
             for (var j = 0; j < indicatorIds.length; j++) {
-                const records = _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j]);
-                data.push(records.map(r => ({
-                    year: r.year,
-                    value: r.value,
-                    country: r.countryName,
-                    indicator: r.indicatorName,
-                    countryColor: r.countryColor
-                })));
+                data.push(
+                    _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j])
+                );
             }
         }
 
@@ -55,7 +50,7 @@ class LineChart extends Component {
         const line = d3.line()
             .x(d => x(d.year))
             .y(d => y(d.value))
-            .curve(d3.curveCardinal.tension(0));
+            .curve(d3.curveLinear);
 
         const lines = [];
         const dots = [];

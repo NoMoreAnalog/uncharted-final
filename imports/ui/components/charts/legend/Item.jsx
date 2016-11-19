@@ -5,7 +5,7 @@ import Dot from '../common/Dot.jsx';
 
 // Item component - item to make up list in each section
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
-class Item extends Component {
+export default class Item extends Component {
 
     constructor() {
         super();
@@ -40,11 +40,9 @@ class Item extends Component {
 
 }
 
-export default Item;
-
-Item.propTypes = {
+Item.wrappedComponent.propTypes = {
     itemStore: PropTypes.any.isRequired,
     item: PropTypes.object.isRequired
 };
 
-Item.defaultProps = {};
+Item.wrappedComponent.defaultProps = {};

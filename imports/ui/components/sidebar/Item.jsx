@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
+import {List} from 'semantic-ui-react'
 
 import Dot from '../charts/common/Dot.jsx';
 
@@ -29,14 +30,14 @@ class Item extends Component {
             style = item.active ? {color: item.color} : {};
 
         return (
-            <div
+            <List.Item
                 key={item._id}
                 className={className}
                 onClick={this._clicked}>
                 {dot}
                 {icon}
                 <div className='content' style={style}>{item.name}</div>
-            </div>
+            </List.Item>
         )
 
     }

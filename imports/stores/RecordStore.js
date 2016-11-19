@@ -44,7 +44,9 @@ class RecordStore {
             });
         });
 
-        return records;
+        const sortedRecords = _.sortBy(records, 'year');
+
+        return sortedRecords;
     }
 
 }

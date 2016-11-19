@@ -1,6 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
-import {Popup, List, Divider} from 'semantic-ui-react'
+import {List, Divider} from 'semantic-ui-react'
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 
@@ -40,7 +40,7 @@ export default class BarChart extends Component {
         const x0 = d3.scaleBand()
             .domain(_.map(_.uniqBy(records, 'year'), d => d.year))
             .range([0, width])
-            .padding(.1);
+            .padding(.2);
 
         const x1 = d3.scaleBand()
             .padding(.1);
@@ -91,15 +91,6 @@ export default class BarChart extends Component {
                     onMouseOut={e => e.target.parentNode.getElementsByClassName('year-area')[0].setAttribute('fill-opacity', '0')}
                     fillOpacity={0}
                     height={height}
-                    width={x0.bandwidth()}
-                    x={0}
-                    y={0}
-                />;
-
-            const targetRect =
-                <rect
-                    fillOpacity={0}
-                    height={height * .8}
                     width={x0.bandwidth()}
                     x={0}
                     y={0}
