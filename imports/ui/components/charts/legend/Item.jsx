@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
+import {List} from 'semantic-ui-react'
 
 import Dot from '../common/Dot.jsx';
 
@@ -27,13 +28,13 @@ export default class Item extends Component {
             dot = item.draw ? <Dot createSvg={true} fill={dotColor}/> : <Dot createSvg={true} fill='#636363'/>;
 
         return (
-            <div
+            <List.Item
                 key={item._id}
                 className={className}
                 onClick={this._onClick}>
                 {dot}
                 <div className="content" style={style}>{item.name}</div>
-            </div>
+            </List.Item>
         )
 
     }

@@ -1,20 +1,21 @@
 import React, {PropTypes} from 'react';
 import {observer} from 'mobx-react';
+import {Segment, Header, List} from 'semantic-ui-react'
 
 import Item from './Item.jsx';
 
 // Legend component - legend to appear next to the chart, used to filter chart component
 const Legend = observer((props) =>
 
-    <div className={'ui segment legend ' + props.classed}>
+    <Segment className={'legend ' + props.classed}>
 
-        <h4 className="ui center aligned header">
-            {props.title}
-            <div className="ui center aligned sub header">{props.subtitle}</div>
-        </h4>
+        <Header as='h3' textAlign='center'>
+            {props.title}&nbsp;
+            <span style={{fontStyle: 'italic', fontSize: '.8em'}}>{props.subtitle}</span>
+        </Header>
 
-        <div className="scrollArea">
-            <ul className="ui list">
+            <List
+                style={{marginLeft: '20px'}}>
                 {props.list.map(item =>
                     <Item
                         key={item._id}
@@ -22,11 +23,9 @@ const Legend = observer((props) =>
                         item={item}
                     />
                 )}
-            </ul>
-        </div>
+            </List>
 
-    </div>
-
+    </Segment>
 )
 
 export default Legend;
