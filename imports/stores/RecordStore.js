@@ -10,52 +10,61 @@ class RecordStore {
     @observable records = [];
 
     constructor() {
+
         this.handle = Meteor.subscribe('records');
 
         Tracker.autorun(() => {
-            if (this.handle.ready()) Records.find({}, {}).fetch();
+            if (this.handle.ready()) this.setRecords(Records.find().fetch());
         });
+
+    }
+
+    setRecords = values => {
+        const records = [];
+        values.forEach(record => {
+            record.values.forEach(value => {
+                if (!value.delete) {
+                    records.push(new Record(
+                        record,
+                        value,
+                        Countries.findOne({_id: record.country}).name,
+                        Countries.findOne({_id: record.country}).color,
+                        Indicators.findOne({_id: record.indicator}).name,
+                        Indicators.findOne({_id: record.indicator}).code
+                    ));
+                }
+            });
+        });
+        this.records.replace(records);
     }
 
     @computed get recordsToDraw() {
 
+        // Get records for active countries/indicators
+
         const activeCountries = countryStore.activeCountries,
             activeIndicators = indicatorStore.activeIndicators;
 
-        const values = Records.find({
-            $and: [
-                {country: {$in: activeCountries.map(c => c._id)}},
-                {indicator: {$in: activeIndicators.map(c => c._id)}}
-            ]
-        }, {}).fetch();
-
-        const records = [];
-        values.forEach(record => {
-            record.values.forEach(value => {
-                records.push(new Record(
-                    record,
-                    value,
-                    Countries.findOne({_id: record.country}).name,
-                    Countries.findOne({_id: record.country}).color,
-                    Indicators.findOne({_id: record.indicator}).name,
-                    Indicators.findOne({_id: record.indicator}).code
-                ));
-            });
+        const records = _.filter(this.records, record => {
+            return (
+                _.find(activeCountries, {_id: record.countryId}) &&
+                _.find(activeIndicators, {_id: record.indicatorId})
+            );
         });
 
         const sortedRecords = _.sortBy(records, ['year', 'countryName', 'indicatorName']);
 
-        // Get colors
+        // Set color based on number of indicators
 
         const usedIndicatorIds = _.keys(_.groupBy(sortedRecords, 'indicatorId'));
 
         sortedRecords.forEach(record => {
             const index = _.findIndex(usedIndicatorIds, id => id === record.indicatorId)
-            const color = this._shadeColor2(record.countryColor, index / usedIndicatorIds.length);
+            const color = this._shadeColor2(record.originalColor, index / usedIndicatorIds.length);
             record.countryColor = color;
         });
 
-        // Remove the records we are not drawing, we initially use all active active indicators so we can
+        // Remove the records we are not drawing, we initially pull all active indicators so we can
         // be consistent with the colors when the user removes one via the legend
 
         const filteredRecords = _.filter(sortedRecords, record => {
@@ -98,6 +107,7 @@ class Record {
     indicatorCode = '';
     year = 0;
     value = 0;
+    originalColor = '';
 
     constructor(record, value, countryName, countryColor, indicatorName, indicatorCode) {
         this._id = record._id;
@@ -109,6 +119,7 @@ class Record {
         this.indicatorCode = indicatorCode;
         this.year = Number.parseInt(value.year)
         this.value = Number.parseFloat(value.value)
+        this.originalColor = '#' + countryColor
     }
 
 }

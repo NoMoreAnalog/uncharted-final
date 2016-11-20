@@ -28,7 +28,7 @@ export default class LineChart extends Component {
         }
 
         let data = [];
-        for (var i = 0; i < countryIds.length; i++) {
+        for (let i = 0; i < countryIds.length; i++) {
             for (var j = 0; j < indicatorIds.length; j++) {
                 const d = _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j]);
                 data.push(d);
@@ -53,29 +53,38 @@ export default class LineChart extends Component {
 
         const lines = [],
             dots = [];
-        for (var i = 0; i < data.length; i++) {
+        for (let i = 0; i < data.length; i++) { // into arrays of line arrays
+
             let tempData = [];
-            for (var j = 0; j < data[i].length; j++) {
+
+            for (let j = 0; j < data[i].length; j++) { // into line arrays
+
                 tempData.push(data[i][j]);
+
                 if (!data[i][j + 1] || data[i][j + 1].year != data[i][j].year + 1) {
                     lines.push(
                         <Line
-                            key={data[i][j].countryId + data[i][j].indicatorId + data[i][j].year}
+                            key={data[i][j].countryId + data[i][j].indicatorId + '---' + j}
                             d={line(tempData)}
                             stroke={data[i][j].countryColor}
                         />);
+
+                    dots.push(
+                        <Dots
+                            key={data[i][j].countryId + data[i][j].indicatorId + '---' + j}
+                            data={tempData}
+                            x={x}
+                            y={y}
+                            fill={data[i][j].countryColor}
+                        />
+                    );
+
                     tempData = [];
+
                 }
-                dots.push(
-                    <Dots
-                        key={data[i][j].countryId + data[i][j].indicatorId + data[i][j].year}
-                        data={tempData}
-                        x={x}
-                        y={y}
-                        fill={data[i][j].countryColor}
-                    />
-                );
+
             }
+
         }
 
         const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
