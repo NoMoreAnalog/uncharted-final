@@ -19,19 +19,17 @@ class RecordStore {
 
     @computed get recordsToDraw() {
 
-        const countries = countryStore.countriesToDraw,
-            indicators = indicatorStore.activeIndicators,
-            countryIds = countries.map(c => c._id),
-            indicatorIds = indicators.map(c => c._id);
+        const activeCountries = countryStore.activeCountries,
+            activeIndicators = indicatorStore.activeIndicators;
 
         const values = Records.find({
             $and: [
-                {country: {$in: countryIds}},
-                {indicator: {$in: indicatorIds}}
+                {country: {$in: activeCountries.map(c => c._id)}},
+                {indicator: {$in: activeIndicators.map(c => c._id)}}
             ]
         }, {}).fetch();
 
-        let records = [];
+        const records = [];
         values.forEach(record => {
             record.values.forEach(value => {
                 records.push(new Record(
@@ -45,6 +43,8 @@ class RecordStore {
             });
         });
 
+        // Get colors
+
         const usedIndicatorIds = _.keys(_.groupBy(records, 'indicatorId'));
 
         records.forEach(record => {
@@ -53,7 +53,19 @@ class RecordStore {
             record.countryColor = color;
         });
 
-        const sortedRecords = _.sortBy(records, 'year');
+        // Remove the records we are not drawing, we initially use all active active indicators so we can
+        // be consistent with the colors when the user removes one via the legend
+
+        const filteredRecords = _.filter(records, record => {
+            return (
+                _.find(countryStore.countriesToDraw, {'_id': record.countryId}) &&
+                _.find(indicatorStore.indicatorsToDraw, {'_id': record.indicatorId})
+            );
+        });
+
+        // Sort and return
+
+        const sortedRecords = _.sortBy(filteredRecords, 'year');
 
         return sortedRecords;
     }

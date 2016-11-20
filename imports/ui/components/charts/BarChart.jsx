@@ -28,22 +28,33 @@ export default class BarChart extends Component {
             return null;
         }
 
+        const countryFocus = _.size(countryIds) === 1;
+
         const y = d3.scaleLinear()
             .domain([0, d3.max(records, r => r.value)])
             .range([height, 0]);
 
+        const allYears = _.map(_.uniqBy(records, 'year'), d => d.year);
+        const first = allYears[0];
+        const last = allYears[allYears.length - 1];
+        const domain = [];
+
+        for (let year = first; year <= last; year++) {
+            domain.push(year);
+        }
+
         const x0 = d3.scaleBand()
-            .domain(_.map(_.uniqBy(records, 'year'), d => d.year))
+            .domain(domain)
             .range([0, width])
-            .padding(.2);
+            .padding(.3);
 
         const x1 = d3.scaleBand();
 
-        const years = [];
-
-        (_.size(countryIds) === 1) ?
+        (countryFocus) ?
             x1.domain(indicatorIds).range([0, x0.bandwidth()]) :
             x1.domain(countryIds).range([0, x0.bandwidth()]);
+
+        const years = [];
 
         _.forOwn(yearData, (d, year) => {
 
@@ -58,20 +69,18 @@ export default class BarChart extends Component {
                     fillOpacity={0}
                 />;
 
-            const bars =
-                d.map(d2 => {
-                        return (
-                            <Bar
-                                key={d2.countryId + d2.indicatorId + d2.year}
-                                height={height - y(d2.value)}
-                                width={x1.bandwidth()}
-                                x={_.size(countryIds) === 1 ? x1(d2.indicatorId) : x1(d2.countryId)}
-                                y={y(d2.value)}
-                                fill={d2.countryColor}
-                            />
-                        )
-                    }
-                );
+            const bars = d.map(d2 => {
+                return (
+                    <Bar
+                        key={d2.countryId + d2.indicatorId + d2.year}
+                        height={height - y(d2.value)}
+                        width={x1.bandwidth()}
+                        x={countryFocus ? x1(d2.indicatorId) : x1(d2.countryId)}
+                        y={y(d2.value)}
+                        fill={d2.countryColor}
+                    />
+                )
+            });
 
             const hoverRect =
                 <rect
@@ -89,7 +98,7 @@ export default class BarChart extends Component {
                     <List.Header content={year}/>
                     <Divider fitted/>
                     {d.map(d2 => {
-                        const name = _.size(countryIds) === 1 ? d2.indicatorCode : d2.countryName;
+                        const name = countryFocus ? d2.indicatorCode : d2.countryName;
                         return (
                             <List.Item key={d2.countryId + d2.indicatorId}>
                                 <span style={{color: d2.countryColor}}>{name}</span>&nbsp;&nbsp;&nbsp;{d2.value}
@@ -119,7 +128,9 @@ export default class BarChart extends Component {
                     {colorRect}
                     {bars}
                     {popup}
-                </g>);
+                </g>
+            );
+
         });
 
         const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
