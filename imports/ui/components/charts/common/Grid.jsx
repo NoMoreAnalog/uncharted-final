@@ -27,7 +27,18 @@ class Grid extends Component {
 
         } else if (gridType === 'vertical') {
 
+            // Get list of years
+
+            const first = scale.domain()[0];
+            const last = scale.domain()[scale.domain().length - 1];
+            const tickValues = [];
+
+            for (let year = first; year <= last; year++) {
+                tickValues.push(year);
+            }
+
             const grid = d3.axisBottom(scale)
+                .tickValues(tickValues)
                 .tickSize(-height, 0, 0)
                 .tickFormat('');
 

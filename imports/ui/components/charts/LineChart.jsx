@@ -93,7 +93,7 @@ export default class LineChart extends Component {
                     <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
                     <Axis data={data[0]} height={height} scale={y} axisType='y'/>
-                    <Axis data={data[0]} height={height} scale={x} axisType='x'/>
+                    <Axis data={data[0]} height={height} scale={x} axisType='x' checkYears/>
 
                     {lines}
                     {dots}

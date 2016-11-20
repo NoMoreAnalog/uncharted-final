@@ -1,5 +1,6 @@
 import React, {PropTypes, Component} from 'react';
 import * as d3 from 'd3';
+import * as _ from 'lodash';
 
 export default class Axis extends Component {
 
@@ -13,12 +14,45 @@ export default class Axis extends Component {
 
     _renderAxis() {
 
-        const axis = this.props.axisType === 'y' ?
-            d3.axisLeft(this.props.scale) : // y scale
-            d3.axisBottom(this.props.scale) // x scale
-                .tickFormat(d3.format('d'));
+        const {scale, axisType, checkYears} = {...this.props};
 
-        d3.select(this.axis).call(axis);
+        if (axisType === 'y') {
+
+            const axis = d3.axisLeft(scale);
+
+            d3.select(this.axis).call(axis);
+
+        } else if (axisType === 'x') {
+
+            // Get list of years
+
+            if (checkYears) {
+
+                const first = scale.domain()[0];
+                const last = scale.domain()[scale.domain().length - 1];
+                const tickValues = [];
+
+                for (let year = first; year <= last; year++) {
+                    tickValues.push(year);
+                }
+
+                const axis = d3.axisBottom(scale)
+                    .tickValues(tickValues)
+                    .tickFormat(d3.format('d'));
+
+                d3.select(this.axis).call(axis);
+
+            } else {
+
+                const axis = d3.axisBottom(scale)
+                    .tickFormat(d3.format('d'));
+
+                d3.select(this.axis).call(axis);
+
+            }
+
+        }
+
     }
 
     render() {
@@ -26,7 +60,6 @@ export default class Axis extends Component {
         const {height, axisType} = {...this.props};
 
         const translate = 'translate(0,' + (height) + ')';
-
         const transform = axisType === 'x' ? translate : '';
 
         return (
@@ -45,5 +78,6 @@ Axis.propTypes = {
     // data: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     scale: PropTypes.func.isRequired,
-    axisType: PropTypes.oneOf(['x', 'y']).isRequired
+    axisType: PropTypes.oneOf(['x', 'y']).isRequired,
+    checkYears: PropTypes.bool
 };

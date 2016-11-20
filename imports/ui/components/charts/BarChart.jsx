@@ -136,12 +136,12 @@ export default class BarChart extends Component {
 
                     <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
+                    <Axis height={height} scale={y} axisType='y'/>
+                    <Axis height={height} scale={x0} axisType='x'/>
+
                     <g className='years' transform={yearsTransform}>
                         {years}
                     </g>
-
-                    <Axis height={height} scale={y} axisType='y'/>
-                    <Axis height={height} scale={x0} axisType='x'/>
 
                 </g>
 
