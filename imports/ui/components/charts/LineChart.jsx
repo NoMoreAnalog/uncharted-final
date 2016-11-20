@@ -60,7 +60,7 @@ export default class LineChart extends Component {
                 if (!data[i][j + 1] || data[i][j + 1].year != data[i][j].year + 1) {
                     lines.push(
                         <Line
-                            key={i + '' + j}
+                            key={data[i][j].countryId + data[i][j].indicatorId + data[i][j].year}
                             d={line(tempData)}
                             stroke={data[i][j].countryColor}
                         />);
@@ -68,7 +68,7 @@ export default class LineChart extends Component {
                 }
                 dots.push(
                     <Dots
-                        key={i + '' + j}
+                        key={data[i][j].countryId + data[i][j].indicatorId + data[i][j].year}
                         data={tempData}
                         x={x}
                         y={y}
