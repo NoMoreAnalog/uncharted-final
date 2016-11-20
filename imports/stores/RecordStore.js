@@ -43,11 +43,13 @@ class RecordStore {
             });
         });
 
+        const sortedRecords = _.sortBy(records, ['year', 'countryName', 'indicatorName']);
+
         // Get colors
 
-        const usedIndicatorIds = _.keys(_.groupBy(records, 'indicatorId'));
+        const usedIndicatorIds = _.keys(_.groupBy(sortedRecords, 'indicatorId'));
 
-        records.forEach(record => {
+        sortedRecords.forEach(record => {
             const index = _.findIndex(usedIndicatorIds, id => id === record.indicatorId)
             const color = this._shadeColor2(record.countryColor, index / usedIndicatorIds.length);
             record.countryColor = color;
@@ -56,18 +58,14 @@ class RecordStore {
         // Remove the records we are not drawing, we initially use all active active indicators so we can
         // be consistent with the colors when the user removes one via the legend
 
-        const filteredRecords = _.filter(records, record => {
+        const filteredRecords = _.filter(sortedRecords, record => {
             return (
                 _.find(countryStore.countriesToDraw, {'_id': record.countryId}) &&
                 _.find(indicatorStore.indicatorsToDraw, {'_id': record.indicatorId})
             );
         });
 
-        // Sort and return
-
-        const sortedRecords = _.sortBy(filteredRecords, 'year');
-
-        return sortedRecords;
+        return filteredRecords;
     }
 
     _shadeColor2(color, percent) {

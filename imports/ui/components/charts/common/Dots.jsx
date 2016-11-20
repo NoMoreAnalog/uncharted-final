@@ -46,7 +46,7 @@ export default class Dots extends Component {
                         <List>
                             <List.Header content={d.year}/>
                             <Divider fitted/>
-                            <List.Item key={d.countryId + d.indicatorId}>
+                            <List.Item key={d.countryId + d.indicatorId + d.year}>
                                 <div style={{color: fill}}>{d.countryName}</div>
                                 <div style={{color: '#00adc6'}}>{d.indicatorCode}</div>
                                 <div>{d.value}</div>

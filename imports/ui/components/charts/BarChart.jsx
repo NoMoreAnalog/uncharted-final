@@ -100,7 +100,7 @@ export default class BarChart extends Component {
                     {d.map(d2 => {
                         const name = countryFocus ? d2.indicatorCode : d2.countryName;
                         return (
-                            <List.Item key={d2.countryId + d2.indicatorId}>
+                            <List.Item key={d2.countryId + d2.indicatorId + d2.year}>
                                 <span style={{color: d2.countryColor}}>{name}</span>&nbsp;&nbsp;&nbsp;{d2.value}
                             </List.Item>
                         )
