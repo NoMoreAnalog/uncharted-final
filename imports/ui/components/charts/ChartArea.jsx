@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 
 import ChartWrapper from './ChartWrapper.jsx';
 import Menu from './Menu.jsx';
+import YearSlider from './YearSlider.jsx';
 import Legends from './legend/Legends.jsx';
 
 // ChartArea component - Area for chart and chart information
@@ -19,6 +20,7 @@ const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) 
         </h1>
 
         <div className="stage">
+            <YearSlider/>
             <Menu/>
             <ChartWrapper />
             <Legends />

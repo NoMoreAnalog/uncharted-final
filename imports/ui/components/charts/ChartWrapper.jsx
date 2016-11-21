@@ -14,6 +14,7 @@ class ChartWrapper extends Component {
         super();
         this._onResize = this._onResize.bind(this);
         this._chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand.bind(this);
+        this._log = this._log.bind(this);
     }
 
     componentWillMount() {
@@ -39,16 +40,20 @@ class ChartWrapper extends Component {
         // this.props.store.height = this.chartWrapper.clientHeight;
     }
 
+    _log(value) {
+        console.log(value);
+    }
+
     render() {
 
-        const props = this.props;
+        const {store} = {...this.props};
 
         let chart = '';
 
-        if (props.store.barDraw) chart = <BarChart {...props}/>;
-        else if (props.store.lineDraw) chart = <LineChart {...props}/>;
-        else if (props.store.radarDraw) chart = <RadarChart {...props}/>;
-        else if (props.store.scatterDraw) chart = <ScatterChart {...props}/>;
+        if (store.barDraw) chart = <BarChart {...this.props}/>;
+        else if (store.lineDraw) chart = <LineChart {...this.props}/>;
+        else if (store.radarDraw) chart = <RadarChart {...this.props}/>;
+        else if (store.scatterDraw) chart = <ScatterChart {...this.props}/>;
 
         return (
 

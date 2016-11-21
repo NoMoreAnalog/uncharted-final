@@ -8,6 +8,8 @@ import {Indicators} from '../api/indicators.js';
 class RecordStore {
 
     @observable records = [];
+    @observable years = [0,9999];
+    @observable yearsToDraw = [0,9999];
 
     constructor() {
 
@@ -38,6 +40,45 @@ class RecordStore {
         this.records.replace(records);
     }
 
+    setYears = () => {
+
+        const activeCountries = countryStore.activeCountries,
+            activeIndicators = indicatorStore.activeIndicators;
+
+        const records = _.filter(this.records, record => {
+            return (
+                _.find(activeCountries, {_id: record.countryId}) &&
+                _.find(activeIndicators, {_id: record.indicatorId})
+            );
+        });
+
+        let years = _.sortBy(_.keys(_.groupBy(records, 'year')), 'year');
+
+        if (years.length === 0) years = [0, 9999];
+
+        const first = years[0],
+            last = years[years.length - 1];
+
+        this.years.replace([parseInt(first), parseInt(last)]);
+
+        if (this.yearsToDraw[0] === 0)
+            this.yearsToDraw.replace([parseInt(first), parseInt(last)]);
+
+        if (this.yearsToDraw[0] < first)
+            this.yearsToDraw.replace([parseInt(first), this.yearsToDraw[1]]);
+
+        if (this.yearsToDraw[1] > last)
+            this.yearsToDraw.replace([this.yearsToDraw[0], parseInt(last)]);
+    }
+
+    @computed get firstYear() {
+        return this.years[0];
+    }
+
+    @computed get lastYear() {
+        return this.years[1];
+    }
+
     @computed get recordsToDraw() {
 
         // Get records for active countries/indicators
@@ -47,6 +88,7 @@ class RecordStore {
 
         const records = _.filter(this.records, record => {
             return (
+                record.year >= this.yearsToDraw[0] && record.year <= this.yearsToDraw[1] &&
                 _.find(activeCountries, {_id: record.countryId}) &&
                 _.find(activeIndicators, {_id: record.indicatorId})
             );

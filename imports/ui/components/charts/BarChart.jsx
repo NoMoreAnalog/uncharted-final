@@ -16,7 +16,7 @@ export default class BarChart extends Component {
     render() {
 
         const {countryStore, indicatorStore, recordStore, store} = {...this.props},
-            margin = {top: 5, right: 50, bottom: 20, left: 50},
+            margin = {top: 5, right: 35, bottom: 20, left: 50},
             width = store.width - margin.left - margin.right,
             height = store.height - margin.top - margin.bottom,
             records = recordStore.recordsToDraw,

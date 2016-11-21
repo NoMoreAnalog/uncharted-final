@@ -58,6 +58,7 @@ class CountryStore {
     setActive = value => {
         value.active = !value.active;
         value.draw = value.active;
+        recordStore.setYears();
     }
 
     setDraw = value => {
