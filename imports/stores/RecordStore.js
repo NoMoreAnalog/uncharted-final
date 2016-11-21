@@ -52,9 +52,13 @@ class RecordStore {
             );
         });
 
-        let years = _.sortBy(_.keys(_.groupBy(records, 'year')), 'year');
+        const years = _.sortBy(_.keys(_.groupBy(records, 'year')), 'year');
 
-        if (years.length === 0) years = [0, 9999];
+        if (years.length === 0) {
+            this.years.replace([0, 9999]);
+            this.yearsToDraw.replace([0, 9999]);
+            return;
+        }
 
         const first = years[0],
             last = years[years.length - 1];
@@ -69,6 +73,7 @@ class RecordStore {
 
         if (this.yearsToDraw[1] > last)
             this.yearsToDraw.replace([this.yearsToDraw[0], parseInt(last)]);
+
     }
 
     @computed get firstYear() {
