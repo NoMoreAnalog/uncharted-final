@@ -20,9 +20,9 @@ const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) 
         </h1>
 
         <div className="stage">
-            <YearSlider/>
             <Menu/>
             <ChartWrapper />
+            <YearSlider/>
             <Legends />
         </div>
 

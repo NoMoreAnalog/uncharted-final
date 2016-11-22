@@ -54,13 +54,10 @@ export default class YearSlider extends Component {
         if (!store.barDraw && !store.lineDraw && !store.radarDraw && !store.scatterDraw) return <div/>;
 
         const style = {
-            float: 'left',
-            position: 'relative',
-            left: 20,
             height: 300,
             width: 30,
-            top: 200,
-            marginLeft: 40
+            marginLeft: 40,
+            marginTop: -350
         };
 
         return (
