@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {observer} from 'mobx-react';
-import {Grid} from 'semantic-ui-react'
+import {Grid} from 'semantic-ui-react';
 
 import Legend from './Legend.jsx';
 

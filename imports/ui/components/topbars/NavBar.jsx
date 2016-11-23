@@ -1,55 +1,130 @@
-import React from 'react';
-import {observer} from 'mobx-react';
+import React, {Component} from 'react';
+import {Menu, Dropdown, Icon} from 'semantic-ui-react'
 
-const NavBar = observer((props) =>
+export default class NavBar extends Component {
 
-    <div className="nav-bar">
+    state = {activeItemName: 'data'}
 
-        <div className="left">
-            <img className="k4a" src="K4A.png"/>
-        </div>
+    _handleItemClick = (e, {name}) => this.setState({activeItemName: name})
 
-        {/*<div className="center">*/}
+    render() {
 
-            {/*<ul className="top">*/}
-                {/*<li className="language"><img src="language.png"/>Language</li>*/}
-                {/*<li className="lock"><img src="lock.png"/>Log In/Register</li>*/}
-                {/*<li className="twitter"><img src="twitter.png"/></li>*/}
-                {/*<li className="facebook"><img src="facebook.png" alt=""/></li>*/}
-            {/*</ul>*/}
+        const {activeItemName} = this.state;
 
-            {/*<ul className="bottom">*/}
-                {/*<li>*/}
-                    {/*<hr/>*/}
-                    {/*HOME*/}
-                {/*</li>*/}
-                {/*<li>*/}
-                    {/*<hr/>*/}
-                    {/*DATA*/}
-                {/*</li>*/}
-                {/*<li>*/}
-                    {/*<hr/>*/}
-                    {/*INDEX*/}
-                {/*</li>*/}
-                {/*<li>*/}
-                    {/*<hr/>*/}
-                    {/*CONTACT US*/}
-                {/*</li>*/}
-            {/*</ul>*/}
+        const languageTrigger =
+            <span>
+                <Icon name='world'/>Language
+            </span>;
 
-        {/*</div>*/}
+        const menuStyle = {
+            backgroundColor: '#525866',
+            paddingTop: 15,
+            paddingBottom: 15,
+            borderRadius: 0
+        };
 
-        {/*<div className="right">*/}
-            {/*<img className="k4a" src="K4A.png"/>*/}
-            {/*<img className="undp" src="UNDP.png"/>*/}
-            {/*<img className="mbr" src="MBR.png"/>*/}
-        {/*</div>*/}
+        const itemStyle = {
+            margin: 20,
+            paddingTop: 10,
+            paddingBottom: 10,
+            fontWeight: 'bolder',
+            borderTop: '3px solid #525866'
+        };
 
-    </div>
+        const activeItemStyle = {
+            margin: 20,
+            paddingTop: 10,
+            paddingBottom: 10,
+            fontWeight: 'bolder',
+            borderTop: '3px solid #00adc6',
+            borderRadius: 0,
+            color: '#00adc6 !important'
+        };
 
-)
+        const k4aItemStyle = {
+            marginLeft: 30,
+            marginRight: 50
+        };
 
-export default NavBar;
+        const k4aImgStyle = {
+            width: 280
+        };
 
-NavBar.propTypes = {};
-NavBar.defaultProps = {};
+        return (
+
+            <div className='nav-bar'>
+
+                <Menu style={menuStyle} borderless inverted>
+
+                    <Menu.Item style={k4aItemStyle}>
+                        <img style={k4aImgStyle} className="k4a" src="K4A.png"/>
+                    </Menu.Item>
+
+                    <Menu.Item
+                        fitted
+                        style={activeItemName === 'home' ? activeItemStyle : itemStyle}
+                        name='home'
+                        onClick={this._handleItemClick}>
+                        HOME
+                    </Menu.Item>
+
+                    <Menu.Item
+                        fitted
+                        style={activeItemName === 'data' ? activeItemStyle : itemStyle}
+                        name='data'
+                        onClick={this._handleItemClick}>
+                        DATA
+                    </Menu.Item>
+
+                    <Menu.Item
+                        fitted
+                        style={activeItemName === 'index' ? activeItemStyle : itemStyle}
+                        name='index'
+                        onClick={this._handleItemClick}>
+                        INDEX
+                    </Menu.Item>
+
+                    <Menu.Item
+                        fitted
+                        style={activeItemName === 'contact' ? activeItemStyle : itemStyle}
+                        name='contact'
+                        onClick={this._handleItemClick}>
+                        CONTACT US
+                    </Menu.Item>
+
+                    <Menu.Menu position='right'>
+
+                        <Menu.Item>
+                            <Dropdown trigger={languageTrigger}>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item>English</Dropdown.Item>
+                                    <Dropdown.Item>Russian</Dropdown.Item>
+                                    <Dropdown.Item>Spanish</Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Menu.Item>
+
+                        <Menu.Item>
+                            <Icon name='lock'/>
+                            Log In / Register
+                        </Menu.Item>
+
+                        <Menu.Item>
+                            <Icon name='twitter'/>
+                        </Menu.Item>
+
+                        <Menu.Item>
+                            <Icon name='facebook f'/>
+                        </Menu.Item>
+
+                    </Menu.Menu>
+
+                </Menu>
+
+            </div>
+
+        )
+
+    }
+
+}
