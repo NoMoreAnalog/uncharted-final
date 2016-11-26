@@ -34,7 +34,7 @@ CustomHandle.propTypes = {
 };
 
 // YearSlider component - Slider to filter years
-@observer(['recordStore','store'])
+@observer(['recordStore', 'store'])
 export default class YearSlider extends Component {
 
     constructor() {
@@ -53,26 +53,35 @@ export default class YearSlider extends Component {
 
         if (!store.barDraw && !store.lineDraw && !store.radarDraw && !store.scatterDraw) return <div/>;
 
-        const style = {
+        const sliderStyle = {
             height: 300,
             width: 30,
             marginLeft: 40,
             marginTop: -350
         };
 
+        const yearStyle = {
+            top: -370,
+            position: 'relative',
+            fontWeight: 'bold'
+        };
+
         return (
-            <div style={style}>
-                <Slider
-                    disabled={false}
-                    range
-                    vertical
-                    min={recordStore.firstYear}
-                    max={recordStore.lastYear}
-                    step={1}
-                    defaultValue={[recordStore.firstYear, recordStore.lastYear]}
-                    onAfterChange={this._log}
-                    handle={<CustomHandle/>}
-                />
+            <div>
+                <div style={yearStyle}>Years:</div>
+                <div style={sliderStyle}>
+                    <Slider
+                        disabled={false}
+                        range
+                        vertical
+                        min={recordStore.firstYear}
+                        max={recordStore.lastYear}
+                        step={1}
+                        defaultValue={[recordStore.firstYear, recordStore.lastYear]}
+                        onAfterChange={this._log}
+                        handle={<CustomHandle/>}
+                    />
+                </div>
             </div>
         )
 

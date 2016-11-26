@@ -1,9 +1,11 @@
 import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
+import {Dropdown} from 'semantic-ui-react';
+import {saveSvgAsPng} from '../../../startup/client/saveSvgAsPng';
 
 // Menu component - Placed in chart stage for print and export options
 @observer(['store'])
-class Menu extends Component {
+export default class Menu extends Component {
 
     componentDidMount() {
         $(this.dropdown)
@@ -16,14 +18,19 @@ class Menu extends Component {
 
         return (
 
-            <div className="chart-menu">
-                <div className="ui right pointing dropdown icon" ref={(ref) => this.dropdown = ref}>
-                    <i className="large content icon"></i>
-                    <div className="menu">
-                        <div className="item"><i className="large blue save icon"></i> Save as PNG</div>
-                        <div className="item"><i className="large green file excel outline icon"></i> Export data</div>
-                    </div>
-                </div>
+            <div className='chart-menu'>
+                <Dropdown simple icon='content'>
+                    <Dropdown.Menu>
+                        <Dropdown.Item icon='save' text='Save As PNG' onClick=
+                            {
+                                () => saveSvgAsPng(
+                                    document.getElementById('svg-chart'),
+                                    'chart.png',
+                                    {backgroundColor: '#FFF'})
+                            }/>
+                        <Dropdown.Item icon='file excel outline' text='Export Data'/>
+                    </Dropdown.Menu>
+                </Dropdown>
             </div>
 
         )
@@ -31,11 +38,3 @@ class Menu extends Component {
     }
 
 }
-
-export default Menu;
-
-Menu.wrappedComponent.propTypes = {
-    store: PropTypes.any.isRequired
-};
-
-Menu.wrappedComponent.defaultProps = {};

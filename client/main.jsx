@@ -18,7 +18,7 @@ const countryStore = window.countryStore = new CountryStore();
 const indicatorStore = window.indicatorStore = new IndicatorStore();
 const recordStore = window.recordStore = new RecordStore();
 const store = window.store = new Store();
-const adminStore = window.recordStore = new AdminStore();
+const adminStore = window.adminStore = new AdminStore();
 
 Meteor.startup(() => {
     render(

@@ -18,7 +18,7 @@ class Indicator {
 
 }
 
-class IndicatorStore {
+export default class IndicatorStore {
 
     @observable indicators = [];
     @observable filter = '';
@@ -70,5 +70,3 @@ class IndicatorStore {
     }
 
 }
-
-export default IndicatorStore;

@@ -5,7 +5,7 @@ import {Records} from '../api/records.js';
 import {Countries} from '../api/countries.js';
 import {Indicators} from '../api/indicators.js';
 
-class RecordStore {
+export default class RecordStore {
 
     @observable records = [];
     @observable years = [0,9999];
@@ -170,5 +170,3 @@ class Record {
     }
 
 }
-
-export default RecordStore;

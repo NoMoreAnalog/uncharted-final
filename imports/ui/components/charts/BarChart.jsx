@@ -139,6 +139,7 @@ export default class BarChart extends Component {
         return (
 
             <svg
+                id='svg-chart'
                 className='bar-chart'
                 width={width + margin.left + margin.right}
                 height={height + margin.top + margin.bottom}>

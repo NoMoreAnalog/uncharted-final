@@ -6,7 +6,7 @@ import {Countries} from '../api/countries.js';
 import {Indicators} from '../api/indicators.js';
 import {Records} from '../api/records.js';
 
-export default class Store {
+export default class AdminStore {
 
     @observable countries = [];
     @observable indicators = [];

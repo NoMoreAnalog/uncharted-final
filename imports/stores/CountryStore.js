@@ -20,7 +20,7 @@ class Country {
 
 }
 
-class CountryStore {
+export default class CountryStore {
 
     @observable countries = [];
     @observable filter = '';
@@ -66,5 +66,3 @@ class CountryStore {
     }
 
 }
-
-export default CountryStore;
