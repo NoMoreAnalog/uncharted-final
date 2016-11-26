@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {Form, Button, Radio, Divider, Icon} from 'semantic-ui-react';
-import Handsontable from 'handsontable/dist/handsontable.full.min.js';
+import Handsontable from 'handsontable/dist/handsontable.full.js';
 import * as _ from 'lodash';
 
 // Components
