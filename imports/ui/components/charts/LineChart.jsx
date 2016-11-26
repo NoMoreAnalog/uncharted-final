@@ -20,17 +20,18 @@ export default class LineChart extends Component {
             margin = {top: 5, right: 35, bottom: 20, left: 50},
             width = store.width - margin.left - margin.right,
             height = store.height - margin.top - margin.bottom,
+            records = recordStore.recordsToDraw,
             countryIds = countryStore.countriesToDraw.map(c => c._id),
             indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);
 
-        if (_.size(countryIds) === 0 || _.size(indicatorIds) === 0) {
+        if (_.size(records) === 0) {
             return null;
         }
 
         let data = [];
         for (let i = 0; i < countryIds.length; i++) {
             for (var j = 0; j < indicatorIds.length; j++) {
-                const d = _.filter(recordStore.recordsToDraw, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j]);
+                const d = _.filter(records, r => r.countryId === countryIds[i] && r.indicatorId === indicatorIds[j]);
                 data.push(d);
             }
         }

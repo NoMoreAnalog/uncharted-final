@@ -24,7 +24,7 @@ export default class BarChart extends Component {
             countryIds = countryStore.countriesToDraw.map(c => c._id),
             indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);
 
-        if (_.size(countryIds) === 0 || _.size(indicatorIds) === 0) {
+        if (_.size(records) === 0) {
             return null;
         }
 

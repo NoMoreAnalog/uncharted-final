@@ -52,6 +52,7 @@ export default class YearSlider extends Component {
         const {store, recordStore} = {...this.props};
 
         if (!store.barDraw && !store.lineDraw && !store.radarDraw && !store.scatterDraw) return <div/>;
+        if (recordStore.firstYear === 0) return <div/>;
 
         const sliderStyle = {
             height: 300,
