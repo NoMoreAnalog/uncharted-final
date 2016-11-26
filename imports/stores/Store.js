@@ -1,6 +1,6 @@
 import {observable} from 'mobx';
 
-class Store {
+export default class Store {
 
     // UI setup
     @observable sideBarExpanded = false;
@@ -156,5 +156,3 @@ class Store {
     }
 
 }
-
-export default Store;

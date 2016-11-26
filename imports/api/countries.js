@@ -1,6 +1,6 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+// Libs
+import {Meteor} from 'meteor/meteor';
+import {Mongo} from 'meteor/mongo';
 
 export const Countries = new Mongo.Collection('countries');
 
@@ -14,20 +14,34 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-    'countries.insert'() {
+    'countries.save'(data) {
 
-        Countries.insert({
-            createdAt: new Date(),
-        });
+        for (var i = 0; i < data.length; i++) {
 
-    },
+            let country;
 
-    'countries.remove'(countryId) {
+            if (data[i]._id) country = Countries.findOne({_id: data[i]._id});
 
-        check(countryId, String);
+            if (country) {
+                Countries.update(data[i]._id, {
+                    $set: {
+                        name: data[i].name,
+                        iso: data[i].iso,
+                        color: data[i].color,
+                        changedAt: new Date(),
+                        delete: data[i].delete
+                    }
+                });
+            } else {
+                Countries.insert({
+                    name: data[i].name,
+                    iso: data[i].iso,
+                    color: data[i].color,
+                    createdAt: new Date()
+                });
+            }
 
-        const country = Countries.findOne(countryId);
-        Countries.remove(country);
+        }
 
     }
 

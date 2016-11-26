@@ -1,6 +1,7 @@
-import { Meteor } from 'meteor/meteor';
-import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+// Libs
+import {Meteor} from 'meteor/meteor';
+import {Mongo} from 'meteor/mongo';
+import {check} from 'meteor/check';
 
 export const Indicators = new Mongo.Collection('indicators');
 
@@ -14,20 +15,34 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-    'indicators.insert'() {
+    'indicators.save'(data) {
 
-        Indicators.insert({
-            createdAt: new Date(),
-        });
+        for (var i = 0; i < data.length; i++) {
 
-    },
+            let indicator;
 
-    'indicators.remove'(indicatorId) {
+            if (data[i]._id) indicator = Indicators.findOne({_id: data[i]._id});
 
-        check(indicatorId, String);
+            if (indicator) {
+                Indicators.update(data[i]._id, {
+                    $set: {
+                        name: data[i].name,
+                        code: data[i].code,
+                        notes: data[i].notes,
+                        changedAt: new Date(),
+                        delete: data[i].delete
+                    }
+                });
+            } else {
+                Indicators.insert({
+                    name: data[i].name,
+                    code: data[i].code,
+                    notes: data[i].notes,
+                    createdAt: new Date()
+                });
+            }
 
-        const indicator = Indicators.findOne(indicatorId);
-        Indicators.remove(indicator);
+        }
 
     }
 
