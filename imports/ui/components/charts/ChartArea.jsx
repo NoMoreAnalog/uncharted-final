@@ -15,7 +15,6 @@ const ChartArea = observer(['countryStore', 'indicatorStore', 'store'], (props) 
             <div className="content">
                 {props.store.chartTitle}
                 <hr/>
-                <div className="sub header">Choose your Countries and Indicators</div>
             </div>
         </h1>
 

@@ -18,15 +18,12 @@ export default class NavBar extends Component {
 
         const menuStyle = {
             backgroundColor: '#525866',
-            paddingTop: 15,
-            paddingBottom: 15,
             borderRadius: 0
         };
 
         const itemStyle = {
             margin: 20,
             paddingTop: 10,
-            paddingBottom: 10,
             fontWeight: 'bolder',
             borderTop: '3px solid #525866'
         };
@@ -34,7 +31,6 @@ export default class NavBar extends Component {
         const activeItemStyle = {
             margin: 20,
             paddingTop: 10,
-            paddingBottom: 10,
             fontWeight: 'bolder',
             borderTop: '3px solid #00adc6',
             borderRadius: 0,

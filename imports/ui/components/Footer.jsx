@@ -29,15 +29,6 @@ const bottomGridStyle = {
     backgroundColor: '#525865'
 };
 
-const copyRightStyle = {
-    paddingTop: 20,
-    paddingBottom: 20
-};
-
-const nameImgStyle = {
-    padding: 15
-}
-
 // Footer component - contains sponsor information
 const Footer = (props) => (
 
@@ -85,11 +76,11 @@ const Footer = (props) => (
 
             <Grid.Row verticalAlign='middle'>
 
-                <Grid.Column style={copyRightStyle}>
+                <Grid.Column>
                     All Rights Reserved &copy; 2016 Knowledge4All
                 </Grid.Column>
 
-                <Grid.Column textAlign='right' style={nameImgStyle}>
+                <Grid.Column textAlign='right'>
                     <Image
                         src='name.png'
                         alt='name'

@@ -20,8 +20,6 @@ export default class Indicators extends Component {
     constructor() {
         super();
 
-        window.this = this;
-
         this._handleSubmit = this._handleSubmit.bind(this);
         this._addIndicator = this._addIndicator.bind(this);
         this._saveChanges = this._saveChanges.bind(this);
@@ -68,9 +66,9 @@ export default class Indicators extends Component {
 
             },
             cells: function (row, col, prop) {
-                if (prop === 'name' || prop === 'code' || prop === 'notes') return;
-                const cellProperties = {readOnly: this.instance.getDataAtRowProp(row, 'delete')};
-                return cellProperties;
+                if (prop === 'name' || prop === 'code' || prop === 'notes') {
+                    return {readOnly: this.instance.getDataAtRowProp(row, 'delete')};
+                };
             },
         };
     }
@@ -139,6 +137,7 @@ export default class Indicators extends Component {
 
     _addIndicator() {
         this.data.push({});
+        this.table.loadData(this.data);
     }
 
     _validator(value, callback) {

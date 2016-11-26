@@ -35,14 +35,18 @@ export default class Records extends Component {
                 {
                     data: 'countryName',
                     type: 'dropdown',
-                    source: props.adminStore.countryNameSource,
+                    source: (query, callback) => {
+                        callback(props.adminStore.countryNameSource);
+                    },
                     readOnly: true,
                     validator: this._validator
                 },
                 {
                     data: 'indicatorName',
                     type: 'dropdown',
-                    source: props.adminStore.indicatorNameSource,
+                    source: (query, callback) => {
+                        callback(props.adminStore.indicatorNameSource);
+                    },
                     validator: this._validator
                 },
                 {
@@ -109,6 +113,7 @@ export default class Records extends Component {
 
             },
         };
+
     }
 
     componentDidMount() {
@@ -193,6 +198,7 @@ export default class Records extends Component {
 
     _addRecord() {
         this.data.push({});
+        this.table.loadData(this.data);
     }
 
     _saveChanges() {

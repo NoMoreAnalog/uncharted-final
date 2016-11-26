@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {Form, Button, Radio, Divider, Icon} from 'semantic-ui-react';
-import Handsontable from 'handsontable/dist/handsontable.full.js';
+import Handsontable from 'handsontable/dist/handsontable.full.min.js';
 import * as _ from 'lodash';
 
 // Components
@@ -20,8 +20,6 @@ export default class Countries extends Component {
 
     constructor() {
         super();
-
-        window.this = this;
 
         this._handleSubmit = this._handleSubmit.bind(this);
         this._addCountry = this._addCountry.bind(this);
@@ -166,6 +164,7 @@ export default class Countries extends Component {
 
     _addCountry() {
         this.data.push({});
+        this.table.loadData(this.data);
     }
 
     _validator(value, callback) {
