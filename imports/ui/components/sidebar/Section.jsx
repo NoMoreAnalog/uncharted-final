@@ -6,7 +6,7 @@ import Item from './Item.jsx';
 
 // Section component - these make up the side bar
 @observer(['store'])
-class Section extends Component {
+export default class Section extends Component {
 
     constructor() {
         super();
@@ -34,10 +34,12 @@ class Section extends Component {
 
     componentDidMount() {
 
+        const {store} = {...this.props};
+
         window.addEventListener('resize', this._handleResize);
         window.addEventListener('scroll', this._handleResize);
 
-        this.props.store.resizeSectionScroller = this._handleResize;
+        store.resizeSectionScroller = this._handleResize;
         this._handleResize();
 
     }
@@ -57,11 +59,11 @@ class Section extends Component {
 
         return (
 
-            <div className={'section ' + classed} ref={(ref) => this.section = ref}>
+            <div className={'section ' + classed} ref={ref => this.section = ref}>
 
-                <div ref={(ref) => this.wrapper = ref}>
+                <div ref={ref => this.wrapper = ref}>
 
-                    <h2 className="ui center aligned header" ref={(ref) => this.header = ref}>
+                    <h2 className="ui center aligned header" ref={ref => this.header = ref}>
                         {title}
                         <div className="ui center aligned sub header">{subtitle}</div>
                     </h2>
@@ -73,7 +75,7 @@ class Section extends Component {
 
                 </div>
 
-                <div className="scrollArea" ref={(ref) => this.scrollArea = ref}>
+                <div className="scrollArea" ref={ref => this.scrollArea = ref}>
                     <div className="ui list">
                         {list.map(item =>
                             <Item
@@ -91,8 +93,6 @@ class Section extends Component {
     }
 
 }
-
-export default Section;
 
 Section.wrappedComponent.propTypes = {
     title: PropTypes.string.isRequired,

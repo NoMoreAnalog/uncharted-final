@@ -6,6 +6,11 @@ export default class Store {
     @observable sideBarExpanded = false;
     @observable activeIndicatorsOpen = false;
 
+    // Steps setup
+    @observable step1Pos = {top: 200, right: 280};
+    @observable step2Pos = {top: 500, right: 280};
+    @observable step3Pos = {top: 100, right: 500};
+
     // Chart setup
     @observable width = 500;
     @observable height = 500;
@@ -42,6 +47,23 @@ export default class Store {
      / Callable functions
      /
      */
+
+    setStepPos(pos, step) {
+        switch (step) {
+            case 1:
+                this.step1Pos.top = pos.top;
+                this.step1Pos.right = 200;
+                break;
+            case 2:
+                this.step2Pos.top = pos.top;
+                this.step2Pos.right = 200;
+                break;
+            case 3:
+                this.step3Pos.top = pos.top + 40;
+                this.step3Pos.right = pos.right + 80;
+                break;
+        }
+    }
 
     toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;

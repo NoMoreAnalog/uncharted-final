@@ -80,8 +80,9 @@ const Footer = (props) => (
                     All Rights Reserved &copy; 2016 Knowledge4All
                 </Grid.Column>
 
-                <Grid.Column textAlign='right'>
+                <Grid.Column>
                     <Image
+                        floated='right'
                         src='name.png'
                         alt='name'
                         height='30'

@@ -1,34 +1,46 @@
-import React, {PropTypes} from 'react';
+// Libs
+import React, {Component} from 'react';
 import DevTools from 'mobx-react-devtools';
-import {observer, inject} from 'mobx-react';
+import {observer} from 'mobx-react';
 
+// Components
+import Steps from '../components/Steps';
 import NavBar from '../components/topbars/NavBar.jsx';
 import ChartSelector from '../components/topbars/ChartSelector.jsx';
-import Charts from '../components/charts/ChartArea.jsx';
+import ChartArea from '../components/charts/ChartArea.jsx';
 import Footer from '../components/Footer.jsx';
 import SideBar from '../components/sidebar/SideBar.jsx';
 
-// ChartsLayout component - represents the chart portion of the app
-const ChartsLayout = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
+// ChartsLayout component - represents the charts portion of the app
+@observer(['store'])
+export default class ChartsLayout extends Component {
 
-    <div className="charts-layout">
+    render() {
 
-        <DevTools />
+        const {store} = {...this.props};
 
-        <div className="top-bar">
-            <NavBar />
-            <ChartSelector />
-        </div>
+        return (
+            <div className="charts-layout">
 
-        <div className={props.store.sideBarExpanded ? 'content-wrapper shrink' : 'content-wrapper'}>
-            <Charts />
-            <Footer />
-        </div>
+                <DevTools />
 
-        <SideBar />
-        
-    </div>
+                <div className="top-bar">
+                    <NavBar />
+                    <ChartSelector />
+                </div>
 
-)
+                <div className={store.sideBarExpanded ? 'content-wrapper shrink' : 'content-wrapper'}>
+                    <ChartArea />
+                    <Footer />
+                </div>
 
-export default ChartsLayout;
+                <SideBar />
+
+                <Steps />
+
+            </div>
+        )
+
+    }
+
+}

@@ -1,24 +1,27 @@
-import React, {PropTypes} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 
 // SideBarTrigger component - should the side bar be expanded or not
-const SideBarTrigger = observer(['store'], (props) =>
+@observer(['store'])
+export default class SideBarTrigger extends Component {
 
-        <button
-            className="side-bar-trigger"
-            onClick={props.store.toggleSideBarExpanded}
-        >
-            {props.store.sideBarExpanded ?
-                <i className="material-icons">chevron_right</i> :
-                <i className="material-icons">search</i>}
-        </button>
+    render() {
 
-)
+        const {store} = {...this.props};
 
-export default SideBarTrigger;
+        const icon = store.sideBarExpanded ?
+            <i className="material-icons">chevron_right</i> :
+            <i className="material-icons">search</i>;
 
-SideBarTrigger.wrappedComponent.propTypes = {
-    store: PropTypes.any.isRequired
-};
+        return (
+            <button
+                ref={ref => this.trigger = ref}
+                className="side-bar-trigger"
+                onClick={store.toggleSideBarExpanded}>
+                {icon}
+            </button>
+        )
 
-SideBarTrigger.wrappedComponent.defaultProps = {};
+    }
+
+}

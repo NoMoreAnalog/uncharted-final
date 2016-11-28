@@ -22,10 +22,14 @@ class ChartSelector extends Component {
 
     componentDidMount() {
 
+        const {store} = {...this.props};
+
         $(this.container).visibility({
             type: 'fixed',
             zIndex: 1001
         });
+
+        store.setStepPos(this.header.getBoundingClientRect(), 3);
 
     }
 
@@ -39,7 +43,7 @@ class ChartSelector extends Component {
 
                 <div className="ui stackable borderless menu chart-selector">
 
-                    <div className="header item">Available Graphs:</div>
+                    <div ref={ref => this.header = ref} className="header item">Available Graphs:</div>
 
                     <ChartType
                         click={this._drawBar}
