@@ -51,7 +51,7 @@ class Grid extends Component {
             } else {
 
                 const grid = d3.axisBottom(scale)
-                    .tickSize(-width, 0, 0)
+                    .tickSize(-height, 0, 0)
                     .tickFormat('');
 
                 d3.select(this.grid)
