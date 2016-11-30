@@ -1,9 +1,13 @@
+// Libs
 import React, {Component, PropTypes} from 'react';
 import {List} from 'semantic-ui-react'
+import {observer} from 'mobx-react';
 
+// Components
 import Dot from '../common/Dot.jsx';
 
 // Item component - item to make up list in each section
+@observer
 export default class Item extends Component {
 
     constructor() {
@@ -21,7 +25,7 @@ export default class Item extends Component {
         const {item} = {...this.props};
 
         const dotColor = item.type === 'country' ? item.color : '#00adc6',
-            className = item.draw ? 'draw item' : 'item',
+            className = item.draw ? 'draw' : '',
             style = item.draw ? {color: item.color} : {},
             dot = item.draw ? <Dot createSvg={true} fill={dotColor}/> : <Dot createSvg={true} fill='#636363'/>;
 
