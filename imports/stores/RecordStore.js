@@ -66,8 +66,6 @@ export default class RecordStore {
 
         this.years.replace([first, last]);
 
-        this.yearsToDrawSingle = last;
-
         if (this.yearsToDraw[0] === 0)
             this.yearsToDraw.replace([first, last]);
 
@@ -76,6 +74,8 @@ export default class RecordStore {
 
         if (this.yearsToDraw[1] > last)
             this.yearsToDraw.replace([this.yearsToDraw[0], last]);
+
+        this.yearsToDrawSingle = this.yearsToDraw[1];
 
     }
 
