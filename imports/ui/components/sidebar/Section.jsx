@@ -5,7 +5,7 @@ import Filter from './Filter.jsx';
 import Item from './Item.jsx';
 
 // Section component - these make up the side bar
-@observer(['store'])
+@observer(['chartStore'])
 export default class Section extends Component {
 
     constructor() {
@@ -34,12 +34,12 @@ export default class Section extends Component {
 
     componentDidMount() {
 
-        const {store} = {...this.props};
+        const {chartStore} = {...this.props};
 
         window.addEventListener('resize', this._handleResize);
         window.addEventListener('scroll', this._handleResize);
 
-        store.resizeSectionScroller = this._handleResize;
+        chartStore.resizeSectionScroller = this._handleResize;
         this._handleResize();
 
     }
@@ -99,8 +99,7 @@ Section.wrappedComponent.propTypes = {
     subtitle: PropTypes.string,
     list: PropTypes.array.isRequired,
     classed: PropTypes.string.isRequired,
-    itemStore: PropTypes.any.isRequired,
-    store: PropTypes.any
+    itemStore: PropTypes.any.isRequired
 };
 
 Section.wrappedComponent.defaultProps = {

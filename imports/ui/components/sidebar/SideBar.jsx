@@ -6,8 +6,8 @@ import ViewActiveTrigger from './ViewActiveTrigger.jsx';
 import SideBarTrigger from './SideBarTrigger.jsx';
 
 // Sidebar component - bar on right side of screen with filters
-@observer(['countryStore', 'indicatorStore', 'store'])
-class SideBar extends Component {
+@observer(['countryStore', 'indicatorStore', 'chartStore'])
+export default class SideBar extends Component {
 
     constructor() {
         super();
@@ -27,7 +27,7 @@ class SideBar extends Component {
 
         window.addEventListener('resize', this._handleResize);
         window.addEventListener('scroll', this._handleResize);
-        this.props.store.resizeSectionScroller = this._handleResize;
+        this.props.chartStore.resizeSectionScroller = this._handleResize;
         this._handleResize();
 
     }
@@ -43,11 +43,11 @@ class SideBar extends Component {
 
     render() {
 
-        const props = this.props;
+        const {chartStore, countryStore, indicatorStore} = {...this.props};
 
         return (
             <div ref={(ref) => this.sideBar = ref}
-                 className={props.store.sideBarExpanded ?
+                 className={chartStore.sideBarExpanded ?
                 'side-bar expanded' :
                 'side-bar'}>
 
@@ -55,16 +55,16 @@ class SideBar extends Component {
 
                 <Section
                     title={'Countries'}
-                    list={props.countryStore.filteredCountries}
-                    classed={props.store.activeIndicatorsOpen ? 'countries closed' : 'countries'}
-                    itemStore={props.countryStore}
+                    list={countryStore.filteredCountries}
+                    classed={chartStore.activeIndicatorsOpen ? 'countries closed' : 'countries'}
+                    itemStore={countryStore}
                 />
 
                 <Section
                     title={'Indicators'}
-                    list={props.indicatorStore.filteredIndicators}
-                    classed={props.store.activeIndicatorsOpen ? 'indicators closed' : 'indicators'}
-                    itemStore={props.indicatorStore}
+                    list={indicatorStore.filteredIndicators}
+                    classed={chartStore.activeIndicatorsOpen ? 'indicators closed' : 'indicators'}
+                    itemStore={indicatorStore}
                 />
 
                 <ViewActiveTrigger />
@@ -72,9 +72,9 @@ class SideBar extends Component {
                 <Section
                     title={'Active Indicators'}
                     subtitle={'Click to deselect'}
-                    list={props.indicatorStore.filteredActiveIndicators}
-                    classed={props.store.activeIndicatorsOpen ? 'active-indicators open' : 'active-indicators closed'}
-                    itemStore={props.indicatorStore}
+                    list={indicatorStore.filteredActiveIndicators}
+                    classed={chartStore.activeIndicatorsOpen ? 'active-indicators open' : 'active-indicators closed'}
+                    itemStore={indicatorStore}
                 />
 
             </div>
@@ -82,13 +82,3 @@ class SideBar extends Component {
     }
 
 }
-
-export default SideBar;
-
-SideBar.wrappedComponent.propTypes = {
-    countryStore: PropTypes.any,
-    indicatorStore: PropTypes.any,
-    store: PropTypes.any
-};
-
-SideBar.wrappedComponent.defaultProps = {};

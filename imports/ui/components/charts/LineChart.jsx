@@ -11,15 +11,15 @@ import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
 
 // Line chart - Component displayed when line chart is selected
-@observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
+@observer(['countryStore', 'indicatorStore', 'recordStore', 'chartStore'])
 export default class LineChart extends Component {
 
     render() {
 
-        const {countryStore, indicatorStore, recordStore, store} = {...this.props},
+        const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
             margin = {top: 5, right: 35, bottom: 20, left: 50},
-            width = store.width - margin.left - margin.right,
-            height = store.height - margin.top - margin.bottom,
+            width = chartStore.width - margin.left - margin.right,
+            height = chartStore.height - margin.top - margin.bottom,
             records = recordStore.recordsToDraw,
             countryIds = countryStore.countriesToDraw.map(c => c._id),
             indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);

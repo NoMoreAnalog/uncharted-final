@@ -4,7 +4,7 @@ import {Dropdown} from 'semantic-ui-react';
 import {saveSvgAsPng} from '../../../startup/client/saveSvgAsPng';
 
 // Menu component - Placed in chart stage for print and export options
-@observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
+@observer(['recordStore'])
 export default class Menu extends Component {
 
     constructor() {

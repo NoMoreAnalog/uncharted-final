@@ -5,8 +5,8 @@ import {List} from 'semantic-ui-react'
 import Dot from '../charts/common/Dot.jsx';
 
 // Item component - item to make up list in each section
-@observer(['store'])
-class Item extends Component {
+@observer(['chartStore'])
+export default class Item extends Component {
 
     constructor() {
         super();
@@ -14,10 +14,10 @@ class Item extends Component {
     }
 
     _clicked() {
-        const {item, itemStore} = {...this.props};
+        const {item, itemStore, chartStore} = {...this.props};
 
         itemStore.setActive(item);
-        store.chartDetermination(itemStore);
+        chartStore.chartDetermination(itemStore);
     }
 
     render() {
@@ -44,12 +44,7 @@ class Item extends Component {
 
 }
 
-export default Item;
-
 Item.wrappedComponent.propTypes = {
     itemStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired,
     item: PropTypes.object.isRequired
 };
-
-Item.wrappedComponent.defaultProps = {};

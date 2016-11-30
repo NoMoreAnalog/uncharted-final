@@ -35,8 +35,7 @@ Legend.propTypes = {
     subtitle: PropTypes.string,
     list: PropTypes.array.isRequired,
     classed: PropTypes.string.isRequired,
-    itemStore: PropTypes.any.isRequired,
-    store: PropTypes.any
+    itemStore: PropTypes.any.isRequired
 };
 
 Legend.defaultProps = {

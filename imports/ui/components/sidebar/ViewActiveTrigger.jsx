@@ -1,24 +1,18 @@
-import React, {PropTypes} from "react";
+import React from "react";
 import {observer} from 'mobx-react';
 
-// ViewActiveTrigger component - Clickable area to slide open/close active indicators sections
-const ViewActiveTrigger = observer(['store'], (props) =>
+// ViewActiveTrigger component - Clickable area to slide open/close side bar
+const ViewActiveTrigger = observer(['chartStore'], (props) =>
 
     <button
-        className="ui fluid button view-active-trigger"
-        onClick={props.store.toggleActiveIndicators}
-    >
+        className='ui fluid button view-active-trigger'
+        onClick={props.chartStore.toggleActiveIndicators}>
 
-        {props.store.activeIndicatorsOpen ? <i className="icon chevron down"/> : <i className="icon chevron up"/>}
-        {props.store.activeIndicatorsOpen ? 'View Countries and Indicators' : 'View Active Indicators'}
+        {props.chartStore.activeIndicatorsOpen ? <i className='icon chevron down'/> : <i className='icon chevron up'/>}
+        {props.chartStore.activeIndicatorsOpen ? 'View Countries and Indicators' : 'View Active Indicators'}
 
     </button>
+
 )
 
 export default ViewActiveTrigger;
-
-ViewActiveTrigger.wrappedComponent.propTypes = {
-    store: PropTypes.any.isRequired
-};
-
-ViewActiveTrigger.wrappedComponent.defaultProps = {};

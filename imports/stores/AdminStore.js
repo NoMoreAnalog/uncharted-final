@@ -1,5 +1,5 @@
 // Libs
-import {observable, computed, autorun} from 'mobx';
+import {observable, computed} from 'mobx';
 
 // Files
 import {Countries} from '../api/countries.js';

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {Table, Input, Checkbox, Dropdown} from 'semantic-ui-react'
 
-@observer(['store'])
+@observer(['chartStore'])
 export default class AdminTable extends Component {
 
     constructor() {
@@ -11,6 +11,8 @@ export default class AdminTable extends Component {
     }
 
     render() {
+
+        const {chartStore, data} = {...this.props};
 
         const headerRow = (
             <Table.Row>
@@ -27,7 +29,7 @@ export default class AdminTable extends Component {
             </Table.Row>
         );
 
-        let bodyRows = this.props.data.map((record, index) => {
+        let bodyRows = data.map((record, index) => {
 
             let country;
             let indicator;
@@ -40,14 +42,14 @@ export default class AdminTable extends Component {
                     <Table.Cell>
                         <Dropdown placeholder='Country' fluid search selection
                                   defaultValue={record.year}
-                                  options={this.props.store.countryNameOptions}
+                                  options={chartStore.countryNameOptions}
                         />
                     </Table.Cell>;
                 indicator =
                     <Table.Cell>
                         <Dropdown placeholder='Indicator' fluid search selection
                                   defaultValue={record.year}
-                                  options={this.props.store.indicatorNameOptions}
+                                  options={chartStore.indicatorNameOptions}
                         />
                     </Table.Cell>;
             }

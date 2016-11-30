@@ -133,8 +133,8 @@ export default class Records extends Component {
 
     _yearSource() {
         return [
-            '2000', '2001', '2002', '2003', '2004', '2005', '2006', '2007', '2008',
-            '2009', '2010', '2011', '2012', '2013', '2014', '2015', '2016'
+            1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008,
+            2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016
         ];
     }
 
@@ -237,6 +237,7 @@ export default class Records extends Component {
 
             if (this.data[i].year > 1999 && this.data[i].year < 2017) {
                 this.table.removeCellMeta(i, 3, 'className');
+                this.data[i].year = Number.parseFloat(this.data[i].year);
             } else {
                 this.table.setCellMeta(i, 3, 'className', 'error');
                 error = true;
@@ -246,6 +247,7 @@ export default class Records extends Component {
 
             if (!Number.isNaN(Number.parseFloat(this.data[i].value))) {
                 this.table.removeCellMeta(i, 4, 'className');
+                this.data[i].value = Number.parseFloat(this.data[i].value);
             } else {
                 this.table.setCellMeta(i, 4, 'className', 'error');
                 error = true;

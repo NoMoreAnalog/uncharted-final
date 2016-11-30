@@ -10,14 +10,14 @@ import Routes from '../imports/startup/client/Routes';
 import CountryStore from '../imports/stores/CountryStore.js';
 import IndicatorStore from '../imports/stores/IndicatorStore.js';
 import RecordStore from '../imports/stores/RecordStore.js';
-import Store from '../imports/stores/Store.js';
+import ChartStore from '../imports/stores/ChartStore.js';
 import AdminStore from '../imports/stores/AdminStore.js';
 
 // Globals
 const countryStore = window.countryStore = new CountryStore();
 const indicatorStore = window.indicatorStore = new IndicatorStore();
 const recordStore = window.recordStore = new RecordStore();
-const store = window.store = new Store();
+const chartStore = window.store = new ChartStore();
 const adminStore = window.adminStore = new AdminStore();
 
 Meteor.startup(() => {
@@ -26,7 +26,7 @@ Meteor.startup(() => {
             countryStore={countryStore}
             indicatorStore={indicatorStore}
             recordStore={recordStore}
-            store={store}
+            chartStore={chartStore}
             adminStore={adminStore}>
             {Routes}
         </Provider>,

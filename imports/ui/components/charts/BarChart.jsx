@@ -10,15 +10,15 @@ import Axis from './common/Axis.jsx';
 import CustomPopup from './common/CustomPopup.jsx';
 
 // Bar chart - Component displayed when bar chart is selected
-@observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
+@observer(['countryStore', 'indicatorStore', 'recordStore', 'chartStore'])
 export default class BarChart extends Component {
 
     render() {
 
-        const {countryStore, indicatorStore, recordStore, store} = {...this.props},
+        const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
             margin = {top: 5, right: 35, bottom: 20, left: 50},
-            width = store.width - margin.left - margin.right,
-            height = store.height - margin.top - margin.bottom,
+            width = chartStore.width - margin.left - margin.right,
+            height = chartStore.height - margin.top - margin.bottom,
             records = recordStore.recordsToDraw,
             yearData = _.groupBy(records, 'year'),
             countryIds = countryStore.countriesToDraw.map(c => c._id),

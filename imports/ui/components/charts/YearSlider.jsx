@@ -34,7 +34,7 @@ CustomHandle.propTypes = {
 };
 
 // YearSlider component - Slider to filter years
-@observer(['recordStore', 'store'])
+@observer(['recordStore'])
 export default class YearSlider extends Component {
 
     constructor() {

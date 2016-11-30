@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 import DevTools from 'mobx-react-devtools';
-import {observer, inject} from 'mobx-react';
+import {observer} from 'mobx-react';
 
 // MainLayout component - represents the whole app
-const MainLayout = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
+const MainLayout = observer(['countryStore', 'indicatorStore', 'chartStore'], (props) =>
     <div>
         <DevTools />
         {props.children}

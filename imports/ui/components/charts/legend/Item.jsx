@@ -1,11 +1,9 @@
-import React, {PropTypes, Component} from 'react';
-import {observer} from 'mobx-react';
+import React, {Component, PropTypes} from 'react';
 import {List} from 'semantic-ui-react'
 
 import Dot from '../common/Dot.jsx';
 
 // Item component - item to make up list in each section
-@observer(['countryStore', 'indicatorStore', 'recordStore', 'store'])
 export default class Item extends Component {
 
     constructor() {
@@ -41,9 +39,7 @@ export default class Item extends Component {
 
 }
 
-Item.wrappedComponent.propTypes = {
+Item.propTypes = {
     itemStore: PropTypes.any.isRequired,
     item: PropTypes.object.isRequired
 };
-
-Item.wrappedComponent.defaultProps = {};

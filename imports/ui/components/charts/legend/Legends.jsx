@@ -5,7 +5,7 @@ import {Grid} from 'semantic-ui-react';
 import Legend from './Legend.jsx';
 
 // Legends component - Container for the chart specific legends
-const Legends = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
+const Legends = observer(['countryStore', 'indicatorStore', 'chartStore'], (props) =>
 
     <Grid className="legends" style={{paddingTop: 50}}>
 
@@ -18,7 +18,7 @@ const Legends = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
                     list={props.countryStore.activeCountries}
                     classed="countries"
                     itemStore={props.countryStore}
-                    store={props.store}
+                    store={props.chartStore}
                 />
 
             </Grid.Column>
@@ -30,7 +30,7 @@ const Legends = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
                     list={props.indicatorStore.activeIndicators}
                     classed="indicators"
                     itemStore={props.indicatorStore}
-                    store={props.store}
+                    store={props.chartStore}
                 />
 
             </Grid.Column>
@@ -41,11 +41,3 @@ const Legends = observer(['countryStore', 'indicatorStore', 'store'], (props) =>
 )
 
 export default Legends;
-
-Legends.wrappedComponent.propTypes = {
-    countryStore: PropTypes.any.isRequired,
-    indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired
-};
-
-Legends.wrappedComponent.defaultProps = {};

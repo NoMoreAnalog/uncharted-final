@@ -8,12 +8,4 @@ const RadarChart = observer((props) =>
 
 )
 
-RadarChart.propTypes = {
-    countryStore: PropTypes.any.isRequired,
-    indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired
-};
-
-RadarChart.defaultProps = {};
-
 export default RadarChart;

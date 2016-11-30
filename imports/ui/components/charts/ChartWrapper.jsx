@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 
 import BarChart from './BarChart.jsx';
@@ -7,8 +7,8 @@ import RadarChart from './RadarChart.jsx';
 import ScatterChart from './ScatterChart.jsx';
 
 // ChartWrapper component - Decide which chart to show
-@observer(['countryStore', 'indicatorStore', 'store'])
-class ChartWrapper extends Component {
+@observer(['countryStore', 'indicatorStore', 'chartStore'])
+export default class ChartWrapper extends Component {
 
     constructor() {
         super();
@@ -18,7 +18,7 @@ class ChartWrapper extends Component {
     }
 
     componentWillMount() {
-        this.props.store.chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand;
+        this.props.chartStore.chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand;
         window.addEventListener('resize', this._onResize);
     }
 
@@ -31,12 +31,12 @@ class ChartWrapper extends Component {
     }
 
     _onResize() {
-        this.props.store.width = this.chart.clientWidth;
+        this.props.chartStore.width = this.chart.clientWidth;
         // this.props.store.height = this.chartWrapper.clientHeight;
     }
 
     _chartResizeOnSideBarExpand(extra) {
-        this.props.store.width = this.chart.clientWidth + extra;
+        this.props.chartStore.width = this.chart.clientWidth + extra;
         // this.props.store.height = this.chartWrapper.clientHeight;
     }
 
@@ -46,14 +46,14 @@ class ChartWrapper extends Component {
 
     render() {
 
-        const {store} = {...this.props};
+        const {chartStore} = {...this.props};
 
         let chart = '';
 
-        if (store.barDraw) chart = <BarChart {...this.props}/>;
-        else if (store.lineDraw) chart = <LineChart {...this.props}/>;
-        else if (store.radarDraw) chart = <RadarChart {...this.props}/>;
-        else if (store.scatterDraw) chart = <ScatterChart {...this.props}/>;
+        if (chartStore.barDraw) chart = <BarChart {...this.props}/>;
+        else if (chartStore.lineDraw) chart = <LineChart {...this.props}/>;
+        else if (chartStore.radarDraw) chart = <RadarChart {...this.props}/>;
+        else if (chartStore.scatterDraw) chart = <ScatterChart {...this.props}/>;
 
         return (
 
@@ -66,13 +66,3 @@ class ChartWrapper extends Component {
     }
 
 }
-
-export default ChartWrapper;
-
-ChartWrapper.wrappedComponent.propTypes = {
-    countryStore: PropTypes.any.isRequired,
-    indicatorStore: PropTypes.any.isRequired,
-    store: PropTypes.any.isRequired
-};
-
-ChartWrapper.wrappedComponent.defaultProps = {};
