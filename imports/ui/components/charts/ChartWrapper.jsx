@@ -12,13 +12,14 @@ export default class ChartWrapper extends Component {
 
     constructor() {
         super();
+
         this._onResize = this._onResize.bind(this);
         this._chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand.bind(this);
-        this._log = this._log.bind(this);
     }
 
     componentWillMount() {
-        this.props.chartStore.chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand;
+        const {chartStore} = {...this.props};
+        chartStore.chartResizeOnSideBarExpand = this._chartResizeOnSideBarExpand;
         window.addEventListener('resize', this._onResize);
     }
 
@@ -31,17 +32,13 @@ export default class ChartWrapper extends Component {
     }
 
     _onResize() {
-        this.props.chartStore.width = this.chart.clientWidth;
-        // this.props.store.height = this.chartWrapper.clientHeight;
+        const {chartStore} = {...this.props};
+        chartStore.width = this.chart.clientWidth - chartStore.margin.left - chartStore.margin.right;
     }
 
     _chartResizeOnSideBarExpand(extra) {
-        this.props.chartStore.width = this.chart.clientWidth + extra;
-        // this.props.store.height = this.chartWrapper.clientHeight;
-    }
-
-    _log(value) {
-        console.log(value);
+        const {chartStore} = {...this.props};
+        chartStore.width = this.chart.clientWidth - chartStore.margin.left - chartStore.margin.right + extra;
     }
 
     render() {
@@ -56,11 +53,9 @@ export default class ChartWrapper extends Component {
         else if (chartStore.scatterDraw) chart = <ScatterChart {...this.props}/>;
 
         return (
-
             <div className="chart-wrapper">
                 <div className="chart" ref={(ref) => this.chart = ref}>{chart}</div>
             </div>
-
         )
 
     }

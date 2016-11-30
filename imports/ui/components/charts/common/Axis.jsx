@@ -1,6 +1,5 @@
 import React, {PropTypes, Component} from 'react';
 import * as d3 from 'd3';
-import * as _ from 'lodash';
 
 export default class Axis extends Component {
 
@@ -14,7 +13,7 @@ export default class Axis extends Component {
 
     _renderAxis() {
 
-        const {scale, axisType, checkYears, scatterChart} = {...this.props};
+        const {scale, axisType, checkYears} = {...this.props};
 
         if (axisType === 'y') {
 
@@ -56,17 +55,27 @@ export default class Axis extends Component {
 
     render() {
 
-        const {height, axisType} = {...this.props};
+        const {height, width, margin, axisType, label} = {...this.props};
 
         const translate = 'translate(0,' + (height) + ')';
         const transform = axisType === 'x' ? translate : '';
+        const textTransform = axisType === 'x' ?
+        'translate(' + (width / 2) + ',' + ( margin.bottom * .8) + ')' :
+        'translate(' + (-margin.left * .8) + ',' + (height / 2) + ')rotate(-90)';
 
         return (
             <g
                 ref={(ref) => this.axis = ref}
                 className={axisType + '-axis'}
-                transform={transform}
-            />
+                transform={transform}>
+                <text
+                    fill='#636363'
+                    fontSize={12}
+                    textAnchor='middle'
+                    transform={textTransform}>
+                    {label}
+                </text>
+            </g>
         );
 
     }
@@ -75,7 +84,15 @@ export default class Axis extends Component {
 
 Axis.propTypes = {
     height: PropTypes.number.isRequired,
+    width: PropTypes.number,
+    margin: PropTypes.object,
     scale: PropTypes.func.isRequired,
     axisType: PropTypes.oneOf(['x', 'y']).isRequired,
-    checkYears: PropTypes.bool
+    checkYears: PropTypes.bool,
+    label: PropTypes.string
+};
+
+Axis.defaultProps = {
+    width: 0,
+    margin: {top: 0, bottom: 0, left: 0, right: 0}
 };

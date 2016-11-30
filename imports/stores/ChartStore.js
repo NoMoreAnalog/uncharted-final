@@ -8,8 +8,9 @@ export default class Store {
     @observable activeIndicatorsOpen = false;
 
     // Chart setup
-    @observable width = 500;
-    @observable height = 500;
+    @observable width = 500; // set dynamically in ChartWrapper
+    @observable height = 450;
+    @observable margin = {top: 50, right: 50, bottom: 50, left: 50};
 
     // Used in top bar to determine which chart user can selected
     @observable barActive = false;

@@ -11,11 +11,12 @@ class CustomHandle extends Component {
         const {offset, value} = {...this.props};
 
         const handleStyle = {
-            marginLeft: -50,
+            marginLeft: -40,
             position: 'absolute',
             cursor: 'pointer',
-            bottom: offset + '%',
-            transform: 'translate(10px, 50%)'
+            bottom: offset - 2 + '%',
+            width: 100,
+            color: '#636363'
         };
 
         return (
@@ -62,13 +63,14 @@ export default class YearSlider extends Component {
             height: 300,
             width: 30,
             marginLeft: 40,
-            marginTop: -350
+            marginTop: -350,
         };
 
         const yearStyle = {
             top: -370,
             position: 'relative',
             fontWeight: 'bold',
+            color: '#636363',
             display: 'inline'
         };
 
@@ -82,7 +84,7 @@ export default class YearSlider extends Component {
                     max={recordStore.lastYear}
                     step={1}
                     defaultValue={recordStore.lastYear}
-                    onAfterChange={this._onAfterChange}
+                    onChange={this._onAfterChange}
                     handle={<CustomHandle/>}
                 />;
         } else {

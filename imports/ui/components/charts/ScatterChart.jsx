@@ -16,12 +16,13 @@ export default class ScatterChart extends Component {
     render() {
 
         const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
-            margin = {top: 5, right: 35, bottom: 20, left: 50},
-            width = chartStore.width - margin.left - margin.right,
-            height = chartStore.height - margin.top - margin.bottom,
+            margin = chartStore.margin,
+            width = chartStore.width,
+            height = chartStore.height,
             records = recordStore.recordsToDraw,
             countryIds = countryStore.countriesToDraw.map(c => c._id),
-            indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);
+            indicatorIds = indicatorStore.indicatorsToDraw.map(i => i._id),
+            indicatorNames = indicatorStore.indicatorsToDraw.map(i => i.name);
 
         if (_.size(records) === 0 || _.size(indicatorIds) !== 2 || _.size(countryIds) < 1) {
             return null;
@@ -87,6 +88,8 @@ export default class ScatterChart extends Component {
 
         }
 
+        if (_.size(dots) === 0) return null;
+
         const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
 
         return (
@@ -102,8 +105,8 @@ export default class ScatterChart extends Component {
                     <Grid height={height} width={width} scale={x} gridType='vertical'/>
                     <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
-                    <Axis height={height} scale={x} axisType='x'/>
-                    <Axis height={height} scale={y} axisType='y'/>
+                    <Axis height={height} width={width} margin={margin} scale={x} axisType='x' label={indicatorNames[0]}/>
+                    <Axis height={height} width={width} margin={margin} scale={y} axisType='y' label={indicatorNames[1]}/>
 
                     {dots}
 

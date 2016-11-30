@@ -20,11 +20,9 @@ export default class ChartArea extends Component {
                 <div className='content'>
                     {chartStore.chartTitle}<br/>
                     {chartStore.chartTitle2}
-                    <hr/>
+                    {chartStore.chartTitle ? <hr/> : ''}
                 </div>
             </Header>;
-
-        if (!chartStore.chartTitle) header = <div/>
 
         let menu = <Menu/>;
         if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) menu =

@@ -16,9 +16,9 @@ export default class BarChart extends Component {
     render() {
 
         const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
-            margin = {top: 5, right: 35, bottom: 20, left: 50},
-            width = chartStore.width - margin.left - margin.right,
-            height = chartStore.height - margin.top - margin.bottom,
+            margin = chartStore.margin,
+            width = chartStore.width,
+            height = chartStore.height,
             records = recordStore.recordsToDraw,
             yearData = _.groupBy(records, 'year'),
             countryIds = countryStore.countriesToDraw.map(c => c._id),
@@ -134,7 +134,7 @@ export default class BarChart extends Component {
         });
 
         const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
-        const yearsTransform = 'scale(1,-1) translate(0,-' + height + ')'; // mirror it on x axis
+        const yearsTransform = 'scale(1,-1) translate(0,' + -height + ')'; // mirror it on x axis
 
         return (
 
