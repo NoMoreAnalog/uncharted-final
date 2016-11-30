@@ -27,8 +27,10 @@ Meteor.methods({
                 Indicators.update(data[i]._id, {
                     $set: {
                         name: data[i].name,
+                        name_ar: data[i].name_ar,
                         code: data[i].code,
                         notes: data[i].notes,
+                        notes_ar: data[i].notes_ar,
                         changedAt: new Date(),
                         delete: data[i].delete
                     }
@@ -36,8 +38,10 @@ Meteor.methods({
             } else {
                 Indicators.insert({
                     name: data[i].name,
+                    name_ar: data[i].name_ar,
                     code: data[i].code,
                     notes: data[i].notes,
+                    notes_ar: data[i].notes_ar,
                     createdAt: new Date()
                 });
             }

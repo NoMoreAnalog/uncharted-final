@@ -45,7 +45,7 @@ export default class CountryStore {
         this.handle = Meteor.subscribe('countries');
 
         Tracker.autorun(() => {
-            if (this.handle.ready()) this.setCountries(Countries.find({delete: false}, {sort: {name: 1}}).fetch());
+            if (this.handle.ready()) this.setCountries(Countries.find({delete: {$in: [null, false]}}, {sort: {name: 1}}).fetch());
         });
 
     }

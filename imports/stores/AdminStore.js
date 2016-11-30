@@ -140,8 +140,10 @@ class Indicator {
 
     _id = '';
     name = '';
+    name_ar = '';
     code = '';
     notes = '';
+    notes_ar = '';
     createdAt = '';
     createdBy = '';
     changedAt = '';
@@ -151,8 +153,10 @@ class Indicator {
     constructor(indicator) {
         this._id = indicator._id;
         this.name = indicator.name;
+        this.name_ar = indicator.name_ar;
         this.code = indicator.code;
         this.notes = indicator.notes;
+        this.notes_ar = indicator.notes_ar;
         this.createdBy = indicator.createdBy;
         this.changedBy = indicator.changedBy;
         this.delete = indicator.delete || false;

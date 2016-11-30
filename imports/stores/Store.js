@@ -7,7 +7,7 @@ export default class Store {
     @observable activeIndicatorsOpen = false;
 
     // Steps setup
-    @observable step1Pos = {top: 200, right: 280};
+    @observable step1Pos = {top: 240, right: 280};
     @observable step2Pos = {top: 500, right: 280};
     @observable step3Pos = {top: 100, right: 500};
 
@@ -50,17 +50,17 @@ export default class Store {
 
     setStepPos(pos, step) {
         switch (step) {
-            case 1:
+            case 1: // not used, TODO: attach step image to ChartSelector
                 this.step1Pos.top = pos.top;
                 this.step1Pos.right = 200;
                 break;
-            case 2:
+            case 2: // not used, TODO: attach step image to indicator Section
                 this.step2Pos.top = pos.top;
                 this.step2Pos.right = 200;
                 break;
             case 3:
                 this.step3Pos.top = pos.top + 40;
-                this.step3Pos.right = pos.right + 80;
+                this.step3Pos.right = pos.right - 40;
                 break;
         }
     }

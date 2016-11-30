@@ -31,15 +31,17 @@ export default class Indicators extends Component {
             columns: [
                 {data: '_id', type: 'text', readOnly: true},
                 {data: 'name', type: 'text', validator: this._validator},
+                {data: 'name_ar', type: 'text', validator: this._validator},
                 {data: 'code', type: 'text', validator: this._validator},
                 {data: 'notes', type: 'text'},
+                {data: 'notes_ar', type: 'text'},
                 {data: 'createdAt', type: 'text', readOnly: true},
                 {data: 'createdBy', type: 'text', readOnly: true},
                 {data: 'changedAt', type: 'text', readOnly: true},
                 {data: 'changedBy', type: 'text', readOnly: true},
                 {data: 'delete', type: 'checkbox', className: 'htCenter htMiddle'}
             ],
-            colHeaders: ['ID', 'Name', 'Code', 'Notes', 'Created At', 'Created By', 'Changed At', 'Changed By', 'Delete?'],
+            colHeaders: ['ID', 'Name EN', 'Name AR', 'Code', 'Notes EN', 'Note AR', 'Created At', 'Created By', 'Changed At', 'Changed By', 'Delete?'],
             columnSorting: true,
             manualColumnResize: true,
             manualColumnMove: true,
@@ -66,7 +68,7 @@ export default class Indicators extends Component {
 
             },
             cells: function (row, col, prop) {
-                if (prop === 'name' || prop === 'code' || prop === 'notes') {
+                if (prop === 'name' || prop === 'name_ar' || prop === 'code' || prop === 'notes' || prop === 'notes_ar') {
                     return {readOnly: this.instance.getDataAtRowProp(row, 'delete')};
                 };
             },
@@ -120,8 +122,10 @@ export default class Indicators extends Component {
             this.data.push({
                 _id: indicator._id,
                 name: indicator.name,
+                name_ar: indicator.name_ar,
                 code: indicator.code,
                 notes: indicator.notes,
+                notes_ar: indicator.notes_ar,
                 createdAt: indicator.createdAt,
                 createdBy: indicator.createdBy,
                 changedAt: indicator.changedAt,

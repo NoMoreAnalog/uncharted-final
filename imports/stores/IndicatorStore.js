@@ -49,7 +49,7 @@ export default class IndicatorStore {
         this.handle = Meteor.subscribe('indicators');
 
         Tracker.autorun(() => {
-            if (this.handle.ready()) this.setIndicators(Indicators.find({delete: false}, {sort: {name: 1}}).fetch());
+            if (this.handle.ready()) this.setIndicators(Indicators.find({delete: {$in: [null, false]}}, {sort: {name: 1}}).fetch());
         });
 
     }
