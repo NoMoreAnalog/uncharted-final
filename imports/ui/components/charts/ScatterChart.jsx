@@ -67,9 +67,13 @@ export default class ScatterChart extends Component {
 
             for (let j = 0; j < data1[i].length; j++) { // into country array
                 d = _.clone(data1[i][j]);
-                d.year = data0[i][j].value;
-                tempData.push(d);
+                if (data0[i] && data0[i][j] && d.countryId && d.indicatorId) {
+                    d.year = data0[i][j].value;
+                    tempData.push(d);
+                }
             }
+
+            if (_.size(tempData) === 0) continue;
 
             dots.push(
                 <Dots
