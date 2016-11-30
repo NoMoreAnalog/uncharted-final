@@ -1,5 +1,5 @@
 // Libs
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
@@ -100,11 +100,11 @@ export default class LineChart extends Component {
 
                 <g transform={mainTransform}>
 
-                    <Grid height={height} width={width} scale={x} gridType='vertical'/>
+                    <Grid height={height} width={width} scale={x} gridType='vertical' checkYears/>
                     <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
-                    <Axis data={data[0]} height={height} scale={y} axisType='y'/>
                     <Axis data={data[0]} height={height} scale={x} axisType='x' checkYears/>
+                    <Axis data={data[0]} height={height} scale={y} axisType='y'/>
 
                     {lines}
                     {dots}

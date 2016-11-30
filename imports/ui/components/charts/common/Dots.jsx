@@ -4,6 +4,7 @@ import {Popup, List, Divider} from 'semantic-ui-react'
 import Dot from './Dot.jsx'
 
 export default class Dots extends Component {
+
     render() {
 
         let {data, x, y, endPoints, fill} = {...this.props};

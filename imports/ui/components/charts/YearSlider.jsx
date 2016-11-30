@@ -34,22 +34,29 @@ CustomHandle.propTypes = {
 };
 
 // YearSlider component - Slider to filter years
-@observer(['recordStore'])
+@observer(['recordStore', 'chartStore'])
 export default class YearSlider extends Component {
 
     constructor() {
         super();
-        this._log = this._log.bind(this);
+        this._onAfterChange = this._onAfterChange.bind(this);
     }
 
-    _log(value) {
+    _onAfterChange(value) {
         const {recordStore} = {...this.props};
-        recordStore.yearsToDraw.replace(value);
+        if (value[0]) {
+            recordStore.yearsToDraw.replace(value);
+            recordStore.yearsToDrawSingle = recordStore.yearsToDraw[1];
+        }
+        else {
+            recordStore.yearsToDraw.replace([recordStore.yearsToDraw[0], value]);
+            recordStore.yearsToDrawSingle = value;
+        }
     }
 
     render() {
 
-        const {recordStore} = {...this.props};
+        const {recordStore, chartStore} = {...this.props};
 
         const sliderStyle = {
             height: 300,
@@ -61,25 +68,42 @@ export default class YearSlider extends Component {
         const yearStyle = {
             top: -370,
             position: 'relative',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            display: 'inline'
         };
+
+        let slider;
+        if (chartStore.scatterDraw) {
+            slider =
+                <Slider
+                    disabled={false}
+                    vertical
+                    min={recordStore.firstYear}
+                    max={recordStore.lastYear}
+                    step={1}
+                    defaultValue={recordStore.lastYear}
+                    onAfterChange={this._onAfterChange}
+                    handle={<CustomHandle/>}
+                />;
+        } else {
+            slider =
+                <Slider
+                    disabled={false}
+                    range
+                    vertical
+                    min={recordStore.firstYear}
+                    max={recordStore.lastYear}
+                    step={1}
+                    defaultValue={[recordStore.firstYear, recordStore.lastYear]}
+                    onAfterChange={this._onAfterChange}
+                    handle={<CustomHandle/>}
+                />;
+        }
 
         return (
             <div>
                 <div style={yearStyle}>Years:</div>
-                <div style={sliderStyle}>
-                    <Slider
-                        disabled={false}
-                        range
-                        vertical
-                        min={recordStore.firstYear}
-                        max={recordStore.lastYear}
-                        step={1}
-                        defaultValue={[recordStore.firstYear, recordStore.lastYear]}
-                        onAfterChange={this._log}
-                        handle={<CustomHandle/>}
-                    />
-                </div>
+                <div style={sliderStyle}>{slider}</div>
             </div>
         )
 

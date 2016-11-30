@@ -13,7 +13,7 @@ class Grid extends Component {
 
     _renderGrid() {
 
-        const {height, width, scale, gridType} = {...this.props};
+        const {height, width, scale, gridType, checkYears} = {...this.props};
 
         if (gridType === 'horizontal') {
 
@@ -27,24 +27,38 @@ class Grid extends Component {
 
         } else if (gridType === 'vertical') {
 
-            // Get list of years
+            if (checkYears) {
 
-            const first = scale.domain()[0];
-            const last = scale.domain()[scale.domain().length - 1];
-            const tickValues = [];
+                // Get list of years
 
-            for (let year = first; year <= last; year++) {
-                tickValues.push(year);
+                const first = scale.domain()[0];
+                const last = scale.domain()[scale.domain().length - 1];
+                const tickValues = [];
+
+                for (let i = first; i <= last; i++) {
+                    tickValues.push(i);
+                }
+
+                const grid = d3.axisBottom(scale)
+                    .tickValues(tickValues)
+                    .tickSize(-height, 0, 0)
+                    .tickFormat('');
+
+                d3.select(this.grid)
+                    .attr('class', 'grid')
+                    .call(grid);
+
+            } else {
+
+                const grid = d3.axisBottom(scale)
+                    .tickSize(-width, 0, 0)
+                    .tickFormat('');
+
+                d3.select(this.grid)
+                    .attr('class', 'grid')
+                    .call(grid);
+
             }
-
-            const grid = d3.axisBottom(scale)
-                .tickValues(tickValues)
-                .tickSize(-height, 0, 0)
-                .tickFormat('');
-
-            d3.select(this.grid)
-                .attr('class', 'grid')
-                .call(grid);
 
         }
 
@@ -73,7 +87,6 @@ Grid.propTypes = {
     scale: PropTypes.func.isRequired,
     height: React.PropTypes.number.isRequired,
     width: React.PropTypes.number.isRequired,
-    gridType: React.PropTypes.oneOf(['horizontal', 'vertical']).isRequired
+    gridType: React.PropTypes.oneOf(['horizontal', 'vertical']).isRequired,
+    checkYears: React.PropTypes.bool
 };
-
-Grid.defaultProps = {};

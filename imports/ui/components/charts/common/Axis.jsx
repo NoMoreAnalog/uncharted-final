@@ -14,7 +14,7 @@ export default class Axis extends Component {
 
     _renderAxis() {
 
-        const {scale, axisType, checkYears} = {...this.props};
+        const {scale, axisType, checkYears, scatterChart} = {...this.props};
 
         if (axisType === 'y') {
 
@@ -44,8 +44,7 @@ export default class Axis extends Component {
 
             } else {
 
-                const axis = d3.axisBottom(scale)
-                    .tickFormat(d3.format('d'));
+                const axis = d3.axisBottom(scale);
 
                 d3.select(this.axis).call(axis);
 
@@ -75,7 +74,6 @@ export default class Axis extends Component {
 }
 
 Axis.propTypes = {
-    // data: PropTypes.array.isRequired,
     height: PropTypes.number.isRequired,
     scale: PropTypes.func.isRequired,
     axisType: PropTypes.oneOf(['x', 'y']).isRequired,

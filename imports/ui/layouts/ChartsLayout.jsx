@@ -1,6 +1,5 @@
 // Libs
 import React, {Component} from 'react';
-import DevTools from 'mobx-react-devtools';
 import {observer} from 'mobx-react';
 
 // Components
@@ -21,8 +20,6 @@ export default class ChartsLayout extends Component {
 
         return (
             <div className="charts-layout">
-
-                <DevTools />
 
                 <div className="top-bar">
                     <NavBar />

@@ -17,7 +17,7 @@ import AdminStore from '../imports/stores/AdminStore.js';
 const countryStore = window.countryStore = new CountryStore();
 const indicatorStore = window.indicatorStore = new IndicatorStore();
 const recordStore = window.recordStore = new RecordStore();
-const chartStore = window.store = new ChartStore();
+const chartStore = window.chartStore = new ChartStore();
 const adminStore = window.adminStore = new AdminStore();
 
 Meteor.startup(() => {
