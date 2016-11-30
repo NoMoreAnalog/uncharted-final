@@ -47,6 +47,10 @@ export default class LineChart extends Component {
             .domain([0, d3.max(data, (d, i) => d3.max(data[i], d => d.value))])
             .range([height, 0]);
 
+        if (x.domain()[0] === x.domain()[1]) {
+            x.domain([x.domain()[0] - 1, x.domain()[1] + 1]);
+        }
+
         const line = d3.line()
             .x(d => x(d.year))
             .y(d => y(d.value))
