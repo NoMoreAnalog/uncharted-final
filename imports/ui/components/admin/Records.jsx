@@ -134,7 +134,7 @@ export default class Records extends Component {
     _yearSource() {
         return [
             1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008,
-            2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016
+            2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017
         ];
     }
 
@@ -235,7 +235,7 @@ export default class Records extends Component {
 
             // Year
 
-            if (this.data[i].year > 1999 && this.data[i].year < 2017) {
+            if (this.data[i].year > 1998 && this.data[i].year < 2018) {
                 this.table.removeCellMeta(i, 3, 'className');
                 this.data[i].year = Number.parseFloat(this.data[i].year);
             } else {
