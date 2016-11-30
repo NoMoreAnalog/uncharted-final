@@ -15,14 +15,19 @@ export default class ChartArea extends Component {
 
         const {chartStore, recordStore} = {...this.props};
 
-        let header =
-            <Header as='h1' className='title'>
-                <div className='content'>
-                    {chartStore.chartTitle}<br/>
-                    {chartStore.chartTitle2}
-                    {chartStore.chartTitle ? <hr/> : ''}
-                </div>
-            </Header>;
+        const content = chartStore.chartTitle2 ?
+            <div className='content'>
+                {chartStore.chartTitle}
+                <span style={{color: '#0faec6'}}> VS </span>
+                {chartStore.chartTitle2}
+                {chartStore.chartTitle ? <hr/> : ''}
+            </div> :
+            <div className='content'>
+                {chartStore.chartTitle}
+                {chartStore.chartTitle ? <hr/> : ''}
+            </div>;
+
+        let header = <Header as='h1' className='title'>{content}</Header>;
 
         let menu = <Menu/>;
         if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) menu =
