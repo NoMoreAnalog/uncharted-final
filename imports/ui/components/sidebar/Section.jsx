@@ -3,6 +3,7 @@ import {observer} from 'mobx-react';
 
 import Filter from './Filter.jsx';
 import Item from './Item.jsx';
+import Steps from '../Steps.jsx';
 
 // Section component - these make up the side bar
 @observer(['chartStore'])
@@ -57,15 +58,21 @@ export default class Section extends Component {
 
         const {classed, title, subtitle, itemStore, list} = {...this.props};
 
+        const step = classed === 'countries' ?
+            <Steps number={1}/> :
+            <Steps number={2}/>;
+
         return (
 
             <div className={'section ' + classed} ref={ref => this.section = ref}>
 
+                {step}
+
                 <div ref={ref => this.wrapper = ref}>
 
-                    <h2 className="ui center aligned header" ref={ref => this.header = ref}>
+                    <h2 className='ui center aligned header' ref={ref => this.header = ref}>
                         {title}
-                        <div className="ui center aligned sub header">{subtitle}</div>
+                        <div className='ui center aligned sub header'>{subtitle}</div>
                     </h2>
 
                     <Filter
@@ -75,8 +82,8 @@ export default class Section extends Component {
 
                 </div>
 
-                <div className="scrollArea" ref={ref => this.scrollArea = ref}>
-                    <div className="ui list">
+                <div className='scrollArea' ref={ref => this.scrollArea = ref}>
+                    <div className='ui list'>
                         {list.map(item =>
                             <Item
                                 key={item._id}

@@ -1,7 +1,10 @@
+// Libs
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 
-import ChartType from './ChartType.jsx';
+// Components
+import ChartType from './ChartType';
+import Steps from '../Steps';
 
 // ChartSelector component - List of charts to select on the top bar
 @observer(['chartStore'])
@@ -22,14 +25,10 @@ export default class ChartSelector extends Component {
 
     componentDidMount() {
 
-        const {chartStore} = {...this.props};
-
         $(this.container).visibility({
             type: 'fixed',
             zIndex: 1001
         });
-
-        chartStore.setStepPos(this.header.getBoundingClientRect(), 3);
 
     }
 
@@ -43,6 +42,7 @@ export default class ChartSelector extends Component {
 
                 <div className="ui stackable borderless menu chart-selector">
 
+                    <Steps number={3}/>
                     <div ref={ref => this.header = ref} className="header item">Available Graphs:</div>
 
                     <ChartType

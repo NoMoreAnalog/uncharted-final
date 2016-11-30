@@ -1,15 +1,11 @@
 import {observable} from 'mobx';
+import * as _ from 'lodash';
 
 export default class Store {
 
     // UI setup
     @observable sideBarExpanded = false;
     @observable activeIndicatorsOpen = false;
-
-    // Steps setup
-    @observable step1Pos = {top: 240, right: 280};
-    @observable step2Pos = {top: 500, right: 280};
-    @observable step3Pos = {top: 100, right: 500};
 
     // Chart setup
     @observable width = 500;
@@ -31,10 +27,6 @@ export default class Store {
     @observable activeCountries = [];
     @observable activeIndicators = [];
 
-    // Current focus (default is country)
-    @observable countryFocus = true;
-    @observable indicatorFocus = false;
-
     // Title for ChartArea
     @observable chartTitle = '';
 
@@ -47,23 +39,6 @@ export default class Store {
      / Callable functions
      /
      */
-
-    setStepPos(pos, step) {
-        switch (step) {
-            case 1: // not used, TODO: attach step image to ChartSelector
-                this.step1Pos.top = pos.top;
-                this.step1Pos.right = 200;
-                break;
-            case 2: // not used, TODO: attach step image to indicator Section
-                this.step2Pos.top = pos.top;
-                this.step2Pos.right = 200;
-                break;
-            case 3:
-                this.step3Pos.top = pos.top + 40;
-                this.step3Pos.right = pos.right - 40;
-                break;
-        }
-    }
 
     toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
@@ -117,24 +92,19 @@ export default class Store {
             else if (this.scatterActive) this.setScatterDraw();
         }
 
-        // Depending on the focus we will set the title for ChartArea
+        // If only one indicator is selected set that as the chart title
 
         this.chartTitle = '';
 
-        if (this.countryFocus && this.activeCountries.length) {
+        if (_.size(this.activeIndicators) === 1) {
+
+            this.chartTitle = this.activeIndicators[0].name;
+
+        } else if (_.size(this.activeCountries) > 0) {
 
             this.chartTitle = this.activeCountries[0].name;
             this.activeCountries.forEach((country, index) => {
                 if (index > 0) this.chartTitle += ', ' + country.name;
-            });
-
-        }
-
-        if (this.indicatorFocus && this.activeIndicators.length) {
-
-            this.chartTitle = this.activeIndicators[0].name;
-            this.activeIndicators.forEach((indicator, index) => {
-                if (index > 0) this.chartTitle += ', ' + indicator.name;
             });
 
         }

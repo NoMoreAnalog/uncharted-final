@@ -33,8 +33,6 @@ export default class ChartsLayout extends Component {
 
                 <SideBar />
 
-                <Steps />
-
             </div>
         )
 

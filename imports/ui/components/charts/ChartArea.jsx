@@ -8,7 +8,7 @@ import YearSlider from './YearSlider.jsx';
 import Legends from './legend/Legends.jsx';
 
 // ChartArea component - Area for chart and chart information
-@observer(['countryStore', 'indicatorStore', 'chartStore', 'recordStore'])
+@observer(['chartStore', 'recordStore'])
 export default class ChartArea extends Component {
 
     render() {

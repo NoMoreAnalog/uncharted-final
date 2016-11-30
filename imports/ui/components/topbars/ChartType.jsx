@@ -1,7 +1,7 @@
 import React, {PropTypes, Component} from 'react';
 
 // ChartType component - User selectable chart icon and text
-class ChartType extends Component {
+export default class ChartType extends Component {
 
     componentDidMount() {
         $(this.button).popup({
@@ -48,7 +48,3 @@ ChartType.propTypes = {
     text: PropTypes.string.isRequired,
     popup: PropTypes.string
 };
-
-ChartType.defaultProps = {};
-
-export default ChartType;

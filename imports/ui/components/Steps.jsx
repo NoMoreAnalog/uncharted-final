@@ -1,6 +1,5 @@
 // Libs
-import React, {Component} from 'react';
-import {Image} from 'semantic-ui-react';
+import React, {Component, PropTypes} from 'react';
 import {observer} from 'mobx-react';
 
 // Steps component - tutorial steps initially displayed to the user
@@ -9,34 +8,51 @@ export default class Steps extends Component {
 
     render() {
 
-        const {chartStore, countryStore, indicatorStore} = this.props;
+        const {chartStore, countryStore, indicatorStore, number} = this.props;
 
-        const imageStyle = {
-            height: 150,
-            position: 'fixed'
+        const style = {
+            position: 'absolute',
+            float: 'left'
         };
 
-        const stepOneStyle = Object.assign({top: chartStore.step1Pos.top, right: chartStore.step1Pos.right}, imageStyle);
-        const stepTwoStyle = Object.assign({top: chartStore.step2Pos.top, right: chartStore.step2Pos.right}, imageStyle);
-        const stepThreeStyle = Object.assign({top: chartStore.step3Pos.top, right: chartStore.step3Pos.right + 100}, imageStyle);
+        let imageStyle;
 
-        const imageOne = countryStore.activeCountries.length ?
-            <div/> : <Image src='1_step.png' style={stepOneStyle}/>;
+        switch (number) {
 
-        const imageTwo = indicatorStore.activeIndicators.length ?
-            <div/> : <Image src='2_step.png' style={stepTwoStyle}/>;
+            case 1:
 
-        const imageThree = chartStore.barDraw || chartStore.lineDraw || chartStore.scatterDraw || chartStore.radarDraw ?
-            <div/> : <Image src='3_step.png' style={stepThreeStyle}/>;
+                imageStyle = {marginTop: 100, marginLeft: -350, height: 150, width: 375};
+                return countryStore.activeCountries.length ?
+                    <div/> :
+                    <div style={style}><img src='1_step.png' style={imageStyle}/></div>;
 
-        return (
-            <div className='steps'>
-                {imageOne}
-                {imageTwo}
-                {imageThree}
-            </div>
-        )
+            case 2:
+
+                imageStyle = {marginTop: 100, marginLeft: -350, height: 150, width: 375};
+                return indicatorStore.activeIndicators.length ?
+                    <div/> :
+                    <div style={style}><img src='2_step.png' style={imageStyle}/></div>;
+
+            case 3:
+
+                imageStyle = {marginTop: 50, marginRight: 200, height: 150, width: 375};
+                return chartStore.barDraw || chartStore.lineDraw || chartStore.scatterDraw || chartStore.radarDraw ?
+                    <div/> :
+                    <div style={style}><img src='3_step.png' style={imageStyle}/></div>;
+
+            default:
+                return <div/>
+
+        }
 
     }
 
 }
+
+Steps.wrappedComponent.propTypes = {
+    number: PropTypes.number
+};
+
+Steps.wrappedComponent.defaultProps = {
+    number: 0
+};
