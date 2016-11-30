@@ -29,6 +29,7 @@ export default class Store {
 
     // Title for ChartArea
     @observable chartTitle = '';
+    @observable chartTitle2 = '';
 
     // Stored functions called from this store
     resizeSectionScroller;
@@ -57,6 +58,34 @@ export default class Store {
         if (chartType === 'line' && this.lineActive) this.setLineDraw(!this.lineDraw);
         if (chartType === 'radar' && this.radarActive) this.setRadarDraw(!this.radarDraw);
         if (chartType === 'scatter' && this.scatterActive) this.setScatterDraw(!this.scatterDraw);
+
+        this.setTitle();
+    }
+
+    setTitle = () => {
+
+        // If only one indicator is selected set that as the chart title
+
+        this.chartTitle = '';
+        this.chartTitle2 = '';
+
+        if (this.scatterDraw) {
+
+            this.chartTitle = this.activeIndicators[0].name;
+            this.chartTitle2 = this.activeIndicators[1].name;
+
+        } else if (_.size(this.activeIndicators) === 1) {
+
+            this.chartTitle = this.activeIndicators[0].name;
+
+        } else if (_.size(this.activeCountries) > 0) {
+
+            this.chartTitle = this.activeCountries[0].name;
+            this.activeCountries.forEach((country, index) => {
+                if (index > 0) this.chartTitle += ', ' + country.name;
+            });
+
+        }
 
     }
 
@@ -92,22 +121,7 @@ export default class Store {
             else if (this.scatterActive) this.setScatterDraw();
         }
 
-        // If only one indicator is selected set that as the chart title
-
-        this.chartTitle = '';
-
-        if (_.size(this.activeIndicators) === 1) {
-
-            this.chartTitle = this.activeIndicators[0].name;
-
-        } else if (_.size(this.activeCountries) > 0) {
-
-            this.chartTitle = this.activeCountries[0].name;
-            this.activeCountries.forEach((country, index) => {
-                if (index > 0) this.chartTitle += ', ' + country.name;
-            });
-
-        }
+        this.setTitle();
 
     }
 

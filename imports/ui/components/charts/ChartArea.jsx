@@ -18,7 +18,8 @@ export default class ChartArea extends Component {
         let header =
             <Header as='h1' className='title'>
                 <div className='content'>
-                    {chartStore.chartTitle}
+                    {chartStore.chartTitle}<br/>
+                    {chartStore.chartTitle2}
                     <hr/>
                 </div>
             </Header>;
@@ -26,14 +27,17 @@ export default class ChartArea extends Component {
         if (!chartStore.chartTitle) header = <div/>
 
         let menu = <Menu/>;
-        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) menu = <div/>;
+        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) menu =
+            <div/>;
 
         let yearSlider = <YearSlider/>;
-        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) yearSlider = <div/>;
+        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) yearSlider =
+            <div/>;
         if (recordStore.firstYear === 0) yearSlider = <div/>;
 
         let legends = <Legends/>;
-        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) legends = <div/>;
+        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) legends =
+            <div/>;
 
         return (
             <div className='chart-area'>
