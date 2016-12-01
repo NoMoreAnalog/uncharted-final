@@ -16,8 +16,8 @@ export default class RadarChart extends Component {
             width = chartStore.height, // needs to be square
             height = chartStore.height,
             records = recordStore.recordsToDraw,
-            countries = countryStore.countriesToDraw.map(c => ({'_id': c._id, 'name': c.name})),
-            indicators = indicatorStore.indicatorsToDraw.map(i => ({'_id': i._id, 'name': i.name}));
+            countries = countryStore.countriesToDraw.map(c => ({'_id': c._id, 'name': c.name, 'color': c.color})),
+            indicators = indicatorStore.indicatorsToDraw.map(i => ({'_id': i._id, 'name': i.name, 'color': '#00adc6'}));
 
         if (_.size(records) === 0) {
             return null;
@@ -104,8 +104,10 @@ export default class RadarChart extends Component {
             const content =
                 <List>
 
-                    <List.Header content={allAxes[i].name}/>
-                    <Divider fitted/>
+                    <List.Header>
+                        <div style={{color: allAxes[i].color}}>{allAxes[i].name}</div>
+                        <Divider fitted/>
+                    </List.Header>
 
                     {_.map(axisRecords, r => {
 
@@ -113,7 +115,7 @@ export default class RadarChart extends Component {
                         let text = '';
 
                         if (seriesId === 'countryId') {
-                            fill = r.countryColor;
+                            fill = r.originalColor;
                             text = r.countryName;
                         } else {
                             fill = '#00adc6';
@@ -142,18 +144,10 @@ export default class RadarChart extends Component {
                     {allAxes[i].name}
                 </text>;
 
-            let fill = '';
-
-            if (seriesId === 'countryId') {
-                fill = '#00adc6';
-            } else {
-                if (axisRecords[0]) fill = axisRecords[0].countryColor;
-            }
-
             axesLabels.push(
                 <Popup
                     key={i}
-                    style={{border: 'solid ' + fill + ' 1px'}}
+                    style={{border: 'solid ' + allAxes[i].color + ' 1px'}}
                     flowing
                     hoverable
                     className='radar-chart-popup'
@@ -202,8 +196,10 @@ export default class RadarChart extends Component {
             const content =
                 <List>
 
-                    <List.Header content={allSeries[i].name}/>
-                    <Divider fitted/>
+                    <List.Header>
+                        <div style={{color: allSeries[i].color}}>{allSeries[i].name}</div>
+                        <Divider fitted/>
+                    </List.Header>
 
                     {_.map(seriesRecords, r => {
 
@@ -214,7 +210,7 @@ export default class RadarChart extends Component {
                             fill = '#00adc6';
                             text = r.indicatorName;
                         } else {
-                            fill = r.countryColor;
+                            fill = r.originalColor;
                             text = r.countryName;
                         }
 
@@ -229,28 +225,20 @@ export default class RadarChart extends Component {
 
                 </List>;
 
-            let fill = '';
-
-            if (seriesId === 'countryId') {
-                fill = record.countryColor;
-            } else {
-                fill = '#00adc6';
-            }
-
             const trigger =
                 <polygon
                     className={'area ' + allSeries[i].name}
                     strokeWidth={2}
-                    stroke={fill}
+                    stroke={allSeries[i].color}
                     points={points}
-                    fill={fill}
+                    fill={allSeries[i].color}
                     fillOpacity={opacityArea}
                 />;
 
             polygons.push(
                 <Popup
                     key={i}
-                    style={{border: 'solid ' + fill + ' 1px'}}
+                    style={{border: 'solid ' + allSeries[i].color + ' 1px'}}
                     flowing
                     hoverable
                     className='radar-chart-popup'
