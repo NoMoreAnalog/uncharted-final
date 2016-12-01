@@ -1,4 +1,6 @@
-import {computed, observable} from 'mobx';
+'use strict';
+
+import {computed, observable, action} from 'mobx';
 
 import {Indicators} from '../api/indicators.js';
 
@@ -26,6 +28,16 @@ export default class IndicatorStore {
 
     type = 'indicator';
 
+    constructor() {
+
+        this.handle = Meteor.subscribe('indicators');
+
+        Tracker.autorun(() => {
+            if (this.handle.ready()) this.setIndicators(Indicators.find({delete: {$in: [null, false]}}, {sort: {name: 1}}).fetch());
+        });
+
+    }
+
     @computed get filteredIndicators() {
         var matchesFilter = new RegExp(this.filter, 'i');
         return this.indicators.filter(indicator => !this.filter || matchesFilter.test(indicator.name));
@@ -44,28 +56,18 @@ export default class IndicatorStore {
         return this.indicators.filter(indicator => indicator.active === true && (!this.activeFilter || matchesFilter.test(indicator.name)));
     };
 
-    constructor() {
-
-        this.handle = Meteor.subscribe('indicators');
-
-        Tracker.autorun(() => {
-            if (this.handle.ready()) this.setIndicators(Indicators.find({delete: {$in: [null, false]}}, {sort: {name: 1}}).fetch());
-        });
-
-    }
-
-    setIndicators = values => {
+    @action setIndicators = values => {
         const indicators = values.map(value => new Indicator(value._id, value.name));
         this.indicators.replace(indicators);
     }
 
-    setActive = value => {
+    @action setActive = value => {
         value.active = !value.active;
         value.draw = value.active;
         recordStore.setYears();
     }
 
-    setDraw = value => {
+    @action setDraw = value => {
         value.draw = !value.draw;
     }
 

@@ -1,7 +1,12 @@
-import {observable} from 'mobx';
+'use strict';
+/*global countryStore */
+/*global indicatorStore */
+
+// Libs
+import {observable, action} from 'mobx';
 import * as _ from 'lodash';
 
-export default class Store {
+export default class ChartStore {
 
     // UI setup
     @observable sideBarExpanded = false;
@@ -24,16 +29,11 @@ export default class Store {
     @observable radarDraw = false;
     @observable scatterDraw = false;
 
-    // Number of currently selected countries/indicators
-    @observable activeCountries = [];
-    @observable activeIndicators = [];
-
     // Title for ChartArea
     @observable chartTitle = '';
     @observable chartTitle2 = '';
 
     // Stored functions called from this store
-    resizeSectionScroller;
     chartResizeOnSideBarExpand;
 
     /*
@@ -42,18 +42,18 @@ export default class Store {
      /
      */
 
-    toggleSideBarExpanded = () => {
+    @action toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;
         this.sideBarExpanded ?
             this.chartResizeOnSideBarExpand(-450) :
             this.chartResizeOnSideBarExpand(450);
     }
 
-    toggleActiveIndicators = () => {
+    @action toggleActiveIndicators = () => {
         this.activeIndicatorsOpen = !this.activeIndicatorsOpen;
     }
 
-    drawChart = chartType => {
+    @action drawChart = chartType => {
 
         if (chartType === 'bar' && this.barActive) this.setBarDraw(!this.barDraw);
         if (chartType === 'line' && this.lineActive) this.setLineDraw(!this.lineDraw);
@@ -63,7 +63,7 @@ export default class Store {
         this.setTitle();
     }
 
-    setTitle = () => {
+    @action setTitle = () => {
 
         // If only one indicator is selected set that as the chart title
 
@@ -72,17 +72,17 @@ export default class Store {
 
         if (this.scatterDraw) {
 
-            this.chartTitle = this.activeIndicators[0].name;
-            this.chartTitle2 = this.activeIndicators[1].name;
+            this.chartTitle = indicatorStore.activeIndicators[0].name;
+            this.chartTitle2 = indicatorStore.activeIndicators[1].name;
 
-        } else if (_.size(this.activeIndicators) === 1) {
+        } else if (_.size(indicatorStore.activeIndicators) === 1) {
 
-            this.chartTitle = this.activeIndicators[0].name;
+            this.chartTitle = indicatorStore.activeIndicators[0].name;
 
-        } else if (_.size(this.activeCountries) > 0) {
+        } else if (_.size(countryStore.activeCountries) > 0) {
 
-            this.chartTitle = this.activeCountries[0].name;
-            this.activeCountries.forEach((country, index) => {
+            this.chartTitle = countryStore.activeCountries[0].name;
+            countryStore.activeCountries.forEach((country, index) => {
                 if (index > 0) this.chartTitle += ', ' + country.name;
             });
 
@@ -90,18 +90,12 @@ export default class Store {
 
     }
 
-    chartDetermination = itemStore => {
-
-        // How many of each are active?
-
-        itemStore.type === 'country' ?
-            this.activeCountries.replace(itemStore.activeCountries) :
-            this.activeIndicators.replace(itemStore.activeIndicators);
+    @action chartDetermination = () => {
 
         // Determine which charts a user is allowed to view
 
-        const countries = this.activeCountries.length;
-        const indicators = this.activeIndicators.length;
+        const countries = countryStore.activeCountries.length;
+        const indicators = indicatorStore.activeIndicators.length;
 
         this.barActive = (countries === 1 && indicators >= 1) || (indicators === 1 && countries >= 1);
         this.lineActive = (countries >= 1 && indicators >= 1) || (indicators >= 1 && countries >= 1);
@@ -126,7 +120,7 @@ export default class Store {
 
     }
 
-    setBarDraw = (show = true) => {
+    @action setBarDraw = (show = true) => {
         this.barDraw = show;
         if (this.barDraw) {
             this.setLineDraw(false);
@@ -135,7 +129,7 @@ export default class Store {
         }
     }
 
-    setLineDraw = (show = true) => {
+    @action setLineDraw = (show = true) => {
         this.lineDraw = show;
         if (this.lineDraw) {
             this.setBarDraw(false);
@@ -144,7 +138,7 @@ export default class Store {
         }
     }
 
-    setRadarDraw = (show = true) => {
+    @action setRadarDraw = (show = true) => {
         this.radarDraw = show;
         if (this.radarDraw) {
             this.setBarDraw(false);
@@ -153,7 +147,7 @@ export default class Store {
         }
     }
 
-    setScatterDraw = (show = true) => {
+    @action setScatterDraw = (show = true) => {
         this.scatterDraw = show;
         if (this.scatterDraw) {
             this.setBarDraw(false);

@@ -1,4 +1,8 @@
-import {computed, observable} from 'mobx';
+'use strict';
+/*global countryStore */
+/*global indicatorStore */
+
+import {computed, observable, action} from 'mobx';
 import * as _ from 'lodash';
 
 import {Records} from '../api/records.js';
@@ -22,7 +26,7 @@ export default class RecordStore {
 
     }
 
-    setRecords = values => {
+    @action setRecords = values => {
         const records = [];
         values.forEach(record => {
             record.values.forEach(value => {
@@ -41,7 +45,7 @@ export default class RecordStore {
         this.records.replace(records);
     }
 
-    setYears = () => {
+    @action setYears = () => {
 
         const activeCountries = countryStore.activeCountries,
             activeIndicators = indicatorStore.activeIndicators;

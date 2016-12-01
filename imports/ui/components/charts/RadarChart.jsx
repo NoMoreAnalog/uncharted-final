@@ -31,21 +31,21 @@ export default class RadarChart extends Component {
             maxValue = d3.max(records, r => r.value),
             radius = factor * Math.min(width / 2, height / 2);
 
-        let allAxis = [],
+        let allAxes = [],
             allSeries = [],
             seriesId = '';
 
         if (_.size(indicators) >= 3) {
-            allAxis = indicators;
+            allAxes = indicators;
             allSeries = countries;
             seriesId = 'countryId';
         } else {
-            allAxis = countries;
+            allAxes = countries;
             allSeries = indicators;
             seriesId = 'indicatorId';
         }
 
-        const totalAxes = _.size(allAxis),
+        const totalAxes = _.size(allAxes),
             totalSeries = _.size(allSeries);
 
         //Circular segments
@@ -74,14 +74,14 @@ export default class RadarChart extends Component {
         // Axes (this is a line, not a d3 axis)
         const axes = [];
         for (var i = 0; i < totalAxes; i++) {
-            levelCircles.push(
-                <g key={i} className='axis'>
+            axes.push(
+                <g key={i} className={'axis ' + allAxes[i].name}>
                     <line
                         x1={width / 2}
                         y1={height / 2}
                         x2={width / 2 * (1 - factor * Math.sin(i * radians / totalAxes))}
                         y2={height / 2 * (1 - factor * Math.cos(i * radians / totalAxes))}
-                        className='axis-line'
+                        className={'axis-line ' + allAxes[i].name}
                         stroke='grey'
                         strokeWidth={1}
                     />
@@ -93,19 +93,75 @@ export default class RadarChart extends Component {
         const axesLabels = [];
         for (var i = 0; i < totalAxes; i++) {
 
-            let label = '';
+            let axisRecords = [];
 
-            axesLabels.push(
+            if (seriesId === 'countryId') {
+                axisRecords = _.filter(records, {'indicatorId': allAxes[i]._id});
+            } else {
+                axisRecords = _.filter(records, {'countryId': allAxes[i]._id});
+            }
+
+            const content =
+                <List>
+
+                    <List.Header content={allAxes[i].name}/>
+                    <Divider fitted/>
+
+                    {_.map(axisRecords, r => {
+
+                        let fill = '';
+                        let text = '';
+
+                        if (seriesId === 'countryId') {
+                            fill = r.countryColor;
+                            text = r.countryName;
+                        } else {
+                            fill = '#00adc6';
+                            text = r.indicatorName;
+                        }
+
+                        return (
+                            <List.Item key={r.countryId + r.indicatorId}>
+                                <div style={{color: fill}}>{text}</div>
+                                <div>{r.value}</div>
+                            </List.Item>
+                        );
+
+                    })}
+
+                </List>;
+
+            const trigger =
                 <text
-                    key={i}
-                    className='axis-label'
+                    className={'axis-label ' + allAxes[i].name}
                     textAnchor='middle'
                     dy='1.5em'
                     fontSize={11}
                     x={width / 2 * (1 - factorLegend * Math.sin(i * radians / totalAxes)) - 60 * Math.sin(i * radians / totalAxes)}
                     y={height / 2 * (1 - Math.cos(i * radians / totalAxes)) - 20 * Math.cos(i * radians / totalAxes)}>
-                    {allAxis[i].name}
-                </text>
+                    {allAxes[i].name}
+                </text>;
+
+            let fill = '';
+
+            if (seriesId === 'countryId') {
+                fill = '#00adc6';
+            } else {
+                if (axisRecords[0]) fill = axisRecords[0].countryColor;
+            }
+
+            axesLabels.push(
+                <Popup
+                    key={i}
+                    style={{border: 'solid ' + fill + ' 1px'}}
+                    flowing
+                    hoverable
+                    className='radar-chart-popup'
+                    on='hover'
+                    positioning='top center'
+                    trigger={trigger}
+                    content={content}
+                />
             );
 
         }
@@ -116,19 +172,31 @@ export default class RadarChart extends Component {
 
             let points = '';
             let record = {};
-            let filteredRecords = []
+            let seriesRecords = [];
 
             if (seriesId === 'countryId') {
-                filteredRecords = _.filter(records, {'countryId': allSeries[i]._id})
+                seriesRecords = _.filter(records, {'countryId': allSeries[i]._id});
             } else {
-                filteredRecords = _.filter(records, {'indicatorId': allSeries[i]._id})
+                seriesRecords = _.filter(records, {'indicatorId': allSeries[i]._id});
             }
 
-            for (var j = 0; j < filteredRecords.length; j++) {
-                record = filteredRecords[j];
-                const value0 = width / 2 * (1 - (parseFloat(Math.max(record.value, 0)) / maxValue) * factor * Math.sin(j * radians / totalAxes));
-                const value1 = height / 2 * (1 - (parseFloat(Math.max(record.value, 0)) / maxValue) * factor * Math.cos(j * radians / totalAxes));
+            for (var j = 0; j < totalAxes; j++) {
+
+                let record = {};
+                let value = 0;
+
+                if (seriesId === 'countryId') {
+                    record = _.find(seriesRecords, {'countryId': allSeries[i]._id, 'indicatorId': allAxes[j]._id});
+                } else {
+                    record = _.find(seriesRecords, {'indicatorId': allSeries[i]._id, 'countryId': allAxes[j]._id});
+                }
+
+                value = record ? record.value : 0;
+
+                const value0 = width / 2 * (1 - (parseFloat(Math.max(value, 0)) / maxValue) * factor * Math.sin(j * radians / totalAxes));
+                const value1 = height / 2 * (1 - (parseFloat(Math.max(value, 0)) / maxValue) * factor * Math.cos(j * radians / totalAxes));
                 points += value0 + ',' + value1 + ' ';
+
             }
 
             const content =
@@ -137,7 +205,7 @@ export default class RadarChart extends Component {
                     <List.Header content={allSeries[i].name}/>
                     <Divider fitted/>
 
-                    {_.map(filteredRecords, r => {
+                    {_.map(seriesRecords, r => {
 
                         let fill = '';
                         let text = '';
@@ -171,7 +239,7 @@ export default class RadarChart extends Component {
 
             const trigger =
                 <polygon
-                    className='area'
+                    className={'area ' + allSeries[i].name}
                     strokeWidth={2}
                     stroke={fill}
                     points={points}

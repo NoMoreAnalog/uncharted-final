@@ -17,7 +17,7 @@ export default class Item extends Component {
         const {item, itemStore, chartStore} = {...this.props};
 
         itemStore.setActive(item);
-        chartStore.chartDetermination(itemStore);
+        chartStore.chartDetermination();
     }
 
     render() {

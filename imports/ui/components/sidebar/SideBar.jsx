@@ -25,9 +25,10 @@ export default class SideBar extends Component {
 
     componentDidMount() {
 
+        const {chartStore} = {...this.props};
+
         window.addEventListener('resize', this._handleResize);
         window.addEventListener('scroll', this._handleResize);
-        this.props.chartStore.resizeSectionScroller = this._handleResize;
         this._handleResize();
 
     }

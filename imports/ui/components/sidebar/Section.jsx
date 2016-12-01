@@ -1,20 +1,35 @@
 import React, {PropTypes, Component} from "react";
 import {observer} from 'mobx-react';
+import * as _ from 'lodash';
 
 import Filter from './Filter.jsx';
 import Item from './Item.jsx';
 import Steps from '../Steps.jsx';
 
 // Section component - these make up the side bar
-@observer(['chartStore'])
+@observer(['chartStore', 'countryStore'])
 export default class Section extends Component {
 
-    constructor() {
-        super();
-        this._handleResize = this._handleResize.bind(this);
+    componentDidMount() {
+
+        const {chartStore} = {...this.props};
+
+        window.addEventListener('resize', this._handleResize);
+        window.addEventListener('scroll', this._handleResize);
+        this._handleResize();
+
     }
 
-    _handleResize() {
+    componentWillUnmount() {
+        window.removeEventListener('resize', this._handleResize);
+        window.removeEventListener('scroll', this._handleResize);
+    }
+
+    componentDidUpdate() {
+        this._handleResize();
+    }
+
+    _handleResize = () => {
 
         // Set the scroll area height or it is not scrollable
 
@@ -33,34 +48,39 @@ export default class Section extends Component {
 
     }
 
-    componentDidMount() {
-
-        const {chartStore} = {...this.props};
-
-        window.addEventListener('resize', this._handleResize);
-        window.addEventListener('scroll', this._handleResize);
-
-        chartStore.resizeSectionScroller = this._handleResize;
-        this._handleResize();
-
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize', this._handleResize);
-        window.removeEventListener('scroll', this._handleResize);
-    }
-
-    componentDidUpdate() {
-        this._handleResize();
+    _selectClick = () => {
+        const {countryStore} = {...this.props};
+        countryStore.toggleAllCountries();
     }
 
     render() {
 
-        const {classed, title, subtitle, itemStore, list} = {...this.props};
+        const {classed, title, subtitle, itemStore, list, countryStore} = {...this.props};
 
-        const step = classed === 'countries' ?
-            <Steps number={1}/> :
-            <Steps number={2}/>;
+        let selectStyle = {
+            borderRadius: 2,
+            cursor: 'pointer',
+            padding: '1px 5px 3px 5px',
+            display: 'inline'
+        };
+
+        let selectText, step;
+
+        if (classed === 'countries') {
+
+            if (_.size(countryStore.activeCountries) === 0) {
+                selectText = 'Select All';
+                selectStyle = Object.assign({color: '#636363', backgroundColor: '#e3e3e3'}, selectStyle);
+            } else {
+                selectText = 'Deselect All';
+                selectStyle = Object.assign({color: '#ffffff', backgroundColor: '#00adc6'}, selectStyle);
+            }
+
+            step = <Steps number={1}/>;
+
+        } else if (classed === 'indicators') {
+            step = <Steps number={2}/>;
+        }
 
         return (
 
@@ -72,7 +92,10 @@ export default class Section extends Component {
 
                     <h2 className='ui center aligned header' ref={ref => this.header = ref}>
                         {title}
-                        <div className='ui center aligned sub header'>{subtitle}</div>
+                        <div className='ui center aligned sub header' style={{marginTop: 5, marginBottom: 5}}>
+                            {subtitle}&nbsp;&nbsp;
+                            <div style={selectStyle} onClick={this._selectClick}>{selectText}</div>
+                        </div>
                     </h2>
 
                     <Filter
