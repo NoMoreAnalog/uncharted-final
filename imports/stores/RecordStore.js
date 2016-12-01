@@ -96,7 +96,7 @@ export default class RecordStore {
 
         let yearsToDraw;
 
-        if (chartStore.scatterDraw) {
+        if (chartStore.scatterDraw || chartStore.radarDraw) {
             yearsToDraw = [this.yearsToDrawSingle, this.yearsToDrawSingle];
         } else {
             yearsToDraw = this.yearsToDraw;

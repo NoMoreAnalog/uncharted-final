@@ -75,7 +75,7 @@ export default class YearSlider extends Component {
         };
 
         let slider;
-        if (chartStore.scatterDraw) {
+        if (chartStore.scatterDraw || chartStore.radarDraw) {
             slider =
                 <Slider
                     disabled={false}
