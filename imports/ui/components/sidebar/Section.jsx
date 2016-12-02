@@ -65,7 +65,7 @@ export default class Section extends Component {
             minWidth: 95
         };
 
-        let selectText, step;
+        let select, selectText, step;
 
         if (classed === 'countries') {
 
@@ -77,9 +77,11 @@ export default class Section extends Component {
                 selectStyle = Object.assign({color: '#ffffff', backgroundColor: '#00adc6'}, selectStyle);
             }
 
+            select = <div style={selectStyle} onClick={this._selectClick}>{selectText}</div>;
             step = <Steps number={1}/>;
 
         } else if (classed === 'indicators') {
+            select = '';
             step = <Steps number={2}/>;
         }
 
@@ -94,8 +96,7 @@ export default class Section extends Component {
                     <h2 className='ui center aligned header' ref={ref => this.header = ref}>
                         {title}
                         <div className='ui center aligned sub header' style={{marginTop: 5, marginBottom: 5}}>
-                            {subtitle}&nbsp;&nbsp;
-                            <div style={selectStyle} onClick={this._selectClick}>{selectText}</div>
+                            {subtitle}&nbsp;&nbsp;{select}
                         </div>
                     </h2>
 
