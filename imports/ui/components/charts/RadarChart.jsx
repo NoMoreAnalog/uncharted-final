@@ -56,9 +56,27 @@ export default class RadarChart extends Component {
     render() {
 
         const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
-            records = recordStore.recordsToDraw,
-            countries = countryStore.countriesToDraw.map(c => ({'_id': c._id, 'name': c.name, 'color': c.color})),
-            indicators = indicatorStore.indicatorsToDraw.map(i => ({'_id': i._id, 'name': i.name, 'color': '#00adc6'}));
+            records = recordStore.recordsToDraw;
+
+        let countries = [],
+            indicators = [];
+
+        for (let i = 0; i < records.length; i++) {
+            if (!_.find(countries, {'_id': records[i].countryId})) {
+                countries.push({
+                    '_id': records[i].countryId,
+                    'name': records[i].countryName,
+                    'color': records[i].countryColor
+                });
+            }
+            if (!_.find(indicators, {'_id': records[i].indicatorId})) {
+                indicators.push({
+                    '_id': records[i].indicatorId,
+                    'name': records[i].indicatorName,
+                    'color': '#00adc6'
+                });
+            }
+        }
 
         if (_.size(records) === 0) {
             return <NoChartsMessage noData/>;
@@ -71,9 +89,9 @@ export default class RadarChart extends Component {
             height = chartStore.width / 2 + chartStore.margin.left + chartStore.margin.right,
             width = height; // needs to be square
 
-        if (height > 520) {
-            height = 520;
-            width = 520;
+        if (height > 450) {
+            height = 400;
+            width = 400;
         }
 
         margin.left = (chartStore.width / 2) - (width / 2);
@@ -92,18 +110,22 @@ export default class RadarChart extends Component {
             seriesId = '';
 
         if (_.size(indicators) >= 3) {
-            allAxes = indicators;
-            allSeries = countries;
+            allAxes = indicators
+            allSeries = countries
             seriesId = 'countryId';
         } else {
-            allAxes = countries;
-            allSeries = indicators;
+            allAxes = countries
+            allSeries = indicators
             seriesId = 'indicatorId';
         }
 
         const totalAxes = _.size(allAxes), // The number of different axes
             totalSeries = _.size(allSeries), // The number of different series
             angleSlice = Math.PI * 2 / totalAxes; // The width in radians of each "slice"
+
+        if (totalAxes < 3) {
+            return <NoChartsMessage noData/>;
+        }
 
         /////////////////////////////////////////////////////////
         ////////// Glow filter for some extra pizzazz ///////////
@@ -238,20 +260,10 @@ export default class RadarChart extends Component {
 
         const radarLine = d3.radialLine()
             .curve(d3.curveCardinalClosed.tension(.5))
-            .radius(d => rScale(d.value))
+            .radius(d => {
+                return rScale(d.value);
+            })
             .angle((d, i) => i * angleSlice);
-
-        for (var i = 0; i < totalSeries; i++) {
-
-            let seriesRecords = [];
-
-            if (seriesId === 'countryId') {
-                seriesRecords = _.filter(records, {'countryId': allSeries[i]._id});
-            } else {
-                seriesRecords = _.filter(records, {'indicatorId': allSeries[i]._id});
-            }
-
-        }
 
         const blobs = [];
         for (var i = 0; i < totalSeries; i++) {
@@ -296,20 +308,17 @@ export default class RadarChart extends Component {
 
                 </List>;
 
-            const path =
-                <path
-                    className='radar-area'
-                    d={radarLine(seriesRecords)}
-                    fill={allSeries[i].color}
-                    fillOpacity={opacityArea}
-                    onMouseOver={this._blobOnMouseOver}
-                    onMouseOut={this._blobOnMouseOut}
-                />;
-
             const trigger =
                 <g
                     className={'radar-wrapper ' + allSeries[i].name}>
-                    {path}
+                    <path
+                        className='radar-area'
+                        d={radarLine(seriesRecords)}
+                        fill={allSeries[i].color}
+                        fillOpacity={opacityArea}
+                        onMouseOver={this._blobOnMouseOver}
+                        onMouseOut={this._blobOnMouseOut}
+                    />
                     <path
                         className='radar-stroke'
                         d={radarLine(seriesRecords)}
@@ -333,6 +342,10 @@ export default class RadarChart extends Component {
                     content={content}
                 />
             );
+        }
+
+        if (_.size(blobs) === 0) {
+            return <NoChartsMessage noData/>;
         }
 
         const mainTransform = 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')';
