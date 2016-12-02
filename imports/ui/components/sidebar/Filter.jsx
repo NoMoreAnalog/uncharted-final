@@ -5,26 +5,24 @@ import {observer} from 'mobx-react';
 @observer(['chartStore'])
 export default class Filter extends Component {
 
-    constructor() {
-        super();
-        this._onChange = this._onChange.bind(this);
-    }
-
-    _onChange() {
-        this.props.useActiveFilter ?
-            this.props.itemStore.activeFilter = this.input.value :
-            this.props.itemStore.filter = this.input.value;
+    _onChange = () => {
+        const {useActiveFilter, itemStore} = {...this.props};
+        useActiveFilter ? itemStore.activeFilter = this.input.value : itemStore.filter = this.input.value;
     }
 
     render() {
 
-        return this.props.chartStore.sideBarExpanded ?
+        const {chartStore, itemStore} = {...this.props};
+
+        const placeHolder = itemStore._randomList(3);
+
+        return chartStore.sideBarExpanded ?
 
             <div className="ui fluid icon input">
                 <input
                     type="text"
                     className="filter"
-                    placeholder="Search"
+                    placeholder={'Search    Example: ' + placeHolder}
                     onChange={this._onChange}
                     ref={(ref) => this.input = ref}
                 />

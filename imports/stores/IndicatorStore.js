@@ -4,6 +4,7 @@
 // Libs
 import {Meteor} from 'meteor/meteor';
 import {computed, observable, action} from 'mobx';
+import * as _ from 'lodash';
 
 // Globals as locals
 import {Indicators} from '../api/indicators.js';
@@ -59,6 +60,21 @@ export default class IndicatorStore {
         var matchesFilter = new RegExp(this.activeFilter, 'i');
         return this.indicators.filter(indicator => indicator.active === true && (!this.activeFilter || matchesFilter.test(indicator.name)));
     };
+
+    _randomList(number) {
+
+        if (_.size(this.indicators) === 0) return '';
+
+        let list = _.sampleSize(this.indicators.peek(), number),
+            commaList = '';
+
+        for (let i = 0; i < list.length; i++) {
+            commaList += list[i].name;
+            if (i < number) commaList += ', ';
+        }
+
+        return commaList;
+    }
 
     @action setIndicators = values => {
         const indicators = values.map(value => new Indicator(value._id, value.name));

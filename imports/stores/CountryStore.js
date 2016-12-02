@@ -58,6 +58,22 @@ export default class CountryStore {
         return this.countries.filter(country => country.draw);
     };
 
+    _randomList(number) {
+
+        if (_.size(this.countries) === 0) return '';
+
+        let list = _.sampleSize(this.countries.peek(), number),
+            commaList = '';
+
+        for (let i = 0; i < list.length; i++) {
+            commaList += list[i].name;
+            if (i < number) commaList += ', ';
+        }
+
+        return commaList;
+
+    }
+
     @action setCountries = values => {
         const countries = values.map(value => new Country(value._id, value.name, value.color));
         this.countries.replace(countries);
