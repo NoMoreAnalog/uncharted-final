@@ -11,6 +11,12 @@ export default class RadarChart extends Component {
 
     opacityArea = .35; // The opacity of the area of the blob
 
+    componentDidMount() {
+        const wrappers = document.getElementsByClassName('radar-wrapper');
+        const sortedWrappers = _.sortBy(wrappers, w => w.childNodes[1].attributes.d);
+        _.forEachRight(sortedWrappers, w => w.parentNode.appendChild(w));
+    }
+
     _blobOnMouseOver = event => {
         //Dim all blobs
         d3.selectAll('.radar-area')
