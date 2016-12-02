@@ -61,7 +61,8 @@ export default class Section extends Component {
             borderRadius: 2,
             cursor: 'pointer',
             padding: '1px 5px 3px 5px',
-            display: 'inline'
+            display: 'inline-block',
+            minWidth: 95
         };
 
         let selectText, step;
