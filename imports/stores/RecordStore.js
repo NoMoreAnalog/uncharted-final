@@ -4,7 +4,7 @@
 
 // Libs
 import {Meteor} from 'meteor/meteor';
-import {computed, observable, action, autorun} from 'mobx';
+import {computed, observable, action} from 'mobx';
 import * as _ from 'lodash';
 
 // Globals as locals
@@ -15,7 +15,6 @@ import {Indicators} from '../api/indicators.js';
 export default class RecordStore {
 
     @observable records = [];
-    @observable recordsDb = [];
     @observable years = [0, 9999];
     @observable yearsToDraw = [0, 9999];
     @observable yearsToDrawSingle = 0;

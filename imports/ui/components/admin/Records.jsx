@@ -11,6 +11,13 @@ import PopupToConfirm from './PopupToConfirm';
 @observer(['adminStore'])
 export default class Records extends Component {
 
+    state = {
+        country: [],
+        iso: [],
+        indicator: [],
+        code: []
+    };
+
     table;
     showDeleted: false;
     settings = {};
@@ -26,7 +33,9 @@ export default class Records extends Component {
         this._addRecord = this._addRecord.bind(this);
         this._saveChanges = this._saveChanges.bind(this);
         this._loadData = this._loadData.bind(this);
+        this._loadDataCallback = this._loadDataCallback.bind(this);
         this._toggleDeleted = this._toggleDeleted.bind(this);
+        this._clearForm = this._clearForm.bind(this);
 
         this.settings = {
             data: this.data,
@@ -120,11 +129,6 @@ export default class Records extends Component {
         this.table = new Handsontable(this.hot, this.settings);
     }
 
-    componentDidUpdate() {
-        this._loadData();
-        this.table.render();
-    }
-
     _validator(value, callback) {
         callback(true);
         this.instance.removeCellMeta(this.row, this.col, 'className');
@@ -160,20 +164,27 @@ export default class Records extends Component {
 
     _loadData() {
 
-        this.data = [];
+        const {adminStore} = {...this.props};
 
         if (!this.serializedForm) return;
 
-        const form = this.serializedForm;
+        adminStore.loadRecords(
+            this.serializedForm.country,
+            this.serializedForm.iso,
+            this.serializedForm.indicator,
+            this.serializedForm.code,
+            this._loadDataCallback
+        );
 
-        this.props.adminStore.records.forEach(record => {
+    }
 
-            if ((form.country.length > 0 && !form.country.find(value => value === record.countryId)) ||
-                (form.iso.length > 0 && !form.iso.find(value => value === record.countryId)) ||
-                (form.indicator.length > 0 && !form.indicator.find(value => value === record.indicatorId)) ||
-                (form.code.length > 0 && !form.code.find(value => value === record.indicatorId)) ||
-                (!this.showDeleted && record.delete))
-                return;
+    _loadDataCallback() {
+
+        const {adminStore} = {...this.props};
+
+        this.data = [];
+
+        adminStore.records.forEach(record => {
 
             this.data.push({
                 _id: record._id,
@@ -194,6 +205,7 @@ export default class Records extends Component {
         });
 
         this.table.loadData(this.data);
+
     }
 
     _addRecord() {
@@ -202,6 +214,8 @@ export default class Records extends Component {
     }
 
     _saveChanges() {
+
+        const {adminStore} = {...this.props};
 
         if (!this.table || !_.find(this.data, 'changed')) return;
 
@@ -213,7 +227,7 @@ export default class Records extends Component {
 
             // Country
 
-            const country = this.props.adminStore.countries.find(country => country.name === this.data[i].countryName);
+            const country = adminStore.countries.find(country => country.name === this.data[i].countryName);
             if (country) {
                 this.data[i].countryId = country._id;
                 this.table.removeCellMeta(i, 1, 'className');
@@ -224,7 +238,7 @@ export default class Records extends Component {
 
             // Indicator
 
-            const indicator = this.props.adminStore.indicators.find(indicator => indicator.name === this.data[i].indicatorName);
+            const indicator = adminStore.indicators.find(indicator => indicator.name === this.data[i].indicatorName);
             if (indicator) {
                 this.data[i].indicatorId = indicator._id;
                 this.table.removeCellMeta(i, 2, 'className');
@@ -260,7 +274,7 @@ export default class Records extends Component {
             return;
         }
 
-        this.props.adminStore.adminDimmed = true;
+        adminStore.adminDimmed = true;
 
         let formattedData = [];
         let changedData = _.filter(this.data, 'changed');
@@ -292,7 +306,7 @@ export default class Records extends Component {
         }
 
         Meteor.call('records.save', formattedData, (err, res) => {
-            this.props.adminStore.adminDimmed = false;
+            adminStore.adminDimmed = false;
             if (err) {
                 alert(err);
             } else {
@@ -306,13 +320,28 @@ export default class Records extends Component {
         this.showDeleted = !this.showDeleted;
     }
 
+    _clearForm() {
+        this.setState({
+            country: [],
+            iso: [],
+            indicator: [],
+            code: []
+        });
+        this.serializedForm = null;
+        this.data = [];
+        this.table.loadData(this.data);
+    }
+
     render() {
+
+        const {adminStore} = {...this.props};
+
         return (
             <div>
 
-                <PopupToConfirm ref={(ref) => this.popup = ref}/>
+                <PopupToConfirm ref={ref => this.popup = ref}/>
 
-                <Form onSubmit={this._handleSubmit}>
+                <Form onSubmit={this._handleSubmit} ref={ref => this.form = ref}>
 
                     <Form.Group widths='equal'>
                         <Form.Dropdown
@@ -322,7 +351,9 @@ export default class Records extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.countryNameOptions}
+                            options={adminStore.countryNameOptions}
+                            value={this.state.country}
+                            onChange={(event, value) => this.setState({country: value.value})}
                         />
                         <Form.Dropdown
                             name='iso'
@@ -331,7 +362,9 @@ export default class Records extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.countryISOOptions}
+                            options={adminStore.countryISOOptions}
+                            value={this.state.iso}
+                            onChange={(event, value) => this.setState({iso: value.value})}
                         />
                     </Form.Group>
 
@@ -343,7 +376,9 @@ export default class Records extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.indicatorNameOptions}
+                            options={adminStore.indicatorNameOptions}
+                            value={this.state.indicator}
+                            onChange={(event, value) => this.setState({indicator: value.value})}
                         />
                         <Form.Dropdown
                             name='code'
@@ -352,7 +387,9 @@ export default class Records extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.indicatorCodeOptions}
+                            options={adminStore.indicatorCodeOptions}
+                            value={this.state.code}
+                            onChange={(event, value) => this.setState({code: value.value})}
                         />
                     </Form.Group>
 
@@ -367,6 +404,7 @@ export default class Records extends Component {
                     <br/><br/>
 
                     <Button icon='search' content='Search' color='teal'/>
+                    <Button icon='remove' content='Clear' color='red' type='button' onClick={this._clearForm}/>
 
                 </Form>
 
@@ -382,10 +420,11 @@ export default class Records extends Component {
                     <Button.Content visible><Icon name='save'/></Button.Content>
                 </Button>
 
-                <div ref={(ref) => this.hot = ref}/>
+                <div ref={ref => this.hot = ref}/>
 
             </div>
 
-        );
+        )
+
     }
 }

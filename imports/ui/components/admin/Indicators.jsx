@@ -11,6 +11,11 @@ import PopupToConfirm from './PopupToConfirm';
 @observer(['adminStore'])
 export default class Indicators extends Component {
 
+    state = {
+        indicator: [],
+        code: []
+    }
+
     table;
     showDeleted: false;
     settings = {};
@@ -25,6 +30,7 @@ export default class Indicators extends Component {
         this._saveChanges = this._saveChanges.bind(this);
         this._loadData = this._loadData.bind(this);
         this._toggleDeleted = this._toggleDeleted.bind(this);
+        this._clearForm = this._clearForm.bind(this);
 
         this.settings = {
             data: this.data,
@@ -79,11 +85,6 @@ export default class Indicators extends Component {
         this.table = new Handsontable(this.hot, this.settings);
     }
 
-    componentDidUpdate() {
-        this._loadData();
-        this.table.render();
-    }
-
     _handleSubmit(e, serializedForm) {
         e.preventDefault()
 
@@ -106,18 +107,20 @@ export default class Indicators extends Component {
 
     _loadData() {
 
+        const {adminStore} = {...this.props};
+
         this.data = [];
 
         if (!this.serializedForm) return;
 
         const form = this.serializedForm;
+        const ids = _.uniq(_.concat(form.indicator, form.code));
 
-        this.props.adminStore.indicators.forEach(indicator => {
+        ids.forEach(id => {
 
-            if ((form.indicator.length > 0 && !form.indicator.find(value => value === indicator._id)) ||
-                (form.code.length > 0 && !form.code.find(value => value === indicator._id)) ||
-                (!this.showDeleted && indicator.delete))
-                return;
+            const indicator = _.find(adminStore.indicators, {'_id': id});
+
+            if (!indicator || (indicator.delete && !this.showDeleted)) return;
 
             this.data.push({
                 _id: indicator._id,
@@ -198,11 +201,24 @@ export default class Indicators extends Component {
         this.showDeleted = !this.showDeleted;
     }
 
+    _clearForm() {
+        this.setState({
+            indicator: [],
+            code: []
+        });
+        this.serializedForm = null;
+        this.data = [];
+        this.table.loadData(this.data);
+    }
+
     render() {
+
+        const {adminStore} = {...this.props};
+
         return (
             <div>
 
-                <PopupToConfirm ref={(ref) => this.popup = ref}/>
+                <PopupToConfirm ref={ref => this.popup = ref}/>
 
                 <Form onSubmit={this._handleSubmit}>
 
@@ -214,7 +230,9 @@ export default class Indicators extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.indicatorNameOptions}
+                            options={adminStore.indicatorNameOptions}
+                            value={this.state.indicator}
+                            onChange={(event, value) => this.setState({indicator: value.value})}
                         />
                         <Form.Dropdown
                             name='code'
@@ -223,7 +241,9 @@ export default class Indicators extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.indicatorCodeOptions}
+                            options={adminStore.indicatorCodeOptions}
+                            value={this.state.code}
+                            onChange={(event, value) => this.setState({code: value.value})}
                         />
                     </Form.Group>
 
@@ -238,6 +258,7 @@ export default class Indicators extends Component {
                     <br/><br/>
 
                     <Button icon='search' content='Search' color='teal'/>
+                    <Button icon='remove' content='Clear' color='red' type='button' onClick={this._clearForm}/>
 
                 </Form>
 
@@ -253,10 +274,11 @@ export default class Indicators extends Component {
                     <Button.Content visible><Icon name='save'/></Button.Content>
                 </Button>
 
-                <div ref={(ref) => this.hot = ref}/>
+                <div ref={ref => this.hot = ref}/>
 
             </div>
 
-        );
+        )
+
     }
 }

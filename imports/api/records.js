@@ -1,8 +1,9 @@
 // Libs
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
-import {check} from 'meteor/check';
+import * as _ from 'lodash';
 
+// Exports
 export const Records = new Mongo.Collection('records');
 
 if (Meteor.isServer) {
@@ -17,6 +18,21 @@ if (Meteor.isServer) {
                 {indicator: {$in: filters.indicators}}
             ]
         });
+
+    });
+
+    Meteor.publish('records.admin', function recordsPublication(filters) {
+
+        if (!filters) return null;
+
+        if (_.size(filters.countries) > 0 && _.size(filters.indicators) > 0) {
+            return Records.find({
+                $and: [
+                    {country: {$in: filters.countries}},
+                    {indicator: {$in: filters.indicators}},
+                ]
+            });
+        }
 
     });
 

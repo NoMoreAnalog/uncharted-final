@@ -1,5 +1,6 @@
 // Libs
-import {observable, computed} from 'mobx';
+import {observable, computed, action} from 'mobx';
+import * as _ from 'lodash';
 
 // Files
 import {Countries} from '../api/countries.js';
@@ -17,34 +18,64 @@ export default class AdminStore {
 
         this.handle1 = Meteor.subscribe('countries');
         this.handle2 = Meteor.subscribe('indicators');
-        this.handle3 = Meteor.subscribe('records');
 
         Tracker.autorun(() => {
             if (this.handle1.ready()) {
                 this.countries.replace(Countries.find().fetch().map(country => new Country(country)));
             }
-
             if (this.handle2.ready()) {
                 this.indicators.replace(Indicators.find().fetch().map(indicator => new Indicator(indicator)));
             }
+        });
+    }
 
-            if (this.handle1.ready() &&
-                this.handle2.ready() &&
-                this.handle3.ready()) {
-                let records = [];
-                Records.find().fetch().forEach(record => {
-                    record.values.forEach(value => {
-                        records.push(new Record(
-                            record,
-                            value,
-                            this.countries.find(country => country._id === record.country).name,
-                            this.indicators.find(indicator => indicator._id === record.indicator).name
-                        ));
+    @action loadRecords = (countries, isos, indicators, codes, callback) => {
+
+        let filters;
+
+        filters = {
+            countries: countries,
+            isos: isos,
+            indicators: indicators,
+            codes: codes
+        };
+
+        this.records.replace([]);
+        if (this.handle) this.handle.stop();
+
+        if (_.size(filters.countries) === 0 &&
+            _.size(filters.isos) === 0 &&
+            _.size(filters.indicators) === 0 &&
+            _.size(filters.codes) === 0) {
+            return;
+        }
+
+        filters.countries = _.concat(filters.countries, filters.isos);
+        filters.indicators = _.concat(filters.indicators, filters.codes);
+
+        if (_.size(filters.countries) === 0) filters.countries = this.countries.map(c => c._id);
+        if (_.size(filters.indicators) === 0) filters.indicators = this.indicators.map(c => c._id);
+
+        this.handle = Meteor.subscribe('records.admin', filters, {
+            onReady: () => {
+                if (this.handle.ready()) {
+                    let records = [];
+                    Records.find().fetch().forEach(record => {
+                        record.values.forEach(value => {
+                            records.push(new Record(
+                                record,
+                                value,
+                                this.countries.find(country => country._id === record.country).name,
+                                this.indicators.find(indicator => indicator._id === record.indicator).name
+                            ));
+                        });
                     });
-                });
-                this.records.replace(records);
+                    this.records.replace(records);
+                    callback();
+                }
             }
         });
+
     }
 
     @computed get countryNameSource() {
@@ -95,7 +126,7 @@ export default class AdminStore {
     @computed get indicatorCodeOptions() {
         let indicatorCodes = [];
         this.indicators.forEach((indicator) => {
-            if (!indicator.name || indicator.delete) return;
+            if (!indicator.code || indicator.delete) return;
             indicatorCodes.push({text: indicator.code, value: indicator._id});
         });
         return indicatorCodes;

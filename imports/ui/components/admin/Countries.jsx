@@ -11,6 +11,11 @@ import PopupToConfirm from './PopupToConfirm';
 @observer(['adminStore'])
 export default class Countries extends Component {
 
+    state = {
+        country: [],
+        iso: []
+    }
+
     table;
     showDeleted: false;
     settings = {};
@@ -26,6 +31,7 @@ export default class Countries extends Component {
         this._saveChanges = this._saveChanges.bind(this);
         this._loadData = this._loadData.bind(this);
         this._toggleDeleted = this._toggleDeleted.bind(this);
+        this._clearForm = this._clearForm.bind(this);
 
         this.settings = {
             data: this.data,
@@ -74,11 +80,6 @@ export default class Countries extends Component {
 
     componentDidMount() {
         this.table = new Handsontable(this.hot, this.settings);
-    }
-
-    componentDidUpdate() {
-        this._loadData();
-        this.table.render();
     }
 
     _colorRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -131,18 +132,20 @@ export default class Countries extends Component {
 
     _loadData() {
 
+        const {adminStore} = {...this.props};
+
         if (!this.serializedForm) return;
 
         this.data = [];
 
         const form = this.serializedForm;
+        const ids = _.uniq(_.concat(form.country, form.iso));
 
-        this.props.adminStore.countries.forEach(country => {
+        ids.forEach(id => {
 
-            if ((form.country.length > 0 && !form.country.find(value => value === country._id)) ||
-                (form.iso.length > 0 && !form.iso.find(value => value === country._id)) ||
-                (!this.showDeleted && country.delete))
-                return;
+            const country = _.find(adminStore.countries, {'_id': id});
+
+            if (!country || (country.delete && !this.showDeleted)) return;
 
             this.data.push({
                 _id: country._id,
@@ -225,11 +228,24 @@ export default class Countries extends Component {
         this.showDeleted = !this.showDeleted;
     }
 
+    _clearForm() {
+        this.setState({
+            country: [],
+            iso: []
+        });
+        this.serializedForm = null;
+        this.data = [];
+        this.table.loadData(this.data);
+    }
+
     render() {
+
+        const {adminStore} = {...this.props};
+
         return (
             <div>
 
-                <PopupToConfirm ref={(ref) => this.popup = ref}/>
+                <PopupToConfirm ref={ref => this.popup = ref}/>
 
                 <Form onSubmit={this._handleSubmit}>
 
@@ -241,7 +257,9 @@ export default class Countries extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.countryNameOptions}
+                            options={adminStore.countryNameOptions}
+                            value={this.state.country}
+                            onChange={(event, value) => this.setState({country: value.value})}
                         />
                         <Form.Dropdown
                             name='iso'
@@ -250,7 +268,9 @@ export default class Countries extends Component {
                             search
                             multiple
                             selection
-                            options={this.props.adminStore.countryISOOptions}
+                            options={adminStore.countryISOOptions}
+                            value={this.state.iso}
+                            onChange={(event, value) => this.setState({iso: value.value})}
                         />
                     </Form.Group>
 
@@ -265,6 +285,7 @@ export default class Countries extends Component {
                     <br/><br/>
 
                     <Button icon='search' content='Search' color='teal'/>
+                    <Button icon='remove' content='Clear' color='red' type='button' onClick={this._clearForm}/>
 
                 </Form>
 
@@ -280,10 +301,11 @@ export default class Countries extends Component {
                     <Button.Content visible><Icon name='save'/></Button.Content>
                 </Button>
 
-                <div ref={(ref) => this.hot = ref}/>
+                <div ref={ref => this.hot = ref}/>
 
             </div>
 
-        );
+        )
+
     }
 }
