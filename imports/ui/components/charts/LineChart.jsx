@@ -70,14 +70,14 @@ export default class LineChart extends Component {
                 if (!data[i][j + 1] || data[i][j + 1].year != data[i][j].year + 1) {
                     lines.push(
                         <Line
-                            key={data[i][j].countryId + data[i][j].indicatorId + '---' + j}
+                            key={data[i][j].countryId + data[i][j].indicatorId + data[i][j].countryColor + data[i][j].year}
                             d={line(tempData)}
                             stroke={data[i][j].countryColor}
                         />);
 
                     dots.push(
                         <Dots
-                            key={data[i][j].countryId + data[i][j].indicatorId + '---' + j}
+                            key={data[i][j].countryId + data[i][j].indicatorId + data[i][j].countryColor + data[i][j].year}
                             data={tempData}
                             x={x}
                             y={y}
