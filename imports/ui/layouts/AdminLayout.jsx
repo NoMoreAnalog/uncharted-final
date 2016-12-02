@@ -19,11 +19,16 @@ import 'handsontable/dist/handsontable.full.min.css';
 export default class AdminLayout extends Component {
 
     state = {isAuthenticated: false};
+    handle;
 
     componentWillMount() {
-        Tracker.autorun(() => {
+        this.handle = Tracker.autorun(() => {
             this.setState({isAuthenticated: Meteor.userId() !== null});
         })
+    }
+
+    componentWillUnmount() {
+        this.handle.stop();
     }
 
     _signOut = () => {
