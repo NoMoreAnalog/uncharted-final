@@ -14,7 +14,7 @@ export default class RadarChart extends Component {
 
     state = {blobsSorted: false};
 
-    opacityArea = .35; // The opacity of the area of the blob
+    opacityArea = .01; // The opacity of the area of the blob
 
     componentDidMount() {
         this.setState({blobSorted: true})
@@ -31,34 +31,31 @@ export default class RadarChart extends Component {
     }
 
     _blobOnMouseOver = event => {
-        //Dim all blobs
-        d3.selectAll('.radar-area')
-            .transition().duration(200)
-            .style('fill-opacity', 0.1);
-        //Bring back the hovered over blob
-        d3.select(event.target)
-            .transition().duration(200)
-            .style('fill-opacity', 0.7);
-    }
 
-    _blobOnMouseOut = () => {
-        //Bring back all blobs
+        //Reset all blobs
         d3.selectAll('.radar-area')
             .transition().duration(200)
             .style('fill-opacity', this.opacityArea);
+
+        //Bring back the hovered over blob
+        d3.select(event.target)
+            .transition().duration(200)
+            .style('fill-opacity', 0.6);
+
+    }
+
+    _blobOnMouseOut = () => {
+
+        //Reset all blobs
+        d3.selectAll('.radar-area')
+            .transition().duration(200)
+            .style('fill-opacity', this.opacityArea);
+
     }
 
     render() {
 
         const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
-            margin = { // the radar chart is special
-                top: chartStore.margin.top + 50,
-                right: chartStore.margin.right + 75,
-                bottom: chartStore.margin.bottom + 15,
-                left: chartStore.margin.left + 75
-            },
-            width = chartStore.height - 40, // needs to be square
-            height = chartStore.height - 40,
             records = recordStore.recordsToDraw,
             countries = countryStore.countriesToDraw.map(c => ({'_id': c._id, 'name': c.name, 'color': c.color})),
             indicators = indicatorStore.indicatorsToDraw.map(i => ({'_id': i._id, 'name': i.name, 'color': '#00adc6'}));
@@ -66,6 +63,21 @@ export default class RadarChart extends Component {
         if (_.size(records) === 0) {
             return <NoChartsMessage noData/>;
         }
+
+        let margin = { // the radar chart is special
+                top: chartStore.margin.top + 50,
+                bottom: chartStore.margin.bottom + 25
+            },
+            height = chartStore.width / 2 + chartStore.margin.left + chartStore.margin.right,
+            width = height; // needs to be square
+
+        if (height > 520) {
+            height = 520;
+            width = 520;
+        }
+
+        margin.left = (chartStore.width / 2) - (width / 2);
+        margin.right = (chartStore.width / 2) - (width / 2);
 
         const levels = 6, // How many levels or inner circles should there be drawn
             opacityArea = this.opacityArea, // The opacity of the area of the blob
