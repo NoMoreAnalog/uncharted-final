@@ -1,5 +1,6 @@
 // Libs
 import React, {Component} from 'react';
+import {Meteor} from 'meteor/meteor';
 import {observer} from 'mobx-react';
 import {Container, Menu, Segment, Dimmer, Header, Icon} from 'semantic-ui-react'
 import moment from 'moment';
@@ -9,6 +10,7 @@ import numbro from 'numbro';
 
 // Components
 import NavLink from './NavLink';
+import SignIn from '../components/admin/SignIn.jsx';
 
 // Files
 import 'handsontable/dist/handsontable.full.min.css';
@@ -16,9 +18,20 @@ import 'handsontable/dist/handsontable.full.min.css';
 @observer(['adminStore'])
 export default class AdminLayout extends Component {
 
+    state = {isAuthenticated: false};
+
+    componentWillMount() {
+        Tracker.autorun(() => {
+            this.setState({isAuthenticated: Meteor.userId() !== null});
+        })
+    }
+
     render() {
 
         const {adminStore, children, location} = {...this.props};
+        const {isAuthenticated} = {...this.state};
+
+        if (!isAuthenticated) return <SignIn/>;
 
         return (
             <Container fluid>
