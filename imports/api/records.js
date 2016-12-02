@@ -7,8 +7,17 @@ export const Records = new Mongo.Collection('records');
 
 if (Meteor.isServer) {
 
-    Meteor.publish('records', function recordsPublication() {
-        return Records.find();
+    Meteor.publish('records', function recordsPublication(filters) {
+
+        if (!filters || !filters.countries || !filters.indicators) return;
+
+        return Records.find({
+            $and: [
+                {country: {$in: filters.countries}},
+                {indicator: {$in: filters.indicators}}
+            ]
+        });
+
     });
 
 }

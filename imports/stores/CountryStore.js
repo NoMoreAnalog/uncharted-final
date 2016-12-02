@@ -3,10 +3,11 @@
 /*global recordStore */
 
 // Libs
+import {Meteor} from 'meteor/meteor';
 import {computed, observable, action} from 'mobx';
 import * as _ from 'lodash';
 
-// Files
+// Globals as locals
 import {Countries} from '../api/countries.js';
 
 class Country {
@@ -66,6 +67,7 @@ export default class CountryStore {
         value.active = !value.active;
         value.draw = value.active;
         recordStore.setYears();
+        recordStore.loadRecords();
     }
 
     @action setDraw = value => {
@@ -78,6 +80,7 @@ export default class CountryStore {
             country.active = active;
             country.draw = active;
         });
+        recordStore.loadRecords();
         recordStore.setYears();
         chartStore.setTitle();
         chartStore.chartDetermination();

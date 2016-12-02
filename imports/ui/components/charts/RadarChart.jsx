@@ -9,6 +9,26 @@ import * as _ from 'lodash';
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'chartStore'])
 export default class RadarChart extends Component {
 
+    opacityArea = .35; // The opacity of the area of the blob
+
+    _blobOnMouseOver = event => {
+        //Dim all blobs
+        d3.selectAll('.radar-area')
+            .transition().duration(200)
+            .style('fill-opacity', 0.1);
+        //Bring back the hovered over blob
+        d3.select(event.target)
+            .transition().duration(200)
+            .style('fill-opacity', 0.7);
+    }
+
+    _blobOnMouseOut = () => {
+        //Bring back all blobs
+        d3.selectAll('.radar-area')
+            .transition().duration(200)
+            .style('fill-opacity', this.opacityArea);
+    }
+
     render() {
 
         const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
@@ -23,13 +43,13 @@ export default class RadarChart extends Component {
             return null;
         }
 
-        const levels = 6,
-            factor = 1,
-            radians = 2 * Math.PI,
-            factorLegend = .85,
-            opacityArea = 0.5,
+        const levels = 6, // How many levels or inner circles should there be drawn
+            opacityArea = this.opacityArea, // The opacity of the area of the blob
+            strokeWidth = 2, // The width of the stroke around each blob
+            labelFactor = 1.2, // How much farther than the radius of the outer circle should the labels be placed
             maxValue = d3.max(records, r => r.value),
-            radius = factor * Math.min(width / 2, height / 2);
+            radius = Math.min(width / 2, height / 2), // Radius of the outermost circle
+            rScale = d3.scaleLinear().range([0, radius]).domain([0, maxValue]); // Scale for the radius
 
         let allAxes = [],
             allSeries = [],
@@ -45,53 +65,69 @@ export default class RadarChart extends Component {
             seriesId = 'indicatorId';
         }
 
-        const totalAxes = _.size(allAxes),
-            totalSeries = _.size(allSeries);
+        const totalAxes = _.size(allAxes), // The number of different axes
+            totalSeries = _.size(allSeries), // The number of different series
+            angleSlice = Math.PI * 2 / totalAxes; // The width in radians of each "slice"
 
-        //Circular segments
-        const levelCircles = [];
-        for (var i = 0; i < levels - 1; i++) {
-            const levelFactor = factor * radius * ((i + 1) / levels);
-            for (var j = 0; j < totalAxes; j++) {
-                levelCircles.push(
-                    <line
-                        key={i + '---' + j}
-                        x1={levelFactor * (1 - factor * Math.sin(j * radians / totalAxes))}
-                        y1={levelFactor * (1 - factor * Math.cos(j * radians / totalAxes))}
-                        x2={levelFactor * (1 - factor * Math.sin((j + 1) * radians / totalAxes))}
-                        y2={levelFactor * (1 - factor * Math.cos((j + 1) * radians / totalAxes))}
-                        className='level-line'
-                        stroke='#ABABAB'
-                        opacity={.7}
-                        strokeWidth={1}
-                        strokeDasharray='5 1'
-                        transform={'translate(' + (width / 2 - levelFactor) + ',' + (height / 2 - levelFactor) + ')'}
-                    />
-                );
-            }
-        }
+        /////////////////////////////////////////////////////////
+        ////////// Glow filter for some extra pizzazz ///////////
+        /////////////////////////////////////////////////////////
 
-        // Axes (this is a line, not a d3 axis)
-        const axes = [];
-        for (var i = 0; i < totalAxes; i++) {
-            axes.push(
-                <g key={i} className={'axis ' + allAxes[i].name}>
-                    <line
-                        x1={width / 2}
-                        y1={height / 2}
-                        x2={width / 2 * (1 - factor * Math.sin(i * radians / totalAxes))}
-                        y2={height / 2 * (1 - factor * Math.cos(i * radians / totalAxes))}
-                        className={'axis-line ' + allAxes[i].name}
-                        stroke='grey'
-                        strokeWidth={1}
-                    />
-                </g>
+        //Filter for the outside glow
+        const filter =
+            <defs>
+                <filter id='glow'>
+                    <feGaussianBlur stdDeviation='2.5' result='coloredBlur'/>
+                    <feMerge>
+                        <feMergeNode in='coloredBlur'/>
+                        <feMergeNode in='SourceGraphic'/>
+                    </feMerge>
+                </filter>
+            </defs>
+
+        /////////////////////////////////////////////////////////
+        /////////////// Draw the circular grid //////////////////
+        /////////////////////////////////////////////////////////
+
+        const circularGrid = [];
+        const levelsReverse = d3.range(1, (levels + 1)).reverse();
+        for (var i = 0; i < levelsReverse.length; i++) {
+            circularGrid.push(
+                <circle
+                    key={i}
+                    className='circular-grid'
+                    r={radius / levels * levelsReverse[i]}
+                    fill='#CDCDCD'
+                    stroke='#CDCDCD'
+                    fillOpacity={.1}
+                    filter='url(#glow)'
+                />
             );
         }
 
-        // Axis labels
+        /////////////////////////////////////////////////////////
+        //////////////////// Draw the axes //////////////////////
+        /////////////////////////////////////////////////////////
+
+        const axes = [];
         const axesLabels = [];
         for (var i = 0; i < totalAxes; i++) {
+
+            axes.push(
+                <g
+                    key={i}
+                    className={'axis ' + allAxes[i].name}>
+                    <line
+                        className={'line'}
+                        x1={0}
+                        y1={0}
+                        x2={rScale(maxValue * 1.1) * Math.cos(angleSlice * i - Math.PI / 2)}
+                        y2={rScale(maxValue * 1.1) * Math.sin(angleSlice * i - Math.PI / 2)}
+                        stroke={'white'}
+                        strokeWidth={2}
+                    />
+                </g>
+            );
 
             let axisRecords = [];
 
@@ -135,12 +171,13 @@ export default class RadarChart extends Component {
 
             const trigger =
                 <text
+                    key={i}
                     className={'axis-label ' + allAxes[i].name}
-                    textAnchor='middle'
-                    dy='1.5em'
                     fontSize={11}
-                    x={width / 2 * (1 - factorLegend * Math.sin(i * radians / totalAxes)) - 60 * Math.sin(i * radians / totalAxes)}
-                    y={height / 2 * (1 - Math.cos(i * radians / totalAxes)) - 20 * Math.cos(i * radians / totalAxes)}>
+                    textAnchor='middle'
+                    dy='0.35em'
+                    x={rScale(maxValue * labelFactor) * Math.cos(angleSlice * i - Math.PI / 2)}
+                    y={rScale(maxValue * labelFactor) * Math.sin(angleSlice * i - Math.PI / 2)}>
                     {allAxes[i].name}
                 </text>;
 
@@ -157,15 +194,19 @@ export default class RadarChart extends Component {
                     content={content}
                 />
             );
-
         }
 
-        // Polygons representing the countries or indicators
-        const polygons = [];
+        /////////////////////////////////////////////////////////
+        ///////////// Draw the radar chart blobs ////////////////
+        /////////////////////////////////////////////////////////
+
+        const radarLine = d3.radialLine()
+            .curve(d3.curveCardinalClosed.tension(.5))
+            .radius(d => rScale(d.value))
+            .angle((d, i) => i * angleSlice);
+
         for (var i = 0; i < totalSeries; i++) {
 
-            let points = '';
-            let record = {};
             let seriesRecords = [];
 
             if (seriesId === 'countryId') {
@@ -174,23 +215,17 @@ export default class RadarChart extends Component {
                 seriesRecords = _.filter(records, {'indicatorId': allSeries[i]._id});
             }
 
-            for (var j = 0; j < totalAxes; j++) {
+        }
 
-                let record = {};
-                let value = 0;
+        const blobs = [];
+        for (var i = 0; i < totalSeries; i++) {
 
-                if (seriesId === 'countryId') {
-                    record = _.find(seriesRecords, {'countryId': allSeries[i]._id, 'indicatorId': allAxes[j]._id});
-                } else {
-                    record = _.find(seriesRecords, {'indicatorId': allSeries[i]._id, 'countryId': allAxes[j]._id});
-                }
+            let seriesRecords = [];
 
-                value = record ? record.value : 0;
-
-                const value0 = width / 2 * (1 - (parseFloat(Math.max(value, 0)) / maxValue) * factor * Math.sin(j * radians / totalAxes));
-                const value1 = height / 2 * (1 - (parseFloat(Math.max(value, 0)) / maxValue) * factor * Math.cos(j * radians / totalAxes));
-                points += value0 + ',' + value1 + ' ';
-
+            if (seriesId === 'countryId') {
+                seriesRecords = _.filter(records, {'countryId': allSeries[i]._id});
+            } else {
+                seriesRecords = _.filter(records, {'indicatorId': allSeries[i]._id});
             }
 
             const content =
@@ -225,17 +260,31 @@ export default class RadarChart extends Component {
 
                 </List>;
 
-            const trigger =
-                <polygon
-                    className={'area ' + allSeries[i].name}
-                    strokeWidth={2}
-                    stroke={allSeries[i].color}
-                    points={points}
+            const path =
+                <path
+                    className='radar-area'
+                    d={radarLine(seriesRecords)}
                     fill={allSeries[i].color}
                     fillOpacity={opacityArea}
+                    onMouseOver={this._blobOnMouseOver}
+                    onMouseOut={this._blobOnMouseOut}
                 />;
 
-            polygons.push(
+            const trigger =
+                <g
+                    className={'radar-wrapper ' + allSeries[i].name}>
+                    {path}
+                    <path
+                        className='radar-stroke'
+                        d={radarLine(seriesRecords)}
+                        strokeWidth={strokeWidth}
+                        stroke={allSeries[i].color}
+                        fill={'none'}
+                        filter='url(#glow)'
+                    />
+                </g>
+
+            blobs.push(
                 <Popup
                     key={i}
                     style={{border: 'solid ' + allSeries[i].color + ' 1px'}}
@@ -248,10 +297,9 @@ export default class RadarChart extends Component {
                     content={content}
                 />
             );
-
         }
 
-        const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
+        const mainTransform = 'translate(' + (width / 2 + margin.left) + ',' + (height / 2 + margin.top) + ')';
 
         return (
 
@@ -262,10 +310,11 @@ export default class RadarChart extends Component {
                 height={height + margin.top + margin.bottom}>
 
                 <g transform={mainTransform}>
-                    {levelCircles}
+                    {filter}
+                    {circularGrid}
                     {axes}
                     {axesLabels}
-                    {polygons}
+                    {blobs}
                 </g>
 
             </svg>

@@ -2,9 +2,12 @@
 /*global countryStore */
 /*global indicatorStore */
 
-import {computed, observable, action} from 'mobx';
+// Libs
+import {Meteor} from 'meteor/meteor';
+import {computed, observable, action, autorun} from 'mobx';
 import * as _ from 'lodash';
 
+// Globals as locals
 import {Records} from '../api/records.js';
 import {Countries} from '../api/countries.js';
 import {Indicators} from '../api/indicators.js';
@@ -12,22 +15,38 @@ import {Indicators} from '../api/indicators.js';
 export default class RecordStore {
 
     @observable records = [];
-    @observable years = [0,9999];
-    @observable yearsToDraw = [0,9999];
+    @observable recordsDb = [];
+    @observable years = [0, 9999];
+    @observable yearsToDraw = [0, 9999];
     @observable yearsToDrawSingle = 0;
 
-    constructor() {
+    @action loadRecords = () => {
 
-        this.handle = Meteor.subscribe('records');
+        let filters;
 
-        Tracker.autorun(() => {
-            if (this.handle.ready()) this.setRecords(Records.find().fetch());
+        filters = {
+            countries: countryStore.activeCountries.map(c => c._id),
+            indicators: indicatorStore.activeIndicators.map(i => i._id)
+        };
+
+        if (_.size(filters.countries) === 0 || _.size(filters.indicators) === 0) {
+            this.records.replace([]);
+            if (this.handle) this.handle.stop();
+            return;
+        }
+
+        this.handle = Meteor.subscribe('records', filters, {
+            onReady: () => {
+                if (this.handle.ready()) this.setRecords(Records.find().fetch());
+            }
         });
 
     }
 
     @action setRecords = values => {
+
         const records = [];
+
         values.forEach(record => {
             record.values.forEach(value => {
                 if (!value.delete) {
@@ -42,6 +61,7 @@ export default class RecordStore {
                 }
             });
         });
+
         this.records.replace(records);
     }
 

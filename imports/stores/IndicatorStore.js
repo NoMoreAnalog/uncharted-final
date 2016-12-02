@@ -1,7 +1,11 @@
 'use strict';
+/*global recordStore */
 
+// Libs
+import {Meteor} from 'meteor/meteor';
 import {computed, observable, action} from 'mobx';
 
+// Globals as locals
 import {Indicators} from '../api/indicators.js';
 
 class Indicator {
@@ -64,6 +68,7 @@ export default class IndicatorStore {
     @action setActive = value => {
         value.active = !value.active;
         value.draw = value.active;
+        recordStore.loadRecords();
         recordStore.setYears();
     }
 
