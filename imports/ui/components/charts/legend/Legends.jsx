@@ -7,7 +7,7 @@ import Legend from './Legend.jsx';
 // Legends component - Container for the chart specific legends
 const Legends = observer(['countryStore', 'indicatorStore', 'chartStore'], (props) =>
 
-    <Grid className="legends" style={{paddingTop: 50}}>
+    <Grid className="legends">
 
         <Grid.Row stretched>
 

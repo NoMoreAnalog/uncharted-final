@@ -17,7 +17,6 @@ export default class RecordStore {
     @observable records = [];
     @observable years = [0, 9999];
     @observable yearsToDraw = [0, 9999];
-    @observable yearsToDrawSingle = 0;
 
     @action loadRecords = () => {
 
@@ -62,6 +61,7 @@ export default class RecordStore {
         });
 
         this.records.replace(records);
+        this.setYears();
     }
 
     @action setYears = () => {
@@ -98,8 +98,6 @@ export default class RecordStore {
         if (this.yearsToDraw[1] > last)
             this.yearsToDraw.replace([this.yearsToDraw[0], last]);
 
-        this.yearsToDrawSingle = this.yearsToDraw[1];
-
     }
 
     @computed get firstYear() {
@@ -117,17 +115,16 @@ export default class RecordStore {
         const activeCountries = countryStore.activeCountries,
             activeIndicators = indicatorStore.activeIndicators;
 
-        let yearsToDraw;
+        let year0 = this.yearsToDraw[0];
+        let year1 = this.yearsToDraw[1];
 
-        if (chartStore.scatterDraw || chartStore.radarDraw) {
-            yearsToDraw = [this.yearsToDrawSingle, this.yearsToDrawSingle];
-        } else {
-            yearsToDraw = this.yearsToDraw;
+        if (chartStore.radarDraw || chartStore.scatterDraw) {
+            year0 = year1;
         }
 
         const records = _.filter(this.records, record => {
             return (
-                record.year >= yearsToDraw[0] && record.year <= yearsToDraw[1] &&
+                record.year >= year0 && record.year <= year1 &&
                 _.find(activeCountries, {_id: record.countryId}) &&
                 _.find(activeIndicators, {_id: record.indicatorId})
             );

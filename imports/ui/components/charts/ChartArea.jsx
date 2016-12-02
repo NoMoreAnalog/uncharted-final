@@ -27,20 +27,22 @@ export default class ChartArea extends Component {
                 {chartStore.chartTitle ? <hr/> : ''}
             </div>;
 
-        let header = <Header as='h1' className='title'>{content}</Header>;
-
+        let header = <Header as='h1' className='title' style={{marginBottom: 0}}>{content}</Header>;
         let menu = <Menu/>;
-        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) menu =
-            <div/>;
-
         let yearSlider = <YearSlider/>;
-        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) yearSlider =
-            <div/>;
-        if (recordStore.firstYear === 0) yearSlider = <div/>;
-
         let legends = <Legends/>;
-        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw) legends =
-            <div/>;
+
+        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw)
+            menu = <div/>;
+
+        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw)
+            yearSlider = <div/>;
+
+        if (recordStore.firstYear === 0)
+            yearSlider = <div/>;
+
+        if (!chartStore.barDraw && !chartStore.lineDraw && !chartStore.radarDraw && !chartStore.scatterDraw)
+            legends = <div/>;
 
         return (
             <div className='chart-area'>

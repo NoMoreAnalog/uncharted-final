@@ -1,8 +1,7 @@
-import React, {PropTypes, Component} from 'react';
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Slider from 'rc-slider';
 import {Icon} from 'semantic-ui-react'
-import * as _ from 'lodash';
 
 class CustomHandle extends Component {
 
@@ -38,23 +37,6 @@ CustomHandle.propTypes = {
 @observer(['recordStore', 'chartStore'])
 export default class YearSlider extends Component {
 
-    constructor() {
-        super();
-        this._onAfterChange = this._onAfterChange.bind(this);
-    }
-
-    _onAfterChange(value) {
-        const {recordStore} = {...this.props};
-        if (value[0]) {
-            recordStore.yearsToDraw.replace(value);
-            recordStore.yearsToDrawSingle = recordStore.yearsToDraw[1];
-        }
-        else {
-            recordStore.yearsToDraw.replace([recordStore.yearsToDraw[0], value]);
-            recordStore.yearsToDrawSingle = value;
-        }
-    }
-
     render() {
 
         const {recordStore, chartStore} = {...this.props};
@@ -83,8 +65,11 @@ export default class YearSlider extends Component {
                     min={recordStore.firstYear}
                     max={recordStore.lastYear}
                     step={1}
-                    defaultValue={recordStore.lastYear}
-                    onChange={this._onAfterChange}
+                    defaultValue={recordStore.yearsToDraw[1]}
+                    value={recordStore.yearsToDraw[1]}
+                    onChange={(value) => {
+                        recordStore.yearsToDraw[1] = value;
+                    }}
                     handle={<CustomHandle/>}
                 />;
         } else {
@@ -96,8 +81,11 @@ export default class YearSlider extends Component {
                     min={recordStore.firstYear}
                     max={recordStore.lastYear}
                     step={1}
-                    defaultValue={[recordStore.firstYear, recordStore.lastYear]}
-                    onAfterChange={this._onAfterChange}
+                    value={[recordStore.yearsToDraw[0], recordStore.yearsToDraw[1]]}
+                    onChange={(value) => {
+                        recordStore.yearsToDraw[0] = value[0];
+                        recordStore.yearsToDraw[1] = value[1];
+                    }}
                     handle={<CustomHandle/>}
                 />;
         }

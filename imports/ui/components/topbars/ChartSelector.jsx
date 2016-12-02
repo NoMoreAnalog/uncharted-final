@@ -40,7 +40,7 @@ export default class ChartSelector extends Component {
 
             <div ref={ref => this.container = ref}>
 
-                <div className="ui stackable borderless menu chart-selector">
+                <div className="ui borderless menu chart-selector">
 
                     <Steps number={3}/>
                     <div ref={ref => this.header = ref} className="header item">Available Graphs:</div>

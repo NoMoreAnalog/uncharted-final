@@ -38,9 +38,14 @@ export default class RadarChart extends Component {
     render() {
 
         const {countryStore, indicatorStore, recordStore, chartStore} = {...this.props},
-            margin = chartStore.margin,
-            width = chartStore.height, // needs to be square
-            height = chartStore.height,
+            margin = { // the radar chart is special
+                top: chartStore.margin.top + 50,
+                right: chartStore.margin.right + 75,
+                bottom: chartStore.margin.bottom + 15,
+                left: chartStore.margin.left + 75
+            },
+            width = chartStore.height  - 40, // needs to be square
+            height = chartStore.height - 40,
             records = recordStore.recordsToDraw,
             countries = countryStore.countriesToDraw.map(c => ({'_id': c._id, 'name': c.name, 'color': c.color})),
             indicators = indicatorStore.indicatorsToDraw.map(i => ({'_id': i._id, 'name': i.name, 'color': '#00adc6'}));
@@ -165,7 +170,7 @@ export default class RadarChart extends Component {
                         }
 
                         return (
-                            <List.Item key={r.countryId + r.indicatorId}>
+                            <List.Item key={r.countryId + r.indicatorId + r.year}>
                                 <div style={{color: fill}}>{text}</div>
                                 <div>{r.value}</div>
                             </List.Item>
@@ -256,7 +261,7 @@ export default class RadarChart extends Component {
                         }
 
                         return (
-                            <List.Item key={r.countryId + r.indicatorId}>
+                            <List.Item key={r.countryId + r.indicatorId + r.year}>
                                 <div style={{color: fill}}>{text}</div>
                                 <div>{r.value}</div>
                             </List.Item>

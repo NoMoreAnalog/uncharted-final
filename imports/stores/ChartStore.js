@@ -15,7 +15,7 @@ export default class ChartStore {
     // Chart setup
     @observable width = 500; // set dynamically in ChartWrapper
     @observable height = 450;
-    @observable margin = {top: 50, right: 50, bottom: 50, left: 50};
+    @observable margin = {top: 20, right: 50, bottom: 50, left: 50};
 
     // Used in top bar to determine which chart user can selected
     @observable barActive = false;
@@ -61,6 +61,7 @@ export default class ChartStore {
         if (chartType === 'scatter' && this.scatterActive) this.setScatterDraw(!this.scatterDraw);
 
         this.setTitle();
+        recordStore.setYears();
     }
 
     @action setTitle = () => {
