@@ -26,12 +26,17 @@ export default class AdminLayout extends Component {
         })
     }
 
+    _signOut = () => {
+        this.setState({isAuthenticated: false});
+        Meteor.logout();
+    }
+
     render() {
 
         const {adminStore, children, location} = {...this.props};
         const {isAuthenticated} = {...this.state};
 
-        if (!isAuthenticated) return <SignIn/>;
+        if (!isAuthenticated || Meteor.userId() === null) return <SignIn/>;
 
         return (
             <Container fluid>
@@ -51,6 +56,7 @@ export default class AdminLayout extends Component {
                     </NavLink>
 
                     <Menu.Menu position='right'>
+                        <Menu.Item link position='right' onClick={this._signOut}>Sign Out</Menu.Item>
                         <NavLink to='/'>
                             <Menu.Item link position='right'>Go To Charts</Menu.Item>
                         </NavLink>

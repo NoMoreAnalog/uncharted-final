@@ -1,10 +1,8 @@
 // Libs
 import React, {Component} from 'react';
 import {Meteor} from 'meteor/meteor';
-import {observer} from 'mobx-react';
 import {Divider, Header, Icon, Form, Button, Message} from 'semantic-ui-react'
 
-@observer(['adminStore'])
 export default class SignIn extends Component {
 
     state = {notAuthenticated: false};
@@ -31,37 +29,22 @@ export default class SignIn extends Component {
 
     render() {
 
-        const {adminStore} = {...this.props};
         const {notAuthenticated} = {...this.state};
 
-        const style = {
-            textAlign: 'center',
-            padding: '200px 100px 0px 100px'
-        };
+        const boxShadow = '0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08)';
 
-        const inputStyle = {
-            boxShadow: '0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08)'
-        };
-
-        const buttonStyle = {
-            backgroundColor: 'white',
-            color: '#00adc6',
-            boxShadow: '0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08)'
-        };
+        const style = {textAlign: 'center', padding: '200px 100px 0px 100px'};
+        const iconStyle = {textAlign: 'center', color: 'rgba(240,248,255,0.5)'};
+        const headerStyle = {color: '#ffffff'};
+        const inputStyle = {boxShadow: boxShadow};
+        const buttonStyle = {backgroundColor: '#ffffff', color: '#00adc6', boxShadow: boxShadow};
 
         return (
             <div style={style}>
 
-                <Icon
-                    size={'massive'}
-                    color='grey'
-                    name={'unlock alternate'}
-                    style={{textAlign: 'center'}}
-                />
-
+                <Icon size={'massive'} name={'unlock alternate'} style={iconStyle}/>
                 <Divider/>
-
-                <Header as='h1' content={'Please sign in'}/>
+                <Header as='h1' content={'Please sign in'} style={headerStyle}/>
 
                 <Form onSubmit={this._handleSubmit} error={notAuthenticated}>
 
@@ -70,7 +53,6 @@ export default class SignIn extends Component {
                             name='username'
                             style={inputStyle}
                             className='sign-in-input'
-                            label='Enter username'
                             placeholder='Username'
                             onChange={() => this.setState({notAuthenticated: false})}
                         />
@@ -78,7 +60,6 @@ export default class SignIn extends Component {
                             name='password'
                             style={inputStyle}
                             className='sign-in-input'
-                            label='Enter Password'
                             type='password'
                             placeholder='Password'
                             onChange={() => this.setState({notAuthenticated: false})}
