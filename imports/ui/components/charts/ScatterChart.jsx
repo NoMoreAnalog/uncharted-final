@@ -89,7 +89,9 @@ export default class ScatterChart extends Component {
 
         }
 
-        if (_.size(dots) === 0) return null;
+        if (_.size(dots) === 0) {
+            return <NoChartsMessage noData/>;
+        }
 
         const mainTransform = 'translate(' + margin.left + ',' + margin.top + ')';
 
