@@ -5,15 +5,28 @@ import {Popup, List, Divider} from 'semantic-ui-react';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 
+// Components
+import NoChartsMessage from './NoChartsMessage.jsx';
+
 // RadarChart - Component displayed when radar chart is selected
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'chartStore'])
 export default class RadarChart extends Component {
 
+    state = {blobsSorted: false};
+
     opacityArea = .35; // The opacity of the area of the blob
 
     componentDidMount() {
+        this.setState({blobSorted: true})
+    }
+
+    componentDidUpdate() {
+        this._sortBlobs();
+    }
+
+    _sortBlobs() {
         const wrappers = document.getElementsByClassName('radar-wrapper');
-        const sortedWrappers = _.sortBy(wrappers, w => w.childNodes[1].attributes.d);
+        const sortedWrappers = _.sortBy(wrappers, w => w.childNodes[1].getTotalLength());
         _.forEachRight(sortedWrappers, w => w.parentNode.appendChild(w));
     }
 
@@ -44,14 +57,14 @@ export default class RadarChart extends Component {
                 bottom: chartStore.margin.bottom + 15,
                 left: chartStore.margin.left + 75
             },
-            width = chartStore.height  - 40, // needs to be square
+            width = chartStore.height - 40, // needs to be square
             height = chartStore.height - 40,
             records = recordStore.recordsToDraw,
             countries = countryStore.countriesToDraw.map(c => ({'_id': c._id, 'name': c.name, 'color': c.color})),
             indicators = indicatorStore.indicatorsToDraw.map(i => ({'_id': i._id, 'name': i.name, 'color': '#00adc6'}));
 
         if (_.size(records) === 0) {
-            return null;
+            return <NoChartsMessage noData/>;
         }
 
         const levels = 6, // How many levels or inner circles should there be drawn

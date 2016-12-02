@@ -1,13 +1,16 @@
-import React, {PropTypes, Component} from 'react';
+// Libs
+import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {List, Divider} from 'semantic-ui-react'
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 
+// Components
 import Bar from './common/Bar.jsx';
 import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
 import CustomPopup from './common/CustomPopup.jsx';
+import NoChartsMessage from './NoChartsMessage.jsx';
 
 // Bar chart - Component displayed when bar chart is selected
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'chartStore'])
@@ -25,7 +28,7 @@ export default class BarChart extends Component {
             indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);
 
         if (_.size(records) === 0) {
-            return null;
+            return <NoChartsMessage noData/>;
         }
 
         const countryFocus = _.size(countryIds) === 1;

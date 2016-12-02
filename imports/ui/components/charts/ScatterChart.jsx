@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import Dots from './common/Dots.jsx';
 import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
+import NoChartsMessage from './NoChartsMessage.jsx';
 
 // ScatterChart - Component displayed when scatter chart is selected
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'chartStore'])
@@ -25,7 +26,7 @@ export default class ScatterChart extends Component {
             indicatorNames = indicatorStore.indicatorsToDraw.map(i => i.name);
 
         if (_.size(records) === 0 || _.size(indicatorIds) !== 2 || _.size(countryIds) < 1) {
-            return null;
+            return <NoChartsMessage noData/>;
         }
 
         let data0 = []; // This is the X indicator data
@@ -105,8 +106,10 @@ export default class ScatterChart extends Component {
                     <Grid height={height} width={width} scale={x} gridType='vertical'/>
                     <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
-                    <Axis height={height} width={width} margin={margin} scale={x} axisType='x' label={indicatorNames[0]}/>
-                    <Axis height={height} width={width} margin={margin} scale={y} axisType='y' label={indicatorNames[1]}/>
+                    <Axis height={height} width={width} margin={margin} scale={x} axisType='x'
+                          label={indicatorNames[0]}/>
+                    <Axis height={height} width={width} margin={margin} scale={y} axisType='y'
+                          label={indicatorNames[1]}/>
 
                     {dots}
 

@@ -17,6 +17,8 @@ export default class RecordStore {
     @observable records = [];
     @observable years = [0, 9999];
     @observable yearsToDraw = [0, 9999];
+    @observable loading = false;
+    @observable noData = false;
 
     @action loadRecords = () => {
 
@@ -33,6 +35,7 @@ export default class RecordStore {
             return;
         }
 
+        this.loading = true;
         this.handle = Meteor.subscribe('records', filters, {
             onReady: () => {
                 if (this.handle.ready()) this.setRecords(Records.find().fetch());
@@ -59,6 +62,8 @@ export default class RecordStore {
                 }
             });
         });
+
+        this.loading = false;
 
         this.records.replace(records);
         this.setYears();

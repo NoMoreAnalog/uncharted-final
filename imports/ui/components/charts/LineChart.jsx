@@ -9,6 +9,7 @@ import Line from './common/Line.jsx';
 import Dots from './common/Dots.jsx';
 import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
+import NoChartsMessage from './NoChartsMessage.jsx';
 
 // Line chart - Component displayed when line chart is selected
 @observer(['countryStore', 'indicatorStore', 'recordStore', 'chartStore'])
@@ -25,7 +26,7 @@ export default class LineChart extends Component {
             indicatorIds = indicatorStore.indicatorsToDraw.map(c => c._id);
 
         if (_.size(records) === 0) {
-            return null;
+            return <NoChartsMessage noData/>;
         }
 
         let data = [];
