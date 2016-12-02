@@ -56,6 +56,7 @@ Meteor.methods({
                         year: data[i].values[j].year,
                         value: data[i].values[j].value,
                         changedAt: new Date(),
+                        changedBy: Meteor.user().username,
                         delete: data[i].values[j].delete || false
                     });
                 }
@@ -74,7 +75,8 @@ Meteor.methods({
                     values.push({
                         year: data[i].values[j].year,
                         value: data[i].values[j].value,
-                        createdAt: new Date()
+                        createdAt: new Date(),
+                        createdBy: Meteor.user().username
                     });
                 }
 

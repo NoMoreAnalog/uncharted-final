@@ -1,4 +1,5 @@
 // Libs
+import {Meteor} from 'meteor/meteor';
 import {observable, computed, action} from 'mobx';
 import * as _ from 'lodash';
 
@@ -155,7 +156,7 @@ class Country {
         this.iso = country.iso;
         this.color = country.color;
         this.createdBy = country.createdBy;
-        this.changedBy = country.changedBy
+        this.changedBy = country.changedBy;
         this.delete = country.delete || false;
 
         if (country.createdAt) this.createdAt = country.createdAt.toLocaleString();

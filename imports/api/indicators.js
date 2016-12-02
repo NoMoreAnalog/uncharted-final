@@ -32,6 +32,7 @@ Meteor.methods({
                         notes: data[i].notes,
                         notes_ar: data[i].notes_ar,
                         changedAt: new Date(),
+                        changedBy: Meteor.user().username,
                         delete: data[i].delete
                     }
                 });
@@ -42,7 +43,8 @@ Meteor.methods({
                     code: data[i].code,
                     notes: data[i].notes,
                     notes_ar: data[i].notes_ar,
-                    createdAt: new Date()
+                    createdAt: new Date(),
+                    createdBy: Meteor.user().username
                 });
             }
 

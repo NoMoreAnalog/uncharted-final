@@ -29,6 +29,7 @@ Meteor.methods({
                         iso: data[i].iso,
                         color: data[i].color,
                         changedAt: new Date(),
+                        changedBy: Meteor.user().username,
                         delete: data[i].delete
                     }
                 });
@@ -37,7 +38,8 @@ Meteor.methods({
                     name: data[i].name,
                     iso: data[i].iso,
                     color: data[i].color,
-                    createdAt: new Date()
+                    createdAt: new Date(),
+                    createdBy: Meteor.user().username
                 });
             }
 
