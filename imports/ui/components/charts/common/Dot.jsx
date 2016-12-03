@@ -5,7 +5,7 @@ export default class Dot extends Component {
 
     render() {
 
-        const {cx, cy, classed, radius, fill, stroke, strokeWidth, strokeOpacity, createSvg} = {...this.props};
+        const {cx, cy, classed, radius, fill, stroke, strokeWidth, strokeOpacity, createSvg, style} = {...this.props};
 
         let cxOut, cyOut;
 
@@ -30,7 +30,7 @@ export default class Dot extends Component {
             />;
 
         return createSvg ?
-            <div>
+            <div style={style}>
                 <svg className='dot' width={(radius + strokeWidth) * 2} height={(radius + strokeWidth) * 2}>
                     {circle}
                 </svg>
@@ -49,7 +49,8 @@ Dot.propTypes = {
     stroke: PropTypes.string,
     strokeWidth: PropTypes.number,
     strokeOpacity: PropTypes.number,
-    createSvg: PropTypes.bool
+    createSvg: PropTypes.bool,
+    style: PropTypes.object
 };
 
 Dot.defaultProps = {
@@ -61,5 +62,6 @@ Dot.defaultProps = {
     stroke: '#000000',
     strokeWidth: 0,
     strokeOpacity: 1,
-    createSvg: false
+    createSvg: false,
+    style: {}
 };

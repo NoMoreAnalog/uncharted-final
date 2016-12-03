@@ -7,7 +7,7 @@ import Legend from './Legend.jsx';
 // Legends component - Container for the chart specific legends
 const Legends = observer(['countryStore', 'indicatorStore', 'chartStore'], (props) =>
 
-    <Grid className="legends">
+    <Grid className='legends'>
 
         <Grid.Row stretched>
 
@@ -16,7 +16,7 @@ const Legends = observer(['countryStore', 'indicatorStore', 'chartStore'], (prop
                 <Legend
                     title={'Country:'}
                     list={props.countryStore.activeCountries}
-                    classed="countries"
+                    classed='countries'
                     itemStore={props.countryStore}
                     store={props.chartStore}
                 />
@@ -28,7 +28,7 @@ const Legends = observer(['countryStore', 'indicatorStore', 'chartStore'], (prop
                 <Legend
                     title={'Indicator:'}
                     list={props.indicatorStore.activeIndicators}
-                    classed="indicators"
+                    classed='indicators'
                     itemStore={props.indicatorStore}
                     store={props.chartStore}
                 />

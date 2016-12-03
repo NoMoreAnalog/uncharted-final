@@ -2,6 +2,7 @@
 import React, {Component, PropTypes} from 'react';
 import {List} from 'semantic-ui-react'
 import {observer} from 'mobx-react';
+import * as _ from 'lodash'
 
 // Components
 import Dot from '../common/Dot.jsx';
@@ -26,14 +27,17 @@ export default class Item extends Component {
 
         const dotColor = item.type === 'country' ? item.color : '#00adc6',
             className = item.draw ? 'draw' : '',
-            style = item.draw ? {color: item.color} : {},
-            dot = item.draw ? <Dot createSvg={true} fill={dotColor}/> : <Dot createSvg={true} fill='#636363'/>;
+            style = item.draw ? {color: item.color, display: 'inline'} : {display: 'inline'},
+            dot = item.draw ?
+                <Dot createSvg={true} fill={dotColor} style={{display: 'inline'}}/> :
+                <Dot createSvg={true} fill='#636363' style={{display: 'inline'}}/>;
 
         return (
             <List.Item
                 key={item._id}
                 className={className}
-                onClick={this._onClick}>
+                onClick={this._onClick}
+                style={{marginLeft: 0, minWidth: item.type === 'country' ? 170 : '100%'}}>
                 {dot}
                 <div className="content" style={style}>{item.name}</div>
             </List.Item>

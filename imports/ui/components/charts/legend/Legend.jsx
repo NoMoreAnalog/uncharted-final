@@ -1,34 +1,44 @@
-import React, {PropTypes} from 'react';
+// Libs
+import React, {PropTypes, Component} from 'react';
 import {observer} from 'mobx-react';
 import {Segment, Header, List} from 'semantic-ui-react'
 
+// Components
 import Item from './Item.jsx';
 
 // Legend component - legend to appear next to the chart, used to filter chart component
-const Legend = observer((props) =>
+export default class Legend extends Component {
 
-    <Segment className={'legend ' + props.classed}>
+    render() {
 
-        <Header as='h3' textAlign='center'>
-            {props.title}&nbsp;
-            <span style={{fontStyle: 'italic', fontSize: '.8em'}}>{props.subtitle}</span>
-        </Header>
+        const {classed, title, subtitle, list, itemStore} = {...this.props};
 
-            <List
-                style={{marginLeft: '20px'}}>
-                {props.list.map(item =>
-                    <Item
-                        key={item._id}
-                        itemStore={props.itemStore}
-                        item={item}
-                    />
-                )}
-            </List>
+        return (
+            <Segment className={'legend ' + classed}>
 
-    </Segment>
-)
+                <Header as='h3' textAlign='center'>
+                    {title}&nbsp;
+                    <span style={{fontStyle: 'italic', fontSize: '.8em'}}>{subtitle}</span>
+                </Header>
 
-export default Legend;
+                <List
+                    horizontal
+                    style={{marginLeft: '20px'}}>
+                    {list.map(item =>
+                        <Item
+                            key={item._id}
+                            itemStore={itemStore}
+                            item={item}
+                        />
+                    )}
+                </List>
+
+            </Segment>
+        )
+
+    }
+
+}
 
 Legend.propTypes = {
     title: PropTypes.string.isRequired,

@@ -93,9 +93,7 @@ export default class NavBar extends Component {
                         <Menu.Item>
                             <Dropdown trigger={languageTrigger}>
                                 <Dropdown.Menu>
-                                    <Dropdown.Item>English</Dropdown.Item>
-                                    <Dropdown.Item>Russian</Dropdown.Item>
-                                    <Dropdown.Item>Spanish</Dropdown.Item>
+                                    <Dropdown.Item>العربية</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Menu.Item>
