@@ -31,6 +31,13 @@ export default class BarChart extends Component {
             return <NoChartsMessage noData/>;
         }
 
+        console.log('margin ' + margin.top)
+        console.log('margin ' + margin.right)
+        console.log('margin ' + margin.bottom)
+        console.log('margin ' + margin.left)
+        console.log('width ' + width)
+        console.log('height ' + height)
+
         const countryFocus = _.size(countryIds) === 1;
 
         const y = d3.scaleLinear()
