@@ -285,7 +285,7 @@ export default class Records extends Component {
             const index = formattedData.findIndex(d => d.country === changedData[i].countryId && d.indicator === changedData[i].indicatorId);
 
             if (index === -1) {
-                d._id = changedData[i]._id;
+                d._id = changedData[i]._id || '';
                 d.country = changedData[i].countryId;
                 d.indicator = changedData[i].indicatorId;
                 d.values = [];
@@ -296,7 +296,7 @@ export default class Records extends Component {
             d.values.push({
                 year: changedData[i].year,
                 value: changedData[i].value,
-                delete: changedData[i].delete
+                delete: changedData[i].delete || false
             });
 
             if (index === -1) {

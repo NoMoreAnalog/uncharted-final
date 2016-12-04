@@ -158,6 +158,7 @@ export default class Indicators extends Component {
         if (!this.table || !_.find(this.data, 'changed')) return;
 
         let error = false;
+        let dataToSend = [];
 
         for (var i = 0; i < this.table.countRows(); i++) {
 
@@ -177,6 +178,16 @@ export default class Indicators extends Component {
                 error = true;
             }
 
+            dataToSend.push({
+                '_id': this.data[i]._id || '',
+                'name': this.data[i].name,
+                'name_ar': this.data[i].name_ar,
+                'code': this.data[i].code,
+                'notes': this.data[i].notes,
+                'notes_ar': this.data[i].notes_ar,
+                'delete': this.data[i].delete || false
+            });
+
         }
 
         if (error) {
@@ -186,7 +197,7 @@ export default class Indicators extends Component {
 
         this.props.adminStore.adminDimmed = true;
 
-        Meteor.call('indicators.save', _.filter(this.data, 'changed'), (err, res) => {
+        Meteor.call('indicators.save', dataToSend, (err, res) => {
             this.props.adminStore.adminDimmed = false;
             if (err) {
                 alert(err);

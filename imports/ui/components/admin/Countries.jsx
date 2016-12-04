@@ -181,6 +181,7 @@ export default class Countries extends Component {
         if (!this.table || !_.find(this.data, 'changed')) return;
 
         let error = false;
+        const dataToSend = [];
 
         for (var i = 0; i < this.table.countRows(); i++) {
 
@@ -204,6 +205,23 @@ export default class Countries extends Component {
                 error = true;
             }
 
+            // Color
+
+            if (this.table.getDataAtCell(i, 3)) {
+                this.table.removeCellMeta(i, 3, 'className');
+            } else {
+                this.table.setCellMeta(i, 3, 'className', 'error');
+                error = true;
+            }
+
+            dataToSend.push({
+                '_id': this.data[i]._id || '',
+                'name': this.data[i].name,
+                'iso': this.data[i].iso,
+                'color': this.data[i].color,
+                'delete': this.data[i].delete || false
+            });
+
         }
 
         if (error) {
@@ -213,7 +231,7 @@ export default class Countries extends Component {
 
         this.props.adminStore.adminDimmed = true;
 
-        Meteor.call('countries.save', _.filter(this.data, 'changed'), (err, res) => {
+        Meteor.call('countries.save', dataToSend, (err, res) => {
             this.props.adminStore.adminDimmed = false;
             if (err) {
                 alert(err);

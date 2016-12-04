@@ -1,12 +1,19 @@
 // Libs
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
+import {check} from 'meteor/check';
 import * as _ from 'lodash';
 
 // Exports
 export const Records = new Mongo.Collection('records');
 
 if (Meteor.isServer) {
+
+    Records.deny({
+        insert() { return true; },
+        update() { return true; },
+        remove() { return true; },
+    });
 
     Meteor.publish('records', function recordsPublication(filters) {
 
@@ -41,6 +48,25 @@ if (Meteor.isServer) {
 Meteor.methods({
 
     'records.save'(data) {
+
+        if (!this.userId) {
+            throw new Meteor.Error(
+                403,
+                'Error 403: Forbidden',
+                'You do not have access to perform operation (records.save)'
+            );
+        }
+
+        check(data, [{
+            _id: String,
+            country: String,
+            indicator: String,
+            values: [{
+                year: Number,
+                value: Number,
+                delete: Match.Maybe(Boolean)
+            }]
+        }]);
 
         for (var i = 0; i < data.length; i++) {
 
