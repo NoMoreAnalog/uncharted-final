@@ -1,11 +1,14 @@
 // Libs
 import React, {Component} from 'react';
 import {Meteor} from 'meteor/meteor';
-import {Divider, Header, Icon, Form, Button, Message} from 'semantic-ui-react'
+import {Image, Form, Button, Message, Segment, Header, Grid} from 'semantic-ui-react';
 
 export default class SignIn extends Component {
 
-    state = {notAuthenticated: false};
+    state = {
+        badUsernamePassword: false,
+        loading: false
+    };
 
     componentDidMount() {
         document.body.style.backgroundColor = '#00adc6';
@@ -19,9 +22,11 @@ export default class SignIn extends Component {
 
         e.preventDefault()
 
+        this.setState({loading: true});
+
         Meteor.loginWithPassword(serializedForm.username, serializedForm.password, (err) => {
             if (err) {
-                this.setState({notAuthenticated: true});
+                this.setState({badUsernamePassword: true, loading: false});
             }
         });
 
@@ -29,54 +34,57 @@ export default class SignIn extends Component {
 
     render() {
 
-        const {notAuthenticated} = {...this.state};
-
-        const boxShadow = '0 2px 2px 0 rgba(0,0,0,0.16),0 0 0 1px rgba(0,0,0,0.08)';
-
-        const style = {textAlign: 'center', padding: '200px 100px 0px 100px'};
-        const iconStyle = {textAlign: 'center', color: 'rgba(240,248,255,0.5)'};
-        const headerStyle = {color: '#ffffff'};
-        const inputStyle = {boxShadow: boxShadow};
-        const buttonStyle = {backgroundColor: '#ffffff', color: '#00adc6', boxShadow: boxShadow};
+        const {badUsernamePassword, loading} = {...this.state};
 
         return (
-            <div style={style}>
+            <Grid verticalAlign='middle' centered style={{height: '100%'}}>
 
-                <Icon size={'massive'} name={'unlock alternate'} style={iconStyle}/>
-                <Divider/>
-                <Header as='h1' content={'Please sign in'} style={headerStyle}/>
+                <Grid.Column style={{maxWidth: 450}}>
 
-                <Form onSubmit={this._handleSubmit} error={notAuthenticated}>
+                    <Segment padded='very' textAlign='center'>
 
-                    <Form.Group widths='2'>
-                        <Form.Input
-                            name='username'
-                            style={inputStyle}
-                            className='sign-in-input'
-                            placeholder='Username'
-                            onChange={() => this.setState({notAuthenticated: false})}
-                        />
-                        <Form.Input
-                            name='password'
-                            style={inputStyle}
-                            className='sign-in-input'
-                            type='password'
-                            placeholder='Password'
-                            onChange={() => this.setState({notAuthenticated: false})}
-                        />
-                    </Form.Group>
+                        <Form onSubmit={this._handleSubmit} error={badUsernamePassword}>
 
-                    <Message
-                        error
-                        header='Action Forbidden'
-                        content='You have entered an invalid username and password. Try again.'
-                    />
+                            <Image
+                                src='../login-screen-k4all.png'
+                                alt='login-screen-k4all.png'
+                                centered
+                                size='small'/>
 
-                    <Button type='submit' content={'Sign In'} style={buttonStyle}/>
+                            <Header as='h1' content={'Please Sign In'}/>
 
-                </Form>
+                            <Form.Input
+                                name='username'
+                                className='sign-in-input'
+                                placeholder='Username'
+                                fluid
+                            />
 
-            </div>
+                            <Form.Input
+                                name='password'
+                                className='sign-in-input'
+                                type='password'
+                                placeholder='Password'
+                                fluid
+                            />
+
+                            <Message error content='You have entered an invalid username and password. Try again.'/>
+
+                            <Button
+                                type='submit'
+                                content='Sign In'
+                                style={{color: '#ffffff'}}
+                                loading={loading}
+                                disabled={loading}
+                            />
+
+                        </Form>
+
+                    </Segment>
+
+                </Grid.Column>
+
+            </Grid>
         )
 
     }
