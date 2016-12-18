@@ -4,8 +4,8 @@ import {check} from 'meteor/check';
 import {FilesCollection} from 'meteor/ostrio:files';
 
 export const Flags = new FilesCollection({
-    storagePath: '/data/Meteor/uploads/',
-    downloadRoute: '/files/flags',
+    // storagePath: '/data/Meteor/uploads/',
+    // downloadRoute: '/files/flags',
     collectionName: 'flags',
     allowClientCode: false, // Disallow remove files from Client
     onBeforeUpload: function (file) {
