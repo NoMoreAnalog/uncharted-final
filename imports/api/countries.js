@@ -21,6 +21,23 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
+    'countries.updateFlag'(flagId, countryId) {
+
+        if (!this.userId) {
+            throw new Meteor.Error(
+                403,
+                'Error 403: Forbidden',
+                'You do not have access to perform operation (countries.updateFlag)'
+            );
+        }
+
+        check(flagId, String);
+        check(countryId, String);
+
+        Countries.update(countryId, {$set: {flag: flagId}});
+
+    },
+
     'countries.save'(data) {
 
         if (!this.userId) {

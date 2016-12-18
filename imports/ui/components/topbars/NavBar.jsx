@@ -103,11 +103,11 @@ export default class NavBar extends Component {
                             Log In / Register
                         </Menu.Item>
 
-                        <Menu.Item>
+                        <Menu.Item href='https://twitter.com/ArabKnowledge' target='_blank'>
                             <Icon name='twitter'/>
                         </Menu.Item>
 
-                        <Menu.Item>
+                        <Menu.Item href='https://www.facebook.com/ArabKnowledgeProject' target='_blank'>
                             <Icon name='facebook f'/>
                         </Menu.Item>
 

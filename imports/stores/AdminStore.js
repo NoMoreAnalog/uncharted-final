@@ -7,10 +7,12 @@ import * as _ from 'lodash';
 import {Countries} from '../api/countries.js';
 import {Indicators} from '../api/indicators.js';
 import {Records} from '../api/records.js';
+import {Flags} from '../api/flags.js';
 
 export default class AdminStore {
 
     @observable countries = [];
+    @observable flags = [];
     @observable indicators = [];
     @observable records = [];
     @observable adminDimmed = false;
@@ -18,16 +20,80 @@ export default class AdminStore {
     constructor() {
 
         this.handle1 = Meteor.subscribe('countries');
-        this.handle2 = Meteor.subscribe('indicators');
+        this.handle2 = Meteor.subscribe('files.flags.all');
+        this.handle3 = Meteor.subscribe('indicators');
+
+        window.that = this;
 
         Tracker.autorun(() => {
+
             if (this.handle1.ready()) {
                 this.countries.replace(Countries.find().fetch().map(country => new Country(country)));
             }
+
             if (this.handle2.ready()) {
+                this.flags.replace(Flags.find().fetch());
+            }
+
+            if (this.handle3.ready()) {
                 this.indicators.replace(Indicators.find().fetch().map(indicator => new Indicator(indicator)));
             }
+
         });
+
+    }
+
+    @action uploadFlag = (file, countryId, countryName) => {
+
+        Flags.insert({
+            file: file,
+            meta: {
+                'countryId': countryId,
+                'countryName': countryName
+            },
+            onUploaded: (error, fileData) => {
+                this.flags.replace(Flags.find().fetch());
+                Meteor.call('countries.updateFlag', fileData._id, countryId, (err, res) => {
+                    if (err) alert(err);
+                });
+            },
+            onError: (error, fileData) => {
+                console.log(error);
+            }
+        });
+
+        // const reader = new FileReader();
+        //
+        // reader.onload = (fileLoadEvent) => {
+        //
+        //     let contents = fileLoadEvent.target.result;
+        //
+        //     contents = contents.split(',')[1];
+        //
+        //     Flags.insert({
+        //         file: contents,
+        //         isBase64: true,
+        //         fileName: 'pic.png',
+        //         type: 'image/png',
+        //         meta: {
+        //             'countryId': this.countryId,
+        //             'countryName': this.countryName
+        //         }
+        //     });
+        //
+        // Meteor.call('flags.upload', contents, this.countryId, this.countryName, (err, res) => {
+        //     if (err) {
+        //         alert(err);
+        //     } else {
+        //         alert('Save successful');
+        //         this._loadData();
+        //     }
+        // });
+        //
+        // };
+        //
+        // reader.readAsDataURL(files);
+
     }
 
     @action loadRecords = (countries, isos, indicators, codes, callback) => {
@@ -149,6 +215,8 @@ class Country {
     changedAt = '';
     changedBy = '';
     delete = false;
+    flagId = '';
+    flagPath = '';
 
     constructor(country) {
         this._id = country._id;
@@ -158,6 +226,12 @@ class Country {
         this.createdBy = country.createdBy;
         this.changedBy = country.changedBy;
         this.delete = country.delete || false;
+
+        const flag = Flags.findOne({_id: country.flag});
+        if (flag) {
+            this.flagId = flag._id;
+            this.flagPath = flag.link();
+        }
 
         if (country.createdAt) this.createdAt = country.createdAt.toLocaleString();
         if (country.changedAt) this.changedAt = country.changedAt.toLocaleString();

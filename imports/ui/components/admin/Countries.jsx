@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {Form, Button, Radio, Divider, Icon} from 'semantic-ui-react';
+import {FileCursor} from 'meteor/ostrio:files';
 import Handsontable from 'handsontable/dist/handsontable.full.min.js';
 import * as _ from 'lodash';
 
@@ -10,6 +11,9 @@ import PopupToConfirm from './PopupToConfirm';
 
 @observer(['adminStore'])
 export default class Countries extends Component {
+    forceUpdate(callBack) {
+        return super.forceUpdate(callBack);
+    }
 
     state = {
         country: [],
@@ -22,6 +26,8 @@ export default class Countries extends Component {
     data = [];
     serializedForm;
     selectedColor = '';
+    countryName = '';
+    countryId = '';
 
     constructor() {
         super();
@@ -32,11 +38,14 @@ export default class Countries extends Component {
         this._loadData = this._loadData.bind(this);
         this._toggleDeleted = this._toggleDeleted.bind(this);
         this._clearForm = this._clearForm.bind(this);
+        this._flagRenderer = this._flagRenderer.bind(this);
+        this._uploadFlag = this._uploadFlag.bind(this);
 
         this.settings = {
             data: this.data,
             columns: [
                 {data: '_id', type: 'text', readOnly: true},
+                {data: 'flagPath', renderer: this._flagRenderer, readOnly: true},
                 {data: 'name', type: 'text', validator: this._validator},
                 {data: 'iso', type: 'text', validator: this._validator},
                 {data: 'color', renderer: this._colorRenderer, readOnly: true},
@@ -46,7 +55,7 @@ export default class Countries extends Component {
                 {data: 'changedBy', type: 'text', readOnly: true},
                 {data: 'delete', type: 'checkbox', className: 'htCenter htMiddle'}
             ],
-            colHeaders: ['ID', 'Name', 'ISO', 'Color', 'Created At', 'Created By', 'Changed At', 'Changed By', 'Delete?'],
+            colHeaders: ['ID', 'Flag', 'Name', 'ISO', 'Color', 'Created At', 'Created By', 'Changed At', 'Changed By', 'Delete?'],
             columnSorting: true,
             manualColumnResize: true,
             manualColumnMove: true,
@@ -80,6 +89,42 @@ export default class Countries extends Component {
 
     componentDidMount() {
         this.table = new Handsontable(this.hot, this.settings);
+    }
+
+    componentDidUpdate() {
+        this._loadData();
+    }
+
+    _flagRenderer(instance, td, row, col, prop, value, cellProperties) {
+
+        let element;
+
+        let src = instance.getDataAtRowProp(row, prop);
+
+        element = document.createElement('IMG');
+
+        element.setAttribute('width', '100%');
+        element.setAttribute('height', 'auto');
+        element.setAttribute('src', src);
+        element.setAttribute('for', 'upload-flag');
+
+        element.style.paddingTop = '4px';
+
+        element.onclick = () => {
+            this.countryName = instance.getDataAtRowProp(row, 'name');
+            this.countryId = instance.getDataAtRowProp(row, '_id');
+            document.getElementById('upload-flag').click();
+        };
+
+        if (instance.getDataAtRowProp(row, 'delete')) {
+            element.setAttribute('opacity', '.2');
+        }
+
+        Handsontable.Dom.empty(td);
+        td.appendChild(element);
+
+        return td;
+
     }
 
     _colorRenderer(instance, td, row, col, prop, value, cellProperties) {
@@ -157,6 +202,7 @@ export default class Countries extends Component {
                 changedAt: country.changedAt,
                 changedBy: country.changedBy,
                 delete: country.delete,
+                flagPath: country.flagPath,
                 changed: false
             });
 
@@ -182,6 +228,7 @@ export default class Countries extends Component {
 
         let error = false;
         const dataToSend = [];
+        const {adminStore} = {...this.props};
 
         for (var i = 0; i < this.table.countRows(); i++) {
 
@@ -229,10 +276,10 @@ export default class Countries extends Component {
             return;
         }
 
-        this.props.adminStore.adminDimmed = true;
+        adminStore.adminDimmed = true;
 
         Meteor.call('countries.save', dataToSend, (err, res) => {
-            this.props.adminStore.adminDimmed = false;
+            adminStore.adminDimmed = false;
             if (err) {
                 alert(err);
             } else {
@@ -254,6 +301,21 @@ export default class Countries extends Component {
         this.serializedForm = null;
         this.data = [];
         this.table.loadData(this.data);
+    }
+
+    _uploadFlag(event) {
+
+        const {adminStore} = {...this.props};
+
+        const file = event.currentTarget.files[0];
+
+        if (!file) {
+            this._loadData();
+            return;
+        }
+
+        adminStore.uploadFlag(file, this.countryId, this.countryName);
+
     }
 
     render() {
@@ -318,6 +380,8 @@ export default class Countries extends Component {
                     <Button.Content hidden>Save</Button.Content>
                     <Button.Content visible><Icon name='save'/></Button.Content>
                 </Button>
+
+                <input type='file' id='upload-flag' accept="image/*" style={{display: 'none'}} onChange={this._uploadFlag}/>
 
                 <div ref={ref => this.hot = ref}/>
 
