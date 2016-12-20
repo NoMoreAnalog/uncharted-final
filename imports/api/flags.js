@@ -4,8 +4,8 @@ import {check} from 'meteor/check';
 import {FilesCollection} from 'meteor/ostrio:files';
 
 export const Flags = new FilesCollection({
-    // storagePath: '/data/Meteor/uploads/',
-    // downloadRoute: '/files/flags',
+    storagePath: process.env.NODE_ENV === 'development' ? '/data/Meteor/uploads/' : '',
+    downloadRoute: process.env.NODE_ENV === 'development' ? '/files/flags': '',
     collectionName: 'flags',
     allowClientCode: false, // Disallow remove files from Client
     onBeforeUpload: function (file) {
@@ -38,10 +38,9 @@ Meteor.methods({
             );
         }
 
-        // check(file, String);event.target.result
-        // check(fileName, String);
-        // check(type, Object);
-        // new Buffer(base64Data, 'base64')
+        check(contents, String);
+        check(countryId, String);
+        check(countryName, Object);
 
         contents = contents.split(',')[1];
 

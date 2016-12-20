@@ -55,7 +55,7 @@ export default class SideBar extends Component {
                 <SideBarTrigger />
 
                 <Section
-                    title={'Countries'}
+                    title={'CountriesOverview'}
                     list={countryStore.filteredCountries}
                     classed={chartStore.activeIndicatorsOpen ? 'countries closed' : 'countries'}
                     itemStore={countryStore}

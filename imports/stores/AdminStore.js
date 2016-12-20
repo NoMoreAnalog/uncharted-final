@@ -12,10 +12,14 @@ import {Flags} from '../api/flags.js';
 export default class AdminStore {
 
     @observable countries = [];
+    @observable countriesOverview = [];
+    @observable countriesPopulations = [];
     @observable flags = [];
     @observable indicators = [];
     @observable records = [];
+    @observable table;
     @observable adminDimmed = false;
+    @observable showDeleted = false;
 
     constructor() {
 
@@ -62,38 +66,64 @@ export default class AdminStore {
             }
         });
 
-        // const reader = new FileReader();
-        //
-        // reader.onload = (fileLoadEvent) => {
-        //
-        //     let contents = fileLoadEvent.target.result;
-        //
-        //     contents = contents.split(',')[1];
-        //
-        //     Flags.insert({
-        //         file: contents,
-        //         isBase64: true,
-        //         fileName: 'pic.png',
-        //         type: 'image/png',
-        //         meta: {
-        //             'countryId': this.countryId,
-        //             'countryName': this.countryName
-        //         }
-        //     });
-        //
-        // Meteor.call('flags.upload', contents, this.countryId, this.countryName, (err, res) => {
-        //     if (err) {
-        //         alert(err);
-        //     } else {
-        //         alert('Save successful');
-        //         this._loadData();
-        //     }
-        // });
-        //
-        // };
-        //
-        // reader.readAsDataURL(files);
+    }
 
+    @action loadCountriesData = (ids) => {
+
+        const overview = [],
+            populations = [];
+
+        _.forEach(ids, _id => {
+
+            const country = _.find(this.countries, {'_id': _id});
+
+            if (country && country.delete === this.showDeleted) {
+
+                overview.push({
+                    _id: country._id,
+                    name: country.name,
+                    iso: country.iso,
+                    color: country.color,
+                    createdAt: country.createdAt,
+                    createdBy: country.createdBy,
+                    changedAt: country.changedAt,
+                    changedBy: country.changedBy,
+                    delete: country.delete,
+                    flagPath: country.flagPath,
+                    changed: false
+                });
+
+                _.forEach(country.populations, population => {
+                    populations.push({
+                        _id: country._id,
+                        name: country.name,
+                        year: population.year,
+                        value: population.value,
+                        createdAt: country.createdAt,
+                        createdBy: country.createdBy,
+                        changedAt: country.changedAt,
+                        changedBy: country.changedBy,
+                        delete: country.delete,
+                        changed: false
+                    });
+                });
+
+            }
+
+        });
+
+        this.countriesOverview.replace(overview);
+        this.countriesPopulations.replace(populations);
+
+    }
+
+    @action loadIndicatorsData = () => {
+
+    }
+
+    @action clearCountriesData = () => {
+        this.countriesOverview.replace([]);
+        this.countriesPopulations.replace([]);
     }
 
     @action loadRecords = (countries, isos, indicators, codes, callback) => {
@@ -143,6 +173,10 @@ export default class AdminStore {
             }
         });
 
+    }
+
+    @computed get countriesChanged() {
+        return true;
     }
 
     @computed get countryNameSource() {
@@ -214,9 +248,10 @@ class Country {
     createdBy = '';
     changedAt = '';
     changedBy = '';
-    delete = false;
     flagId = '';
-    flagPath = '';
+    flagPath = ''
+    populations = [];
+    delete = false;
 
     constructor(country) {
         this._id = country._id;
@@ -225,7 +260,6 @@ class Country {
         this.color = country.color;
         this.createdBy = country.createdBy;
         this.changedBy = country.changedBy;
-        this.delete = country.delete || false;
 
         const flag = Flags.findOne({_id: country.flag});
         if (flag) {
@@ -235,6 +269,9 @@ class Country {
 
         if (country.createdAt) this.createdAt = country.createdAt.toLocaleString();
         if (country.changedAt) this.changedAt = country.changedAt.toLocaleString();
+
+        this.populations = country.populations || [];
+        this.delete = country.delete || false;
     }
 
 }

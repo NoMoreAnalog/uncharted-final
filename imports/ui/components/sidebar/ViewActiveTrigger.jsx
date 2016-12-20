@@ -9,7 +9,7 @@ const ViewActiveTrigger = observer(['chartStore'], (props) =>
         onClick={props.chartStore.toggleActiveIndicators}>
 
         {props.chartStore.activeIndicatorsOpen ? <i className='icon chevron down'/> : <i className='icon chevron up'/>}
-        {props.chartStore.activeIndicatorsOpen ? 'View Countries and Indicators' : 'View Active Indicators'}
+        {props.chartStore.activeIndicatorsOpen ? 'View CountriesOverview and Indicators' : 'View Active Indicators'}
 
     </button>
 

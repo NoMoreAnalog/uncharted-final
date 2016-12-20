@@ -1,44 +1,47 @@
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
 import {Button, Modal} from 'semantic-ui-react'
 
-class PopupToConfirm extends Component {
+export default class PopupToConfirm extends Component {
 
     state = {open: false}
 
-    close = () => this.setState({open: false})
+    _close = () => this.setState({open: false})
 
-    callback = () => {
-        this.close();
+    _callback = () => {
+        this._close();
         this.state.callback();
     }
 
     render() {
+
+        const {open, header, content, positive, negative, primary, secondary, left, right} = {...this.state};
+
         return (
             <Modal
-                open={this.state.open}
+                open={open}
                 closeOnEscape={false}
                 closeOnRootNodeClick={false}
-                onClose={this.close}>
+                onClose={this._close}>
 
-                <Modal.Header>{this.state.header}</Modal.Header>
-                <Modal.Content><p>{this.state.content}</p></Modal.Content>
+                <Modal.Header>{header}</Modal.Header>
+                <Modal.Content><p>{content}</p></Modal.Content>
 
                 <Modal.Actions>
                     <Button
-                        onClick={this.close}
-                        positive={this.state.positive}
-                        negative={this.state.negative}
-                        primary={this.state.primary}
-                        secondary={this.state.secondary}
-                        content={this.state.left}
+                        onClick={this._close}
+                        positive={positive}
+                        negative={negative}
+                        primary={primary}
+                        secondary={secondary}
+                        content={left}
                     />
                     <Button
-                        onClick={this.callback}
-                        positive={this.state.positive}
-                        negative={this.state.negative}
-                        primary={this.state.primary}
-                        secondary={this.state.secondary}
-                        content={this.state.right}
+                        onClick={this._callback}
+                        positive={positive}
+                        negative={negative}
+                        primary={primary}
+                        secondary={secondary}
+                        content={right}
                     />
                 </Modal.Actions>
 
@@ -46,5 +49,3 @@ class PopupToConfirm extends Component {
         )
     }
 }
-
-export default PopupToConfirm;

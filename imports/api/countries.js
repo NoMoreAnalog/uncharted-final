@@ -8,9 +8,15 @@ export const Countries = new Mongo.Collection('countries');
 if (Meteor.isServer) {
 
     Countries.deny({
-        insert() { return true; },
-        update() { return true; },
-        remove() { return true; },
+        insert() {
+            return true;
+        },
+        update() {
+            return true;
+        },
+        remove() {
+            return true;
+        },
     });
 
     Meteor.publish('countries', function countriesPublication() {
@@ -38,13 +44,32 @@ Meteor.methods({
 
     },
 
-    'countries.save'(data) {
+    'countries.savePopulation'(data) {
 
         if (!this.userId) {
             throw new Meteor.Error(
                 403,
                 'Error 403: Forbidden',
-                'You do not have access to perform operation (countries.save)'
+                'You do not have access to perform operation (countries.savePopulation)'
+            );
+        }
+
+        check(data, [{
+            _id: String,
+            year: Number,
+            population: Number,
+            delete: Boolean
+        }]);
+
+    },
+
+    'countries.saveOverview'(data) {
+
+        if (!this.userId) {
+            throw new Meteor.Error(
+                403,
+                'Error 403: Forbidden',
+                'You do not have access to perform operation (countries.saveOverview)'
             );
         }
 
