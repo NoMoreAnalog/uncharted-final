@@ -22,7 +22,18 @@ export default class CountriesWrapper extends Component {
 
         this.serializedForm = serializedForm;
 
-        if (_.find(adminStore.countriesChanged, 'changed')) {
+        let data;
+
+        switch (adminStore.countriesComponent) {
+            case 'CountriesOverview':
+                data = adminStore.countriesOverview;
+                break;
+            case 'CountriesPopulations':
+                data = adminStore.countriesPopulations;
+                break;
+        }
+
+        if (_.find(adminStore.data, 'changed')) {
             this.popup.setState({
                 open: true,
                 header: 'Changes Not Saved',
@@ -54,10 +65,38 @@ export default class CountriesWrapper extends Component {
     }
 
     _goToRoute = route => {
+
         const {router} = {...this.props};
-        this._clearForm();
-        adminStore.table.destroy();
-        router.push('/admin/countries/' + route);
+
+        let data;
+
+        switch (adminStore.countriesComponent) {
+            case 'CountriesOverview':
+                data = adminStore.countriesOverview;
+                break;
+            case 'CountriesPopulations':
+                data = adminStore.countriesPopulations;
+                break;
+        }
+
+        if (_.find(data, 'changed')) {
+            this.popup.setState({
+                open: true,
+                header: 'Changes Not Saved',
+                content: 'Changes will be lost. Do you want to continue?',
+                left: 'Keep Editing',
+                right: 'Continue',
+                callback: () => {
+                    this._clearForm();
+                    adminStore.table.destroy();
+                    router.push('/admin/countries/' + route);
+                }
+            });
+        } else {
+            this._clearForm();
+            router.push('/admin/countries/' + route);
+        }
+
     }
 
     render() {

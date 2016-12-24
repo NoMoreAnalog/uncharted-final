@@ -2,6 +2,7 @@
 import {Meteor} from 'meteor/meteor';
 import {Mongo} from 'meteor/mongo';
 import {check} from 'meteor/check';
+import * as _ from 'lodash';
 
 export const Countries = new Mongo.Collection('countries');
 
@@ -27,23 +28,6 @@ if (Meteor.isServer) {
 
 Meteor.methods({
 
-    'countries.updateFlag'(flagId, countryId) {
-
-        if (!this.userId) {
-            throw new Meteor.Error(
-                403,
-                'Error 403: Forbidden',
-                'You do not have access to perform operation (countries.updateFlag)'
-            );
-        }
-
-        check(flagId, String);
-        check(countryId, String);
-
-        Countries.update(countryId, {$set: {flag: flagId}});
-
-    },
-
     'countries.savePopulation'(data) {
 
         if (!this.userId) {
@@ -56,10 +40,50 @@ Meteor.methods({
 
         check(data, [{
             _id: String,
-            year: Number,
-            population: Number,
-            delete: Boolean
+            populations: [{
+                year: Number,
+                value: Number,
+                delete: Match.Maybe(Boolean)
+            }]
         }]);
+
+        for (var i = 0; i < data.length; i++) {
+
+            const country = Countries.findOne({_id: data[i]._id});
+
+            if (country) {
+
+                for (var j = 0; j < data[i].populations.length; j++) {
+
+                    const index = _.findIndex(country.populations, {'year': data[i].populations[j].year});
+
+                    if (index > -1) {
+                        country.populations[index] = {
+                            year: data[i].populations[j].year,
+                            value: data[i].populations[j].value,
+                            createdAt: country.populations[index].createdAt,
+                            createdBy: country.populations[index].createdBy,
+                            changedAt: new Date(),
+                            changedBy: Meteor.user().username,
+                            delete: data[i].populations[j].delete || false
+                        };
+                    } else {
+                        if (!_.isArrayLike(country.populations)) country.populations = [];
+                        country.populations.push({
+                            year: data[i].populations[j].year,
+                            value: data[i].populations[j].value,
+                            createdAt: new Date(),
+                            createdBy: Meteor.user().username
+                        });
+                    }
+
+                }
+
+                Countries.update(country._id, {$set: {populations: country.populations}});
+
+            }
+
+        }
 
     },
 
@@ -78,6 +102,7 @@ Meteor.methods({
             name: String,
             iso: String,
             color: String,
+            flagId: String,
             delete: Boolean
         }]);
 
@@ -93,6 +118,7 @@ Meteor.methods({
                         name: data[i].name,
                         iso: data[i].iso,
                         color: data[i].color,
+                        flag: data[i].flagId,
                         createdAt: country.createdAt,
                         createdBy: country.createdBy,
                         changedAt: new Date(),
@@ -105,6 +131,7 @@ Meteor.methods({
                     name: data[i].name,
                     iso: data[i].iso,
                     color: data[i].color,
+                    flag: data[i].flagId,
                     createdAt: new Date(),
                     createdBy: Meteor.user().username
                 });

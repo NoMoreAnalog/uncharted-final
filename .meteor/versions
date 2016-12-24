@@ -76,7 +76,7 @@ npm-mongo@2.2.11_2
 observe-sequence@1.0.14
 ordered-dict@1.0.9
 ostrio:cookies@2.0.5
-ostrio:files@1.7.5
+ostrio:files@1.7.6
 promise@0.8.8
 random@1.0.10
 rate-limit@1.0.6
@@ -86,8 +86,8 @@ reactive-var@1.0.11
 reload@1.1.11
 retry@1.0.9
 routepolicy@1.0.12
-semantic:ui@2.2.1
-semantic:ui-data@2.2.4
+semantic:ui@2.2.6_5
+semantic:ui-data@2.2.6_4
 service-configuration@1.0.11
 session@1.1.7
 sha@1.0.9

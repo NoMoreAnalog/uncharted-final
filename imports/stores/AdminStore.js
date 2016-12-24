@@ -14,6 +14,7 @@ export default class AdminStore {
     @observable countries = [];
     @observable countriesOverview = [];
     @observable countriesPopulations = [];
+    @observable countriesComponent = '';
     @observable flags = [];
     @observable indicators = [];
     @observable records = [];
@@ -56,10 +57,22 @@ export default class AdminStore {
                 'countryName': countryName
             },
             onUploaded: (error, fileData) => {
+
                 this.flags.replace(Flags.find().fetch());
-                Meteor.call('countries.updateFlag', fileData._id, countryId, (err, res) => {
-                    if (err) alert(err);
-                });
+
+                const selected = this.table.getSelected(); // startRow, startCol, endRow, endCol
+                const flag = Flags.findOne({_id: fileData._id});
+
+                if (flag) {
+                    this.table.setDataAtCell(selected[0], selected[1], flag.link());
+                    this.table.render();
+                    const country = _.find(this.countriesOverview, {'_id': countryId});
+                    if (country) {
+                        country.flagId = fileData._id;
+                        country.changed = true;
+                    }
+                }
+
             },
             onError: (error, fileData) => {
                 console.log(error);
@@ -88,7 +101,7 @@ export default class AdminStore {
                     createdBy: country.createdBy,
                     changedAt: country.changedAt,
                     changedBy: country.changedBy,
-                    delete: country.delete,
+                    delete: country.delete || false,
                     flagPath: country.flagPath,
                     changed: false
                 });
@@ -99,11 +112,11 @@ export default class AdminStore {
                         name: country.name,
                         year: population.year,
                         value: population.value,
-                        createdAt: country.createdAt,
-                        createdBy: country.createdBy,
-                        changedAt: country.changedAt,
-                        changedBy: country.changedBy,
-                        delete: country.delete,
+                        createdAt: population.createdAt,
+                        createdBy: population.createdBy,
+                        changedAt: population.changedAt,
+                        changedBy: population.changedBy,
+                        delete: population.delete || false,
                         changed: false
                     });
                 });
@@ -124,6 +137,9 @@ export default class AdminStore {
     @action clearCountriesData = () => {
         this.countriesOverview.replace([]);
         this.countriesPopulations.replace([]);
+        this.countriesComponent = '';
+        if (this.table) this.table.destroy();
+        this.table = null;
     }
 
     @action loadRecords = (countries, isos, indicators, codes, callback) => {

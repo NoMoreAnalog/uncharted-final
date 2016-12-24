@@ -2,7 +2,6 @@
 import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import {Button, Icon} from 'semantic-ui-react';
-import {FileCursor} from 'meteor/ostrio:files';
 import Handsontable from 'handsontable/dist/handsontable.full.min.js';
 import * as _ from 'lodash';
 
@@ -12,6 +11,8 @@ export default class CountriesOverview extends Component {
     componentDidMount() {
 
         const {adminStore} = {...this.props};
+
+        adminStore.countriesComponent = 'CountriesOverview';
 
         const settings = {
             data: adminStore.countriesOverview.peek(),
@@ -59,6 +60,11 @@ export default class CountriesOverview extends Component {
         };
 
         adminStore.table = new Handsontable(this.hot, settings);
+
+    }
+
+    componentWillUnmount() {
+        adminStore.clearCountriesData();
     }
 
     _flagRenderer = (instance, td, row, col, prop, value, cellProperties) => {
@@ -177,6 +183,7 @@ export default class CountriesOverview extends Component {
                 'name': adminStore.countriesOverview[i].name,
                 'iso': adminStore.countriesOverview[i].iso,
                 'color': adminStore.countriesOverview[i].color,
+                'flagId': adminStore.countriesOverview[i].flagId,
                 'delete': adminStore.countriesOverview[i].delete || false
             });
 
@@ -206,12 +213,9 @@ export default class CountriesOverview extends Component {
 
         const file = event.currentTarget.files[0];
 
-        if (!file) {
-            this._loadData();
-            return;
+        if (file) {
+            adminStore.uploadFlag(file, this.countryId, this.countryName);
         }
-
-        adminStore.uploadFlag(file, this.countryId, this.countryName);
 
     }
 

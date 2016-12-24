@@ -42,8 +42,7 @@ export default class Records extends Component {
             columns: [
                 {data: '_id', readOnly: true},
                 {
-                    data: 'countryName',
-                    type: 'dropdown',
+                    data: 'countryName', type: 'dropdown',
                     source: (query, callback) => {
                         callback(props.adminStore.countryNameSource);
                     },
@@ -58,17 +57,8 @@ export default class Records extends Component {
                     },
                     validator: this._validator
                 },
-                {
-                    data: 'year',
-                    type: 'dropdown',
-                    source: this._yearSource(),
-                    validator: this._validator
-                },
-                {
-                    data: 'value',
-                    type: 'text',
-                    validator: this._validator
-                },
+                {data: 'year', type: 'dropdown', source: this._yearSource(), validator: this._validator},
+                {data: 'value', type: 'text', validator: this._validator},
                 {data: 'createdAt', readOnly: true},
                 {data: 'createdBy', readOnly: true},
                 {data: 'changedAt', readOnly: true},
