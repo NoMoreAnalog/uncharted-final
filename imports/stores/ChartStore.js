@@ -11,6 +11,7 @@ export default class ChartStore {
     // UI setup
     @observable sideBarExpanded = false;
     @observable activeIndicatorsOpen = false;
+    @observable language = 'English';
 
     // Chart setup
     @observable width = 500; // set dynamically in ChartWrapper
@@ -41,6 +42,14 @@ export default class ChartStore {
      / Callable functions
      /
      */
+
+    @action toggleLanguage = () => {
+        if (this.language === 'English') {
+            this.language = 'العربية';
+        } else {
+            this.language = 'English';
+        }
+    }
 
     @action toggleSideBarExpanded = () => {
         this.sideBarExpanded = !this.sideBarExpanded;

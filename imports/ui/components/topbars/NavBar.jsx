@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
+import {observer} from 'mobx-react';
 import {Menu, Dropdown, Icon} from 'semantic-ui-react'
 
+@observer(['chartStore'])
 export default class NavBar extends Component {
 
     state = {activeItemName: 'data'}
@@ -9,12 +11,8 @@ export default class NavBar extends Component {
 
     render() {
 
-        const {activeItemName} = this.state;
-
-        const languageTrigger =
-            <span>
-                <Icon name='world'/>Language
-            </span>;
+        const {chartStore} = {...this.props};
+        const {activeItemName} = {...this.state};
 
         const menuStyle = {
             backgroundColor: '#525866',
@@ -90,17 +88,12 @@ export default class NavBar extends Component {
 
                     <Menu.Menu position='right'>
 
-                        <Menu.Item>
-                            <Dropdown trigger={languageTrigger}>
-                                <Dropdown.Menu>
-                                    <Dropdown.Item>العربية</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
+                        <Menu.Item onClick={chartStore.toggleLanguage}>
+                            <Icon name='world'/>{chartStore.language}
                         </Menu.Item>
 
                         <Menu.Item>
-                            <Icon name='lock'/>
-                            Log In / Register
+                            <Icon name='lock'/>Log In / Register
                         </Menu.Item>
 
                         <Menu.Item href='https://twitter.com/ArabKnowledge' target='_blank'>
