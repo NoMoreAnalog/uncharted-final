@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {observer} from 'mobx-react';
 import Slider from 'rc-slider';
 import {Icon} from 'semantic-ui-react'
+import * as _ from 'lodash';
 
 class CustomHandle extends Component {
 
@@ -68,7 +69,12 @@ export default class YearSlider extends Component {
                     defaultValue={recordStore.yearsToDraw[1]}
                     value={recordStore.yearsToDraw[1]}
                     onChange={(value) => {
-                        recordStore.yearsToDraw[1] = value;
+                        if (_.isArrayLike(value)) {
+                            // Happens when the draw value switches because of (de)selecting indicators
+                            recordStore.yearsToDraw[1] = value[1];
+                        } else {
+                            recordStore.yearsToDraw[1] = value;
+                        }
                     }}
                     handle={<CustomHandle/>}
                 />;
