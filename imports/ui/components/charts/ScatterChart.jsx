@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import Dots from './common/Dots.jsx';
 import Grid from './common/Grid.jsx';
 import Axis from './common/Axis.jsx';
+import BigYear from './common/BigYear.jsx';
 import NoChartsMessage from './NoChartsMessage.jsx';
 
 // ScatterChart - Component displayed when scatter chart is selected
@@ -108,12 +109,12 @@ export default class ScatterChart extends Component {
                     <Grid height={height} width={width} scale={x} gridType='vertical'/>
                     <Grid height={height} width={width} scale={y} gridType='horizontal'/>
 
-                    <Axis height={height} width={width} margin={margin} scale={x} axisType='x'
-                          label={indicatorNames[0]}/>
-                    <Axis height={height} width={width} margin={margin} scale={y} axisType='y'
-                          label={indicatorNames[1]}/>
+                    <Axis height={height} width={width} margin={margin} scale={x} axisType='x' label={indicatorNames[0]}/>
+                    <Axis height={height} width={width} margin={margin} scale={y} axisType='y' label={indicatorNames[1]}/>
 
                     {dots}
+
+                    <BigYear x={width} y={height - 30} year={recordStore.yearsToDraw[1]}/>
 
                 </g>
 

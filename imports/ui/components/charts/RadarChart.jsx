@@ -6,6 +6,7 @@ import * as d3 from 'd3';
 import * as _ from 'lodash';
 
 // Components
+import BigYear from './common/BigYear.jsx';
 import NoChartsMessage from './NoChartsMessage.jsx';
 
 // RadarChart - Component displayed when radar chart is selected
@@ -355,7 +356,7 @@ export default class RadarChart extends Component {
             <svg
                 id='svg-chart'
                 className='radar-chart'
-                width={width + margin.left + margin.right}
+                width={width + margin.left + margin.right + 180}
                 height={height + margin.top + margin.bottom}>
 
                 <g transform={mainTransform}>
@@ -364,6 +365,7 @@ export default class RadarChart extends Component {
                     {axes}
                     {axesLabels}
                     {blobs}
+                    <BigYear x={width + 100} y={height - 200} year={recordStore.yearsToDraw[1]}/>
                 </g>
 
             </svg>
