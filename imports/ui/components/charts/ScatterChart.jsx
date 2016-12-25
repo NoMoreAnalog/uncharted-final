@@ -83,7 +83,7 @@ export default class ScatterChart extends Component {
                     data={tempData}
                     x={x}
                     y={y}
-                    fill={d.countryColor}
+                    fill={d.originalColor}
                 />
             );
 
