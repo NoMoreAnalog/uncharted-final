@@ -62,6 +62,13 @@ export default class ScatterChart extends Component {
         if (x.domain()[0] === x.domain()[1]) x.domain([x.domain()[0] * .9, x.domain()[0] * 1.1]);
         if (y.domain()[0] === y.domain()[1]) y.domain([y.domain()[0] * .9, y.domain()[0] * 1.1]);
 
+        const populationScale = d3.scaleLinear()
+            .domain([
+                d3.min(records, d => d.population) || 0,
+                d3.max(records, d => d.population) || 0,
+            ])
+            .range([5, 25]);
+
         const dots = [];
         for (var i = 0; i < data1.length; i++) { // into arrays of country arrays
 
@@ -84,6 +91,7 @@ export default class ScatterChart extends Component {
                     data={tempData}
                     x={x}
                     y={y}
+                    populationScale={populationScale}
                     fill={d.originalColor}
                 />
             );

@@ -14,16 +14,18 @@ class Country {
 
     @observable active = false;
     @observable draw = false;
+    @observable populations = [];
 
     _id = '';
     name = name;
     type = 'country';
     color = '';
 
-    constructor(_id, name, color) {
+    constructor(_id, name, color, populations) {
         this._id = _id;
         this.name = name;
         this.color = '#' + color;
+        this.populations = populations;
     }
 
 }
@@ -75,7 +77,7 @@ export default class CountryStore {
     }
 
     @action setCountries = values => {
-        const countries = values.map(value => new Country(value._id, value.name, value.color));
+        const countries = values.map(value => new Country(value._id, value.name, value.color, value.populations));
         this.countries.replace(countries);
     }
 

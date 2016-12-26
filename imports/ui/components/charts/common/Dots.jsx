@@ -7,7 +7,7 @@ export default class Dots extends Component {
 
     render() {
 
-        let {data, x, y, endPoints, fill} = {...this.props};
+        let {data, x, y, populationScale, endPoints, fill} = {...this.props};
 
         if (!endPoints) {
             // Remove last & first point
@@ -22,7 +22,7 @@ export default class Dots extends Component {
                     const trigger =
                         <circle
                             className={'dot'}
-                            r={5}
+                            r={populationScale(d.population)}
                             cx={x(d.year)}
                             cy={y(d.value)}
                             fill={fill}
@@ -79,10 +79,12 @@ Dots.propTypes = {
     data: React.PropTypes.array.isRequired,
     x: React.PropTypes.func.isRequired,
     y: React.PropTypes.func.isRequired,
+    populationScale: React.PropTypes.func,
     endPoints: React.PropTypes.bool,
     fill: React.PropTypes.string
 };
 
 Dots.defaultProps = {
+    populationScale: () => 5,
     endPoints: true
 };

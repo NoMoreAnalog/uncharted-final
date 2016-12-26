@@ -49,24 +49,34 @@ export default class RecordStore {
         const records = [];
 
         values.forEach(record => {
+
             record.values.forEach(value => {
-                if (!value.delete) {
-                    records.push(new Record(
-                        record,
-                        value,
-                        Countries.findOne({_id: record.country}).name,
-                        Countries.findOne({_id: record.country}).color,
-                        Indicators.findOne({_id: record.indicator}).name,
-                        Indicators.findOne({_id: record.indicator}).code
-                    ));
-                }
+
+                if (value.delete) return;
+
+                const country = Countries.findOne({_id: record.country});
+                const indicator = Indicators.findOne({_id: record.indicator});
+                const population = _.find(country.populations, {'year': value.year}) || {'value': null};
+
+                records.push(new Record(
+                    record,
+                    value,
+                    country.name,
+                    country.color,
+                    indicator.name,
+                    indicator.code,
+                    population.value
+                ));
+
             });
+
         });
 
         this.loading = false;
 
         this.records.replace(records);
         this.setYears();
+
     }
 
     @action setYears = () => {
@@ -191,18 +201,20 @@ class Record {
     year = 0;
     value = 0;
     originalColor = '';
+    population = '';
 
-    constructor(record, value, countryName, countryColor, indicatorName, indicatorCode) {
+    constructor(record, value, countryName, countryColor, indicatorName, indicatorCode, population) {
         this._id = record._id;
-        this.countryId = record.country
-        this.countryName = countryName
+        this.countryId = record.country;
+        this.countryName = countryName;
         this.countryColor = '#' + countryColor
         this.indicatorId = record.indicator;
         this.indicatorName = indicatorName;
         this.indicatorCode = indicatorCode;
-        this.year = Number.parseInt(value.year)
-        this.value = Number.parseFloat(value.value)
-        this.originalColor = '#' + countryColor
+        this.year = Number.parseInt(value.year);
+        this.value = Number.parseFloat(value.value);
+        this.originalColor = '#' + countryColor;
+        this.population = population || 0;
     }
 
 }
