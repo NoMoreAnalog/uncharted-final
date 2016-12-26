@@ -65,6 +65,8 @@ export default class LineChart extends Component {
 
             for (let j = 0; j < data[i].length; j++) { // into line arrays
 
+                data[i][j].value2 = data[i][j].year;
+
                 tempData.push(data[i][j]);
 
                 if (!data[i][j + 1] || data[i][j + 1].year != data[i][j].year + 1) {

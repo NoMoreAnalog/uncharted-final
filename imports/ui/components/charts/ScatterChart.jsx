@@ -78,7 +78,9 @@ export default class ScatterChart extends Component {
             for (let j = 0; j < data1[i].length; j++) { // into country array
                 d = _.clone(data1[i][j]);
                 if (data0[i] && data0[i][j] && d.countryId && d.indicatorId) {
-                    d.year = data0[i][j].value;
+                    // this is the other axis' values
+                    d.indicatorName2 = data0[i][j].indicatorName;
+                    d.value2 = data0[i][j].value;
                     tempData.push(d);
                 }
             }

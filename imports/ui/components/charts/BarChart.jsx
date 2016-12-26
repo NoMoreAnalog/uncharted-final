@@ -101,7 +101,7 @@ export default class BarChart extends Component {
                     <List.Header content={year}/>
                     <Divider fitted/>
                     {d.map(d2 => {
-                        const name = countryFocus ? d2.indicatorCode : d2.countryName;
+                        const name = countryFocus ? d2.indicatorName : d2.countryName;
                         return (
                             <List.Item key={d2.countryId + d2.indicatorId + d2.year}>
                                 <span style={{color: d2.countryColor}}>{name}</span>&nbsp;&nbsp;&nbsp;{d2.value}

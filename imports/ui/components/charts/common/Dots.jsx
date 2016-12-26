@@ -23,7 +23,7 @@ export default class Dots extends Component {
                         <circle
                             className={'dot'}
                             r={populationScale(d.population)}
-                            cx={x(d.year)}
+                            cx={x(d.value2)}
                             cy={y(d.value)}
                             fill={fill}
                             strokeOpacity={0}
@@ -35,7 +35,7 @@ export default class Dots extends Component {
 
                     const dot =
                         <Dot
-                            cx={x(d.year)}
+                            cx={x(d.value2)}
                             cy={y(d.value)}
                             fill={fill}
                             strokeOpacity={.2}
@@ -43,14 +43,20 @@ export default class Dots extends Component {
                             strokeWidth={10}
                         />;
 
+                    const secondValues = d.indicatorName2 ?
+                        <div>
+                            <div style={{color: '#00adc6'}}>{d.indicatorName2}</div>
+                            <div>{d.value2}</div>
+                        </div> : ''
+
                     const content =
                         <List>
-                            <List.Header content={d.year}/>
+                            <List.Header content={<div style={{color: fill}}>{d.countryName} - {d.year}</div>}/>
                             <Divider fitted/>
                             <List.Item key={d.countryId + d.indicatorId + d.year}>
-                                <div style={{color: fill}}>{d.countryName}</div>
-                                <div style={{color: '#00adc6'}}>{d.indicatorCode}</div>
+                                <div style={{color: '#00adc6'}}>{d.indicatorName}</div>
                                 <div>{d.value}</div>
+                                {secondValues}
                             </List.Item>
                         </List>;
 
